@@ -1,10 +1,10 @@
 'use client';
 
-import { decodePassphrase } from '@/lib/client-utils';
-import { DebugMode } from '@/lib/Debug';
-import { RecordingIndicator } from '@/lib/RecordingIndicator';
-import { SettingsMenu } from '@/lib/SettingsMenu';
-import { ConnectionDetails } from '@/lib/types';
+import { decodePassphrase } from '~/lib/client-utils';
+import { DebugMode } from '~/lib/Debug';
+import { RecordingIndicator } from '~/lib/RecordingIndicator';
+import { SettingsMenu } from '~/lib/SettingsMenu';
+import { ConnectionDetails } from '~/lib/types';
 import {
   formatChatMessageLinks,
   LiveKitRoom,
