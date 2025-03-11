@@ -5,8 +5,11 @@ import {
     ParticipantTile,
     RoomAudioRenderer,
     useTracks,
-    formatChatMessageLinks,
-    VideoConference,
+    useParticipantTile,
+    TrackLoop,
+    TrackRefContext, // Added missing import
+    // formatChatMessageLinks,
+    // VideoConference,
  //   Chat,
   } from '@livekit/components-react';
   
@@ -80,10 +83,27 @@ import {
       <GridLayout tracks={tracks} style={{ height: 'calc(100vh - var(--lk-control-bar-height))' }}>
         {/* The GridLayout accepts zero or one child. The child is used
         as a template to render all passed in tracks. */}
-         <ParticipantTile />
-        {/* Use a render function to customize the tile */}
-
+         <TrackLoop tracks={tracks}>
+          <TrackRefContext.Consumer>
+            {(trackRef) => trackRef && <CustomParticipantTile trackRef={trackRef} />}
+          </TrackRefContext.Consumer>
+        </TrackLoop>
       </GridLayout>
     );
   }
 
+  function CustomParticipantTile({ trackRef }) {
+    const { htmlProps, onParticipantClick, disableSpeakingIndicator } = useParticipantTile({ trackRef });
+
+    return (
+      <ParticipantTile
+        trackRef={trackRef}
+        onParticipantClick={onParticipantClick}
+        disableSpeakingIndicator={disableSpeakingIndicator}
+        {...htmlProps} // Spread the props for additional attributes
+      >
+        <img src={trackRef.participant.avatarUrl || 'default-avatar.jpg'} alt={`${trackRef.participant.name}'s avatar`} />
+        <span>{trackRef.participant.name}</span>
+      </ParticipantTile>
+    );
+  }
