@@ -13,19 +13,24 @@
   "dependencies": {
     "@astrojs/react": "^4.2.1",
     "@datadog/browser-logs": "^6.5.0",
-    "@livekit/components-react": "^2.8.1",
-    "@livekit/components-styles": "^1.1.4",
     "@types/node": "^22.13.10",
     "astro": "^5.4.2",
+    "@livekit/components-react": "2.8.0",
+    "@livekit/components-styles": "1.1.4",
+    "@livekit/krisp-noise-filter": "0.2.16",
     "livekit-client": "2.8.1",
     "livekit-server-sdk": "^2.10.2",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "tinykeys": "^3.0.0"
   },
   "devDependencies": {
+    "@types/node": "22.10.7",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
-    "typescript": "latest"
+    "eslint": "9.18.0",
+    "eslint-config-next": "14.2.23",
+    "source-map-loader": "^5.0.0",
+    "typescript": "5.7.3"
   }
 }

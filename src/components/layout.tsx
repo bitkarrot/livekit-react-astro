@@ -1,4 +1,4 @@
-import '../styles/globals.css';
+import '~/styles/globals.css';
 import '@livekit/components-styles';
 import '@livekit/components-styles/prefabs';
 //import type { Metadata, Viewport } from 'next';

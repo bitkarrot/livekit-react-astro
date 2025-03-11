@@ -3,4 +3,9 @@ import react from '@astrojs/react';
 
 export default defineConfig({
   integrations: [react()],
+  vite: {
+    resolve: {
+      extensions: ['.js', '.ts', '.jsx', '.tsx', '.json']
+    }
+  }
 });// @ts-check

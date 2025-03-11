@@ -21,7 +21,6 @@ import {
   DeviceUnsupportedError,
   RoomConnectOptions,
 } from 'livekit-client';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 
 const CONN_DETAILS_ENDPOINT =
@@ -164,8 +163,9 @@ function VideoConferenceComponent(props: {
     };
   }, []);
 
-  const router = useRouter();
-  const handleOnLeave = React.useCallback(() => router.push('/'), [router]);
+  const handleOnLeave = React.useCallback(() => {
+    window.location.href = '/'; // Redirect to home
+  }, []);
   const handleError = React.useCallback((error: Error) => {
     console.error(error);
     alert(`Encountered an unexpected error, check the console logs for details: ${error.message}`);
