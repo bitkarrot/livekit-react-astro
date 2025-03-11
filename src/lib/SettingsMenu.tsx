@@ -9,7 +9,7 @@ import {
   useIsRecording,
 } from '@livekit/components-react';
 import { useKrispNoiseFilter } from '@livekit/components-react/krisp';
-import styles from '../src/styles/SettingsMenu.module.css';
+import styles from '../styles/SettingsMenu.module.css';
 
 /**
  * @alpha

@@ -1,7 +1,7 @@
 'use client';
 import React, { Suspense, useState } from 'react';
-import { encodePassphrase, generateRoomId, randomString } from '../../lib/client-utils';
-import styles from '../../styles/Home.module.css';
+import { encodePassphrase, generateRoomId, randomString } from '../lib/client-utils';
+import styles from '~/styles/Home.module.css';
 
 
 function DemoMeetingTab({ label, e2ee = false, sharedPassphrase = randomString(64) }) {
