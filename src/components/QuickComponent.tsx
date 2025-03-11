@@ -16,7 +16,6 @@ import {
   import { Track,
         type VideoCodec,
         LogLevel,
-//        VideoPresets,
   } from 'livekit-client';
   
   import { DebugMode } from '~/lib/Debug';
@@ -24,8 +23,8 @@ import {
   import { useMemo } from 'react';
 
   const serverUrl = 'wss://thehive-g3v6mhu7.livekit.cloud';
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDE3NTExNjAsImlzcyI6IkFQSW1RV0daOFRyQ0VkdiIsIm5hbWUiOiJ0ZXN0X3VzZXIiLCJuYmYiOjE3NDE2NjQ3NjAsInN1YiI6InRlc3RfdXNlciIsInZpZGVvIjp7InJvb20iOiJ0ZXN0X3Jvb20iLCJyb29tSm9pbiI6dHJ1ZX19.7ct4huaMpXlnPdfqf3gZjn3twHTRlAcK_BIANbdhXIw';
-  
+  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDE4MDU5OTEsImlzcyI6IkFQSW1RV0daOFRyQ0VkdiIsIm5hbWUiOiJ0ZXN0X3VzZXIiLCJuYmYiOjE3NDE3MTk1OTEsInN1YiI6InRlc3RfdXNlciIsInZpZGVvIjp7InJvb20iOiJ0ZXN0X3Jvb20iLCJyb29tSm9pbiI6dHJ1ZX19.STkJgzalAzjgf7SAvoexQBWRlKMmx9h74y6-AE7EP60'
+
   export default function Page() {
     const handleError = React.useCallback((error: Error) => {
         console.error(error);
@@ -35,7 +34,14 @@ import {
     const handleOnLeave = React.useCallback(() => {
         window.location.href = '/exit'; // Redirect to home
       }, []);
+
+    const connectOptions = useMemo((): RoomConnectOptions => {
+    return {
+        autoSubscribe: true,
+    };
+    }, []);
     
+
     return (
       <LiveKitRoom
         video={true}
@@ -48,17 +54,14 @@ import {
         data-lk-theme="default"
         style={{ height: '100vh' }}
       >
-        {/* Your custom component with basic video conferencing functionality. */}
-         <MyVideoConference /> 
-        {/* <VideoConference
-          chatMessageFormatter={formatChatMessageLinks} />
-        */}
+        {/* Your custom component with basic video conferencing functionality. */}         
+          <MyVideoConference /> 
 
         {/* The RoomAudioRenderer takes care of room-wide audio for you. */}
-        <RoomAudioRenderer />
+        <RoomAudioRenderer /> 
         {/* Controls for the user to start/stop audio, video, and screen
         share tracks and to leave the room. */}
-        <ControlBar/>
+        <ControlBar/> 
       </LiveKitRoom>
     );
   }
@@ -77,7 +80,10 @@ import {
       <GridLayout tracks={tracks} style={{ height: 'calc(100vh - var(--lk-control-bar-height))' }}>
         {/* The GridLayout accepts zero or one child. The child is used
         as a template to render all passed in tracks. */}
-        <ParticipantTile/>
+         <ParticipantTile />
+        {/* Use a render function to customize the tile */}
+
       </GridLayout>
     );
   }
+
