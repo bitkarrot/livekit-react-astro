@@ -162,3 +162,45 @@
   --lk-connection-good: #ffd166;
   --lk-connection-poor: #ef476f;
 }
+
+/* Custom styling for the camera-off avatar */
+/* .lk-camera-off-note {
+  border: 2px solid #4c43ee !important;
+  background-color: #16213e !important;
+  box-shadow: 0 0 8px rgba(67, 97, 238, 0.5) !important;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  display: flex !important;
+  background-image: url('https://placehold.co/400x400/16213e/ffffff?text=GU') !important;
+  justify-content: center !important;
+  align-items: center !important;
+} */
+
+/* Display the initials using a pseudo-element */
+/* .lk-camera-off-note::before {
+  content: attr(data-initials);
+  display: block;
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-size: 2rem;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: white;
+} */
+
+/* Remove any default content LiveKit might be adding */
+/* .lk-camera-off-note > * {
+  display: none !important;
+}
+
+.lk-camera-off-note span {
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-size: 2rem;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+} */
+
+/* Add a subtle animation when camera is toggled */
+/* .lk-camera-off-note:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(67, 97, 238, 0.7) !important;
+} */

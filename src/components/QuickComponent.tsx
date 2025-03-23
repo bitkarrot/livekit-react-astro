@@ -30,6 +30,27 @@ import { ModeratorControls } from './ModeratorControls';
 
 import './QuickComponent.css';
 
+// Simple avatar component for PreJoin screen
+function PreJoinAvatar({ username = 'Guest User' }: { username?: string }) {
+  // Calculate initials from username
+  const initials = username
+    .split(' ')
+    .map(name => name.charAt(0))
+    .join('')
+    .substring(0, 2)
+    .toUpperCase();
+
+  return (
+    <div
+      className="lk-camera-off-note"
+      data-initials={initials}
+      aria-label={`Avatar for ${username}`}
+    >
+      {/* We'll use CSS to display the initials via the data-initials attribute */}
+    </div>
+  );
+}
+
 export default function QuickComponent() {
   const [token, setToken] = useState<string | undefined>();
   const [serverUrl, setServerUrl] = useState<string | undefined>();
@@ -101,14 +122,15 @@ export default function QuickComponent() {
       <>
         {!isPreJoinComplete ? (
           <PreJoin
-            onError={handleError}
             onSubmit={handlePreJoinSubmit}
+            onError={handleError}
             defaults={{
               username: 'test_user',
               videoEnabled: true,
               audioEnabled: true,
             }}
             data-lk-theme="default"
+            style={{ height: '100vh' }}
           />
         ) : (
           <div>Loading...</div>
