@@ -9,26 +9,55 @@ import {
     TrackLoop,
     TrackRefContext, // Added missing import
     // formatChatMessageLinks,
-    // VideoConference,
+    VideoConference,
  //   Chat,
   } from '@livekit/components-react';
   
   import '@livekit/components-styles';  
-  import React from 'react';
+  import React, { useState, useEffect } from 'react';
 
   import { Track,
         type VideoCodec,
         LogLevel,
+        type RoomConnectOptions,
   } from 'livekit-client';
   
   import { DebugMode } from '~/lib/Debug';
   import { SettingsMenu } from '~/lib/SettingsMenu';
   import { useMemo } from 'react';
 
-  const serverUrl = 'wss://thehive-g3v6mhu7.livekit.cloud';
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDE4MDU5OTEsImlzcyI6IkFQSW1RV0daOFRyQ0VkdiIsIm5hbWUiOiJ0ZXN0X3VzZXIiLCJuYmYiOjE3NDE3MTk1OTEsInN1YiI6InRlc3RfdXNlciIsInZpZGVvIjp7InJvb20iOiJ0ZXN0X3Jvb20iLCJyb29tSm9pbiI6dHJ1ZX19.STkJgzalAzjgf7SAvoexQBWRlKMmx9h74y6-AE7EP60'
-
   export default function Page() {
+    const [token, setToken] = useState<string | undefined>();
+    const [serverUrl, setServerUrl] = useState<string | undefined>();
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+      async function fetchToken(roomName: string, participantName: string) {
+        try {
+          // You can customize these parameters as needed
+         // const roomName = 'test_room';
+         // const participantName = 'test_user';
+          const response = await fetch(`/api/get-token?roomName=${roomName}&participantName=${participantName}`);
+
+          if (!response.ok) {
+            throw new Error(`Failed to fetch token: ${response.status} ${response.statusText}`);
+          }
+
+          const data = await response.json();
+          setToken(data.token);
+          setServerUrl(data.url);
+          setIsLoading(false);
+        } catch (err) {
+          console.error('Error fetching token:', err);
+          setError(err.message);
+          setIsLoading(false);
+        }
+      }
+
+      fetchToken('test_room', 'test_user');
+    }, []);
+
     const handleError = React.useCallback((error: Error) => {
         console.error(error);
         alert(`Encountered an unexpected error, check the console logs for details: ${error.message}`);
@@ -44,6 +73,17 @@ import {
     };
     }, []);
     
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+
+    if (error) {
+      return <div>Error: {error}</div>;
+    }
+
+    if (!token || !serverUrl) {
+      return <div>Failed to initialize: Missing token or server URL</div>;
+    }
 
     return (
       <LiveKitRoom
@@ -58,7 +98,7 @@ import {
         style={{ height: '100vh' }}
       >
         {/* Your custom component with basic video conferencing functionality. */}         
-          <MyVideoConference /> 
+          <VideoConference />
 
         {/* The RoomAudioRenderer takes care of room-wide audio for you. */}
         <RoomAudioRenderer /> 
