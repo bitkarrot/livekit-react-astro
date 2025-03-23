@@ -1,0 +1,164 @@
+/* QuickComponent styles */
+.quick-component {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* PreJoin styles */
+.prejoin-container {
+  width: 100%;
+  max-width: 500px;
+  padding: 2rem;
+  border-radius: 8px;
+  background-color: #100303;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.prejoin-container h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #333;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.media-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.toggle-control {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.toggle-control input {
+  margin-right: 0.5rem;
+}
+
+.join-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.join-button:hover {
+  background-color: #003d82;
+}
+
+/* VideoConference container */
+.video-conference-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* Error message */
+.error-message {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: #ffe0e0;
+  color: #d32f2f;
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* LiveKit container */
+.livekit-container {
+  width: 100%;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+/* Custom LiveKit theme */
+[data-lk-theme="default"] {
+  /* Main colors */
+  --lk-bg: #1a1a2e;
+  --lk-bg-secondary: #16213e;
+  --lk-bg-tertiary: #0f3460;
+
+  /* --lk-bg: #ffffff;
+  --lk-bg-secondary: #f5f5f5;
+  --lk-bg-tertiary: #fafafa; */
+  
+  --lk-fg: #e6e6e6;
+  --lk-fg-secondary: #cccccc;
+  --lk-fg-tertiary: #aaaaaa;
+
+  /* --lk-fg: #333333;
+  --lk-fg-secondary: #555555;
+  --lk-fg-tertiary: #777777; */
+
+    /* Accent colors */
+  --lk-accent-bg: #4361ee;
+  --lk-accent-fg: #ffffff;
+  
+  /* Status colors */
+  --lk-danger: #ef476f;
+  --lk-danger-bg: #ffd6e0;
+  --lk-danger-text: #c81c45;
+  
+  --lk-success: #06d6a0;
+  --lk-success-bg: #c7f9ed;
+  --lk-success-text: #01a377;
+  
+  /* Connection quality indicators */
+  --lk-connection-excellent: #06d6a0;
+  --lk-connection-good: #ffd166;
+  --lk-connection-poor: #ef476f;
+}
+
+/* You can also create a dark theme variation if needed */
+[data-lk-theme="dark"] {
+  --lk-bg: #1a1a2e;
+  --lk-bg-secondary: #16213e;
+  --lk-bg-tertiary: #0f3460;
+  
+  --lk-fg: #e6e6e6;
+  --lk-fg-secondary: #cccccc;
+  --lk-fg-tertiary: #aaaaaa;
+  
+  --lk-accent-bg: #4361ee;
+  --lk-accent-fg: #ffffff;
+  
+  --lk-danger: #ef476f;
+  --lk-danger-bg: #4b0516;
+  --lk-danger-text: #ff899d;
+  
+  --lk-success: #06d6a0;
+  --lk-success-bg: #023b29;
+  --lk-success-text: #4ddbaf;
+  
+  --lk-connection-excellent: #06d6a0;
+  --lk-connection-good: #ffd166;
+  --lk-connection-poor: #ef476f;
+}

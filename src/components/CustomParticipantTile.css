@@ -1,0 +1,27 @@
+.custom-participant-tile {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+}
+
+.custom-video-track,
+.custom-screen-track {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.custom-avatar-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8f9fa;
+}

@@ -1,7 +1,7 @@
 import '~/styles/globals.css';
 import '@livekit/components-styles';
 import '@livekit/components-styles/prefabs';
-//import type { Metadata, Viewport } from 'next';
+//import type { Metadata, Viewport } from 'n ext';
 
 // export const metadata: Metadata = {
 //   title: {
