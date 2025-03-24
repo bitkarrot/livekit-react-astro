@@ -13,11 +13,24 @@ This is a work in progress port of [LiveKit Meet](https://github.com/livekit/mee
 
 Steps to get a local dev setup up and running:
 
+Start livekit dev server. Install livekit-server from 
+https://docs.livekit.io/home/self-hosting/server-setup/
+
+1. Run the livekit server in the background:
+
+```sh
+livekit-server --dev
+```
+
+Run the front end astro app:
+
 1. Run `pnpm install` to install all dependencies.
 2. Copy `.env.example` in the project root and rename it to `.env.local`.
 3. Update the missing environment variables in the newly created `.env.local` file.
 4. Run `pnpm dev` to start the development server and visit [http://localhost:4321](http://localhost:4321) to see the result.
 5. Start development 🎉
+
+
 
 <a href="https://livekit.io/">
   <img src="./.github/assets/livekit-mark.png" alt="LiveKit logo" width="100" height="100">
