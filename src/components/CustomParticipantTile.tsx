@@ -1,68 +1,57 @@
 import React from 'react';
 import { Participant, Track } from 'livekit-client';
+import { useTracks, useParticipantContext } from '@livekit/components-react';
 import { CustomAvatar } from './CustomAvatar';
 import './CustomParticipantTile.css';
 
-interface CustomParticipantTileProps {
-  participant: Participant;
-  audioEnabled?: boolean;
-  videoEnabled?: boolean;
-}
-
-export function CustomParticipantTile({ 
+// CustomParticipantTile component
+export function CustomParticipantTile({
   participant,
-  audioEnabled = true,
-  videoEnabled = true
-}: CustomParticipantTileProps) {
-  // Get participant name or identity
+  className,
+  ...props
+}: {
+  participant: Participant;
+  className?: string;
+  [key: string]: any;
+}) {
+  // Get display name
   const displayName = participant.name || participant.identity || 'Guest';
-  
-  // Check if camera is enabled by looking at the participant's camera track
+
+  // Get video and audio tracks using the correct LiveKit hooks
   const cameraPublication = participant.getTrackPublication(Track.Source.Camera);
-  const hasEnabledCamera = 
-    cameraPublication && 
-    cameraPublication.isSubscribed && 
-    cameraPublication.track && 
-    !cameraPublication.isMuted &&
-    videoEnabled;
-  
-  // Check if microphone is enabled
-  const micPublication = participant.getTrackPublication(Track.Source.Microphone);
-  const isAudioMuted = 
-    !micPublication || 
-    micPublication.isMuted || 
-    !audioEnabled;
+  const microphonePublication = participant.getTrackPublication(Track.Source.Microphone);
+
+  // Track if the user has enabled their camera and microphone
+  const hasEnabledCamera = cameraPublication &&
+    cameraPublication.isSubscribed &&
+    cameraPublication.track &&
+    !cameraPublication.isMuted;
+
+  const isAudioMuted = !microphonePublication || microphonePublication.isMuted;
+
+  // Prepare the video container
+  const containerClassName = `custom-participant-tile ${className || ''}`;
 
   return (
-    <div className="custom-participant-tile">
-      <div className="participant-media">
+    <div className={containerClassName} {...props}>
+      {/* Video or Avatar Container */}
+      <div className="video-container">
         {hasEnabledCamera ? (
-          <div className="video-container">
-            {/* Let LiveKit handle the video rendering */}
-            <div 
-              className="video-element"
-              data-lk-participant-id={participant.identity}
-            ></div>
-          </div>
+          <div className="video-wrapper" />
         ) : (
           <div className="avatar-container">
             <CustomAvatar participant={participant} size="lg" />
           </div>
         )}
       </div>
-      
+
       <div className="participant-info">
         <div className="participant-name">{displayName}</div>
-        
+
         {/* Indicators for muted audio/video */}
-        <div className="participant-indicators">
-          {isAudioMuted && (
-            <span className="audio-muted-indicator">🔇</span>
-          )}
-          {!hasEnabledCamera && (
-            <span className="video-muted-indicator">📵</span>
-          )}
-        </div>
+        {isAudioMuted && (
+          <div className="muted-indicator">🔇</div>
+        )}
       </div>
     </div>
   );
