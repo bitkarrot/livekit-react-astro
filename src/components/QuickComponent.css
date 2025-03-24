@@ -163,6 +163,41 @@
   --lk-connection-poor: #ef476f;
 }
 
+/* Customize the participant placeholder (avatar when camera is off) */
+.lk-participant-placeholder {
+  background-color: #16213e !important;
+  color: white !important;
+  border: 2px solid #43e3ee !important;
+  box-shadow: 0 0 8px rgba(67, 97, 238, 0.5) !important;
+  transition: all 0.3s ease;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+
+/* Make sure the participant container has correct dimensions */
+.lk-participant:has(.lk-participant-placeholder) {
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+
+/* Hide the default avatar content when we have a custom background image */
+.lk-participant-placeholder[style*="background-image"] > * {
+  display: none !important;
+}
+
+/* Add dynamic background image for participant placeholders based on metadata */
+.lk-participant-placeholder[data-lk-participant-metadata*="avatar"] {
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+/* Hover effect for participants */
+.lk-participant:hover .lk-participant-placeholder {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(67, 227, 238, 0.7) !important;
+}
+
 /* Custom styling for the camera-off avatar */
 /* .lk-camera-off-note {
   border: 2px solid #4c43ee !important;

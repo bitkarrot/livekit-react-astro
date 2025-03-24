@@ -35,4 +35,6 @@
 
 .custom-avatar-initials {
   text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 1px;
 }
