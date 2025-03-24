@@ -1,5 +1,6 @@
 import {
   VideoConference,
+  formatChatMessageLinks,
   ControlBar,
   LiveKitRoom,
   PreJoin,
@@ -100,7 +101,9 @@ export default function QuickComponent() {
       style={{ height: '100vh' }}
       connect={true}
     >
-      <VideoConference />
+      <VideoConference
+        chatMessageFormatter={formatChatMessageLinks}
+      />
       <RoomAudioRenderer />
       <ControlBar />
     </LiveKitRoom>
