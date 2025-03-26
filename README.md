@@ -1,4 +1,4 @@
-# LiveKit Astro
+# LiveKit React Astro
 
 This is a work in progress port of [LiveKit Meet](https://github.com/livekit/meet) to [Astro](https://astro.build/).
 
