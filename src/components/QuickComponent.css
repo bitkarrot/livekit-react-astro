@@ -198,19 +198,37 @@
 
 /* Create a generic placeholder for all participants */
 .lk-participant-placeholder::before {
-  content: attr(data-initials, "TU"); /* Use data attribute or fallback to TU */
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 80px !important;
-  height: 80px !important;
+  content: "" !important; /* Empty content */
+  width: min(40%, 60%) !important; /* Responsive width */
+  height: 0 !important; /* Height 0 for padding-based aspect ratio */
+  padding-bottom: min(40%, 70%) !important; /* Equal to width for perfect circle */
   border-radius: 50% !important;
   background-color: var(--lk-accent-bg) !important;
-  font-size: 32px !important;
+  z-index: 999 !important;
+  position: absolute !important;
+  /* Center the circle in its container */
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+/* Add text with ::after pseudo-element for better centering */
+.lk-participant-placeholder::after {
+  content: attr(data-initials, "TU") !important; /* Use data attribute or fallback to TU */
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  /* Font size scales with the container width */
+  font-size: clamp(8px, min(5vw, 5vh), 48px) !important;
+  line-height: 1 !important;
   font-weight: bold !important;
   color: white !important;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3) !important;
-  z-index: 999 !important;
+  z-index: 1000 !important; /* Higher z-index than the circle */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 /* Hover effect for participants */
