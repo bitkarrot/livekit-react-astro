@@ -190,31 +190,69 @@
 } */
 
 /* Force hide all inner content of the placeholder */
-/* .lk-participant-placeholder > * {
+.lk-participant-placeholder > * {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
-} */
+}
 
 /* Create a generic placeholder for all participants */
-/* .lk-participant-placeholder::before {
-  content: "TU";
-  display: block !important;
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  font-size: 36px !important;
+.lk-participant-placeholder::before {
+  content: attr(data-initials, "TU"); /* Use data attribute or fallback to TU */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 80px !important;
+  height: 80px !important;
+  border-radius: 50% !important;
+  background-color: var(--lk-accent-bg) !important;
+  font-size: 32px !important;
   font-weight: bold !important;
   color: white !important;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5) !important;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3) !important;
   z-index: 999 !important;
-} */
+}
 
 /* Hover effect for participants */
 /* .lk-participant:hover .lk-participant-placeholder {
   transform: scale(1.05);
   box-shadow: 0 0 12px rgba(67, 227, 238, 0.7) !important;
+} */
+/* .lk-participant:hover .lk-participant-placeholder::before,
+.lk-participant:hover .lk-avatar-image {
+  transform: scale(1.05) !important;
+  box-shadow: 0 0 12px rgba(37, 99, 235, 0.5) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+} */
+
+/* Avatar image class for custom images */
+/* .lk-avatar-image {
+  width: 80px !important;
+  height: 80px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 2px solid var(--lk-accent-bg) !important;
+  z-index: 999 !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+} */
+
+/* Custom avatar container */
+/* .lk-participant-placeholder.has-avatar::before {
+  display: none !important;
+} */
+
+/* .lk-participant-placeholder.has-avatar::after {
+  content: "" !important;
+  display: block !important;
+  width: 80px !important;
+  height: 80px !important;
+  border-radius: 50% !important;
+  background-image: var(--avatar-url) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  border: 2px solid var(--lk-accent-bg) !important;
+  z-index: 999 !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
 } */
 
 /* Make sure the participant container has correct dimensions */
