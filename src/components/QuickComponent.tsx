@@ -10,7 +10,11 @@ import {
 import '@livekit/components-styles';
 import React, { useState, useCallback } from 'react';
 
-export default function QuickComponent() {
+export default function QuickComponent(
+  props: {
+    room_name: string;
+  }
+) {
   const [token, setToken] = useState<string | undefined>();
   const [serverUrl, setServerUrl] = useState<string | undefined>();
   const [error, setError] = useState<Error | null>(null);
@@ -49,7 +53,11 @@ export default function QuickComponent() {
     setAudioEnabled(values.audioEnabled);
     setUsername(values.username);
 
-    await fetchToken('test_room', values.username);
+    const room = props.room_name ?? 'test_room';
+
+    console.log('in Quick Component, Room Name:', room);
+
+    await fetchToken(room, values.username);
     setIsPreJoinComplete(true);
   }, []);
 
