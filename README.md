@@ -1,6 +1,9 @@
 # LiveKit React Astro
 
-This is a work in progress port of [LiveKit Meet](https://github.com/livekit/meet) to [Astro](https://astro.build/).
+This is a simple port of [LiveKit Meet](https://github.com/livekit/meet) to [Astro](https://astro.build/).
+
+You can join a room by visiting top level  https://localhost:4321 or you can give the room a name by visiting
+https://localhost:4321/room/your-room-name
 
 ## Tech Stack
 
@@ -26,7 +29,7 @@ Run the front end astro app:
 
 1. Run `pnpm install` to install all dependencies.
 2. Copy `env.example` in the project root and rename it to `.env.local`.
-3. Update the missing environment variables in the newly created `.env.local` file.
+3. Update the missing environment variables in the newly created `.env.local` file. For local testing you can just use the default values form the `env.example` file. 
 4. Run `pnpm dev` to start the development server and visit [http://localhost:4321](http://localhost:4321) to see the result.
 5. Start development 🎉
 
