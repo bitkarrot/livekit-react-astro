@@ -101,72 +101,76 @@
   background-color: #f5f5f5;
 }
 
-/* Custom LiveKit theme */
-[data-lk-theme="default"] {
-  /* Main colors */
-  --lk-bg: #1a1a2e;
-  --lk-bg-secondary: #16213e;
-  --lk-bg-tertiary: #0f3460;
+/* Custom LiveKit theme based on LiveKit's default.scss */
+[data-lk-theme="hivetalk"] {
+  color-scheme: dark;
 
-  /* /* --lk-bg: #ffffff;
-  --lk-bg-secondary: #f5f5f5;
-  --lk-bg-tertiary: #fafafa; */
-  
-  --lk-fg: #e6e6e6;
-  --lk-fg-secondary: #cccccc;
-  --lk-fg-tertiary: #aaaaaa;
+  /* Background colors */
+  --lk-bg: #111;
+  --lk-bg-secondary: #1c1c1c; /* 5% lighter than bg */
+  --lk-bg-tertiary: #272727; /* 10% lighter than bg */
+  --lk-bg4: #333333; /* 15% lighter than bg */
+  --lk-bg5: #3e3e3e; /* 20% lighter than bg */
 
-  /* --lk-fg: #333333;
-  --lk-fg-secondary: #555555;
-  --lk-fg-tertiary: #777777; */
+  /* Foreground colors */
+  --lk-fg: #fff;
+  --lk-fg-secondary: #f5f5f5; /* 4% darker than fg */
+  --lk-fg-tertiary: #ebebeb; /* 8% darker than fg */
+  --lk-fg4: #e0e0e0; /* 12% darker than fg */
+  --lk-fg5: #d6d6d6; /* 16% darker than fg */
 
-    /* Accent colors */
-  --lk-accent-bg: #4361ee;
-  --lk-accent-fg: #ffffff;
-  
-  /* Status colors */
-  --lk-danger: #ef476f;
-  --lk-danger-bg: #ffd6e0;
-  --lk-danger-text: #c81c45;
-  
-  --lk-success: #06d6a0;
-  --lk-success-bg: #c7f9ed;
-  --lk-success-text: #01a377;
-  
+  --lk-border-color: rgba(255, 255, 255, 0.1);
+
+  /* Accent colors - using your project's blue */
+  --lk-accent-fg: #fff;
+  --lk-accent-bg: #2563eb; /* blue-600 from your project */
+  --lk-accent2: #3b75ed; /* 4% lighter */
+  --lk-accent3: #5087ef; /* 8% lighter */
+  --lk-accent4: #6699f1; /* 12% lighter */
+
+  /* Danger colors */
+  --lk-danger-fg: #fff;
+  --lk-danger: #f91f31;
+  --lk-danger2: #fa3544; /* 4% lighter */
+  --lk-danger3: #fa4c58; /* 8% lighter */
+  --lk-danger4: #fb626d; /* 12% lighter */
+
+  /* Success colors */
+  --lk-success-fg: #fff;
+  --lk-success: #1ff968;
+  --lk-success2: #3afa77; /* 4% lighter */
+  --lk-success3: #54fa87; /*8% lighter */
+  --lk-success4: #6ffb96; /* 12% lighter
+
+  /* Control colors */
+  --lk-control-fg: var(--lk-fg);
+  --lk-control-bg: var(--lk-bg-secondary);
+  --lk-control-hover-bg: var(--lk-bg-tertiary);
+  --lk-control-active-bg: var(--lk-bg4);
+  --lk-control-active-hover-bg: var(--lk-bg5);
+
   /* Connection quality indicators */
-  --lk-connection-excellent: #06d6a0;
-  --lk-connection-good: #ffd166;
-  --lk-connection-poor: #ef476f;
-}
+  --lk-connection-excellent: #06db4d;
+  --lk-connection-good: #f9b11f;
+  --lk-connection-poor: #f91f31;
 
-/* You can also create a dark theme variation if needed */
-[data-lk-theme="dark"] {
-  --lk-bg: #1a1a2e;
-  --lk-bg-secondary: #16213e;
-  --lk-bg-tertiary: #0f3460;
-  
-  --lk-fg: #e6e6e6;
-  --lk-fg-secondary: #cccccc;
-  --lk-fg-tertiary: #aaaaaa;
-  
-  --lk-accent-bg: #4361ee;
-  --lk-accent-fg: #ffffff;
-  
-  --lk-danger: #ef476f;
-  --lk-danger-bg: #4b0516;
-  --lk-danger-text: #ff899d;
-  
-  --lk-success: #06d6a0;
-  --lk-success-bg: #023b29;
-  --lk-success-text: #4ddbaf;
-  
-  --lk-connection-excellent: #06d6a0;
-  --lk-connection-good: #ffd166;
-  --lk-connection-poor: #ef476f;
+  /* Typography and UI */
+  --lk-font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji';
+  --lk-font-size: 16px;
+  --lk-line-height: 1.5;
+  --lk-border-radius: 0.5rem;
+  --lk-box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15);
+  --lk-drop-shadow: rgba(255, 255, 255, 0.2) 0px 0px 24px;
+
+  /* Layout */
+  --lk-grid-gap: 0.5rem;
+  --lk-control-bar-height: 69px;
+  --lk-chat-header-height: 69px;
 }
 
 /* Direct styling of all placeholders regardless of participant ID */
-.lk-participant-placeholder {
+/* .lk-participant-placeholder {
   background-color: #16213e !important;
   color: white !important;
   border: 2px solid #43e3ee !important;
@@ -174,18 +178,18 @@
   position: relative !important;
   overflow: visible !important;
   z-index: 1 !important;
-}
+} */
 
 /* Force hide all inner content of the placeholder */
-.lk-participant-placeholder > * {
+/* .lk-participant-placeholder > * {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
-}
+} */
 
 /* Create a generic placeholder for all participants */
-.lk-participant-placeholder::before {
-  content: "T";
+/* .lk-participant-placeholder::before {
+  content: "TU";
   display: block !important;
   position: absolute !important;
   top: 50% !important;
@@ -196,25 +200,25 @@
   color: white !important;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5) !important;
   z-index: 999 !important;
-}
+} */
 
 /* Hover effect for participants */
-.lk-participant:hover .lk-participant-placeholder {
+/* .lk-participant:hover .lk-participant-placeholder {
   transform: scale(1.05);
   box-shadow: 0 0 12px rgba(67, 227, 238, 0.7) !important;
-}
+} */
 
 /* Make sure the participant container has correct dimensions */
-.lk-participant:has(.lk-participant-placeholder) {
+/* .lk-participant:has(.lk-participant-placeholder) {
   aspect-ratio: 1;
   overflow: hidden;
-}
+} */
 
 /* Only show our custom elements */
-.lk-participant-placeholder .custom-avatar-initials {
+/* .lk-participant-placeholder .custom-avatar-initials {
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
   position: absolute !important;
   z-index: 1000 !important;
-}
+} */

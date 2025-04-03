@@ -8,6 +8,7 @@ import {
 } from '@livekit/components-react';
 
 import '@livekit/components-styles';
+import './QuickComponent.css'; // Import our custom LiveKit theme
 import React, { useState, useCallback } from 'react';
 
 export default function QuickComponent(
@@ -87,7 +88,7 @@ export default function QuickComponent(
               videoEnabled: true,
               audioEnabled: true,
             }}
-            data-lk-theme="default"
+            data-lk-theme="hivetalk"
             style={{ height: '100vh' }}
           />
         ) : (
@@ -105,7 +106,7 @@ export default function QuickComponent(
       serverUrl={serverUrl}
       onDisconnected={handleOnLeave}
       onError={handleError}
-      data-lk-theme="default"
+      data-lk-theme="hivetalk"
       style={{ height: '100vh' }}
       connect={true}
     >
