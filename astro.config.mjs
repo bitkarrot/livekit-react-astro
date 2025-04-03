@@ -20,7 +20,7 @@ export default defineConfig({
   },
   vite: {
     resolve: {
-      extensions: ['.js', '.ts', '.jsx', '.tsx', '.json']
+      extensions: ['.js', '.ts', '.jsx', '.tsx', '.json', '.scss', '.css']
     }
   }
 });// @ts-check

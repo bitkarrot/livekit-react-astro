@@ -140,7 +140,7 @@
   --lk-success: #1ff968;
   --lk-success2: #3afa77; /* 4% lighter */
   --lk-success3: #54fa87; /*8% lighter */
-  --lk-success4: #6ffb96; /* 12% lighter
+  --lk-success4: #6ffb96; /* 12% lighter */
 
   /* Control colors */
   --lk-control-fg: var(--lk-fg);
@@ -167,6 +167,15 @@
   --lk-grid-gap: 0.5rem;
   --lk-control-bar-height: 69px;
   --lk-chat-header-height: 69px;
+}
+
+.lk-participant-placeholder {
+  background-color: var(--lk-bg-secondary) !important;
+  /* color: var(--lk-fg) !important;
+  border: 1px solid var(--lk-border-color) !important;
+  position: relative !important;
+  overflow: visible !important;
+  z-index: 1 !important; */
 }
 
 /* Direct styling of all placeholders regardless of participant ID */
