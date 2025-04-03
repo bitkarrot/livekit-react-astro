@@ -1,16 +1,95 @@
 ---
-// src/pages/index.astro
-import QuickComponent from '../components/QuickComponent.tsx';
+import Layout from '../layouts/Layout.astro';
 import '../styles/globals.css';
-import '@livekit/components-styles';
-import '@livekit/components-styles/prefabs';
 
 ---
-<html>
-  <head>
-    <title>Livekit Astro Site</title>
-  </head>
-  <body>
-    <QuickComponent client:only="react" />
-  </body>
-</html>
+
+<Layout title="Hivetalk Video Conference">
+  <div class="min-h-screen flex flex-col items-center justify-center bg-gray-900 p-4">
+    <div class="max-w-md w-full bg-gray-800 rounded-lg shadow-lg p-8">
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-white mb-2">Hivetalk</h1>
+        <p class="text-gray-300">Secure video conferencing for teams</p>
+      </div>
+      <div class="space-y-6">
+        <button id="start-meeting" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200">
+          Start New Meeting
+        </button>
+        <div class="relative">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-gray-600"></div>
+          </div>
+          <div class="relative flex justify-center text-sm">
+            <span class="px-2 bg-gray-800 text-gray-400">or</span>
+          </div>
+        </div>
+        <div>
+          <label for="join-room" class="block text-sm font-medium text-gray-300 mb-2">Join with a room code</label>
+          <div class="flex">
+            <input type="text" id="join-room" class="flex-1 bg-gray-700 text-white rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter room code">
+            <button id="join-meeting" class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-r-lg transition duration-200">
+              Join
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="mt-8 text-center text-sm text-gray-400">
+        <p>By using this service, you agree to our <a href="#" class="text-blue-400 hover:underline">Terms of Service</a> and <a href="#" class="text-blue-400 hover:underline">Privacy Policy</a>.</p>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  // Generate a random room name
+  function generateRoomName() {
+    const adjectives = [
+      'quick', 'happy', 'clever', 'brave', 'calm', 'eager', 'kind', 'proud',
+      'smart', 'witty', 'jolly', 'lively', 'mighty', 'noble', 'sunny'
+    ];
+    const animals = [
+      'fox', 'bear', 'wolf', 'eagle', 'tiger', 'lion', 'deer', 'hawk',
+      'dolphin', 'koala', 'panda', 'otter', 'rabbit', 'turtle', 'zebra'
+    ];
+    // Generate random 4-digit number
+    const randomNum = Math.floor(1000 + Math.random() * 9000);
+    // Pick random adjective and animal
+    const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+    const animal = animals[Math.floor(Math.random() * animals.length)];
+    // Combine to create room name
+    return `${adjective}-${animal}-${randomNum}`;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Start meeting button
+    const startMeetingBtn = document.getElementById('start-meeting');
+    if (startMeetingBtn) {
+      startMeetingBtn.addEventListener('click', () => {
+        const roomName = generateRoomName();
+        window.location.href = `/room/${roomName}`;
+      });
+    }
+
+    // Join meeting button
+    const joinMeetingBtn = document.getElementById('join-meeting');
+    const joinRoomInput = document.getElementById('join-room');
+
+    if (joinMeetingBtn && joinRoomInput) {
+      joinMeetingBtn.addEventListener('click', () => {
+        const roomName = joinRoomInput.value.trim();
+        if (roomName) {
+          window.location.href = `/room/${roomName}`;
+        } else {
+          alert('Please enter a room code');
+        }
+      });
+
+      // Allow pressing Enter in the input field
+      joinRoomInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          joinMeetingBtn.click();
+        }
+      });
+    }
+  });
+</script>
