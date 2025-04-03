@@ -3,12 +3,15 @@ import QuickComponent from '~/components/QuickComponent';
 import '~/styles/globals.css';
 import '@livekit/components-styles';
 import '@livekit/components-styles/prefabs';
+import Layout from '~/layouts/Layout.astro';
+
 
 const params = Astro.params;
 console.log('roomName:',  params)
 const room = params.roomName || 'test_room';
 ---
 
-<body>
+<Layout title="Hivetalk Video Conference">
+
 <QuickComponent room_name={room} client:only="react" />
-</body>
+</Layout>

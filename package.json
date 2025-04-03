@@ -25,12 +25,15 @@
     "tinykeys": "^3.0.0"
   },
   "devDependencies": {
+    "@astrojs/tailwind": "^6.0.2",
     "@types/node": "22.10.7",
     "@types/react": "18.3.18",
     "@types/react-dom": "18.3.5",
+    "autoprefixer": "^10.4.21",
     "eslint": "9.18.0",
     "eslint-config-next": "14.2.23",
     "source-map-loader": "^5.0.0",
+    "tailwindcss": "^3.3.3",
     "typescript": "5.7.3"
   },
   "pnpm": {
