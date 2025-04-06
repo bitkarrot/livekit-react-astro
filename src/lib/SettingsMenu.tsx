@@ -6,10 +6,12 @@ import {
   MediaDeviceMenu,
   TrackToggle,
   useRoomContext,
-  useIsRecording,
+  //  useIsRecording,
 } from '@livekit/components-react';
 import { useKrispNoiseFilter } from '@livekit/components-react/krisp';
 import styles from '../styles/SettingsMenu.module.css';
+
+// TODO: fix krisp noise filter not found
 
 /**
  * @alpha
@@ -22,13 +24,13 @@ export interface SettingsMenuProps extends React.HTMLAttributes<HTMLDivElement> 
 export function SettingsMenu(props: SettingsMenuProps) {
   const layoutContext = useMaybeLayoutContext();
   const room = useRoomContext();
-  const recordingEndpoint = process.env.NEXT_PUBLIC_LK_RECORD_ENDPOINT;
+  //  const recordingEndpoint = process.env.NEXT_PUBLIC_LK_RECORD_ENDPOINT;
 
   const settings = React.useMemo(() => {
     return {
       media: { camera: true, microphone: true, label: 'Media Devices', speaker: true },
       effects: { label: 'Effects' },
-      recording: recordingEndpoint ? { label: 'Recording' } : undefined,
+      // recording: recordingEndpoint ? { label: 'Recording' } : undefined,
     };
   }, []);
 
@@ -46,41 +48,41 @@ export function SettingsMenu(props: SettingsMenuProps) {
     setNoiseFilterEnabled(true);
   }, []);
 
-  const isRecording = useIsRecording();
-  const [initialRecStatus, setInitialRecStatus] = React.useState(isRecording);
-  const [processingRecRequest, setProcessingRecRequest] = React.useState(false);
+  // const isRecording = useIsRecording();
+  // const [initialRecStatus, setInitialRecStatus] = React.useState(isRecording);
+  // const [processingRecRequest, setProcessingRecRequest] = React.useState(false);
 
-  React.useEffect(() => {
-    if (initialRecStatus !== isRecording) {
-      setProcessingRecRequest(false);
-    }
-  }, [isRecording, initialRecStatus]);
+  // React.useEffect(() => {
+  //   if (initialRecStatus !== isRecording) {
+  //     setProcessingRecRequest(false);
+  //   }
+  // }, [isRecording, initialRecStatus]);
 
-  const toggleRoomRecording = async () => {
-    if (!recordingEndpoint) {
-      throw TypeError('No recording endpoint specified');
-    }
-    if (room.isE2EEEnabled) {
-      throw Error('Recording of encrypted meetings is currently not supported');
-    }
-    setProcessingRecRequest(true);
-    setInitialRecStatus(isRecording);
-    let response: Response;
-    if (isRecording) {
-      response = await fetch(recordingEndpoint + `/stop?roomName=${room.name}`);
-    } else {
-      response = await fetch(recordingEndpoint + `/start?roomName=${room.name}`);
-    }
-    if (response.ok) {
-    } else {
-      console.error(
-        'Error handling recording request, check server logs:',
-        response.status,
-        response.statusText,
-      );
-      setProcessingRecRequest(false);
-    }
-  };
+  // const toggleRoomRecording = async () => {
+  //   if (!recordingEndpoint) {
+  //     throw TypeError('No recording endpoint specified');
+  //   }
+  //   if (room.isE2EEEnabled) {
+  //     throw Error('Recording of encrypted meetings is currently not supported');
+  //   }
+  //   setProcessingRecRequest(true);
+  //   setInitialRecStatus(isRecording);
+  //   let response: Response;
+  //   if (isRecording) {
+  //     response = await fetch(recordingEndpoint + `/stop?roomName=${room.name}`);
+  //   } else {
+  //     response = await fetch(recordingEndpoint + `/start?roomName=${room.name}`);
+  //   }
+  //   if (response.ok) {
+  //   } else {
+  //     console.error(
+  //       'Error handling recording request, check server logs:',
+  //       response.status,
+  //       response.statusText,
+  //     );
+  //     setProcessingRecRequest(false);
+  //   }
+  // };
 
   return (
     <div className="settings-menu" style={{ width: '100%' }} {...props}>
@@ -107,7 +109,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
           <>
             {settings.media && settings.media.camera && (
               <>
-                <h3>Camera</h3>
+                <h3 style={{ marginTop: '10px' }}>Camera</h3>
                 <section className="lk-button-group">
                   <TrackToggle source={Track.Source.Camera}>Camera</TrackToggle>
                   <div className="lk-button-group-menu">
@@ -118,7 +120,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
             )}
             {settings.media && settings.media.microphone && (
               <>
-                <h3>Microphone</h3>
+                <h3 style={{ marginTop: '10px' }}>Microphone</h3>
                 <section className="lk-button-group">
                   <TrackToggle source={Track.Source.Microphone}>Microphone</TrackToggle>
                   <div className="lk-button-group-menu">
@@ -129,7 +131,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
             )}
             {settings.media && settings.media.speaker && (
               <>
-                <h3>Speaker & Headphones</h3>
+                <h3 style={{ marginTop: '10px' }}>Speaker & Headphones</h3>
                 <section className="lk-button-group">
                   <span className="lk-button">Audio Output</span>
                   <div className="lk-button-group-menu">
@@ -142,9 +144,9 @@ export function SettingsMenu(props: SettingsMenuProps) {
         )}
         {activeTab === 'effects' && (
           <>
-            <h3>Audio</h3>
-            <section>
-              <label htmlFor="noise-filter"> Enhanced Noise Cancellation</label>
+            <h3 style={{ marginTop: '10px' }}>Audio</h3>
+            <section style={{ marginTop: '10px' }}>
+              <label htmlFor="noise-filter" style={{ marginRight: '10px' }}> Enhanced Noise Cancellation</label>
               <input
                 type="checkbox"
                 id="noise-filter"
@@ -155,7 +157,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
             </section>
           </>
         )}
-        {activeTab === 'recording' && (
+        {/* {activeTab === 'recording' && (
           <>
             <h3>Record Meeting</h3>
             <section>
@@ -169,7 +171,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
               </button>
             </section>
           </>
-        )}
+        )} */}
       </div>
       <button
         className={`lk-button ${styles.settingsCloseButton}`}

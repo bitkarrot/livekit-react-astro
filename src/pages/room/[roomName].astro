@@ -4,14 +4,35 @@ import '~/styles/globals.css';
 import '@livekit/components-styles';
 import '@livekit/components-styles/prefabs';
 import Layout from '~/layouts/Layout.astro';
-
+import { isVideoCodec } from '~/lib/types';
 
 const params = Astro.params;
 console.log('roomName:',  params)
 const room = params.roomName || 'test_room';
+
+// Create a URL object from the request URL string
+const url = new URL(Astro.request.url);
+const searchParams = url.searchParams;
+
+// Now we can access searchParams properly
+const codecParam = searchParams.get('codec');
+// Make sure codecParam is a string before passing to isVideoCodec
+const codec = typeof codecParam === 'string' && isVideoCodec(codecParam)
+  ? codecParam
+  : 'vp9';
+const hq = searchParams.get('hq') === 'true' ? true : false;
+console.log('codec:', codec, 'hq:', hq)
 ---
 
 <Layout title="Hivetalk Video Conference">
-
-<QuickComponent room_name={room} client:only="react" />
+  <main>
+    <div>
+      <QuickComponent
+        room_name={room}
+        hq={hq}
+        codec={codec}
+        client:only="react"
+      />
+    </div>
+  </main>
 </Layout>

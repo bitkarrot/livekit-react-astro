@@ -5,16 +5,36 @@ import {
   LiveKitRoom,
   PreJoin,
   RoomAudioRenderer,
+  GridLayout,
+  ParticipantTile,
+  useTracks,
+  RoomContext,
+  // LocalUserChoices,
 } from '@livekit/components-react';
+import type {
+  Track,
+  RoomOptions,
+  VideoCodec,
+  VideoPresets,
+  Room,
+  DeviceUnsupportedError,
+  RoomConnectOptions,
+ } from 'livekit-client'
+import type { ConnectionDetails } from '~/lib/types';
+import { SettingsMenu } from '~/lib/SettingsMenu';
 
 import '@livekit/components-styles';
 import './QuickComponent.css'; // Import our custom LiveKit theme
 import './default.scss'; // Import the default LiveKit theme
 import React, { useState, useCallback } from 'react';
 
+const SHOW_SETTINGS_MENU = 'true';
+
 export default function QuickComponent(
   props: {
     room_name: string;
+    // hq?: boolean;
+    // codec?: VideoCodec;
   }
 ) {
   const [token, setToken] = useState<string | undefined>();
@@ -24,6 +44,20 @@ export default function QuickComponent(
   const [videoEnabled, setVideoEnabled] = useState(true);
   const [audioEnabled, setAudioEnabled] = useState(true);
   const [username, setUsername] = useState('');
+
+  const [preJoinChoices, setPreJoinChoices] = React.useState<LocalUserChoices | undefined>(
+    undefined,
+  );
+  const preJoinDefaults = React.useMemo(() => {
+    return {
+      username: '',
+      videoEnabled: true,
+      audioEnabled: true,
+    };
+  }, []);
+  // const [connectionDetails, setConnectionDetails] = React.useState<ConnectionDetails | undefined>(
+  //   undefined,
+  // );
 
   const fetchToken = async (roomName: string, participantName: string) => {
     try {
@@ -114,6 +148,7 @@ export default function QuickComponent(
     >
       <VideoConference
         chatMessageFormatter={formatChatMessageLinks}
+        SettingsComponent={SHOW_SETTINGS_MENU ? SettingsMenu : undefined}
       />
 
       <RoomAudioRenderer />

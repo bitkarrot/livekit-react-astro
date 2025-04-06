@@ -1,3 +1,7 @@
+.settings-menu {
+  background-color: var(--lk-bg-secondary) !important;
+}
+
 .settingsCloseButton {
   position: absolute;
   right: var(--lk-grid-gap);
