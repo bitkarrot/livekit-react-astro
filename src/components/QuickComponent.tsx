@@ -1,27 +1,28 @@
 import {
-  VideoConference,
-  formatChatMessageLinks,
+  //  VideoConference,
   ControlBar,
   LiveKitRoom,
   PreJoin,
   RoomAudioRenderer,
-  GridLayout,
-  ParticipantTile,
-  useTracks,
-  RoomContext,
-  // LocalUserChoices,
+  formatChatMessageLinks,
+  // GridLayout,
+  // ParticipantTile,
+  // useTracks,
+  // RoomContext,
 } from '@livekit/components-react';
-import type {
-  Track,
-  RoomOptions,
-  VideoCodec,
-  VideoPresets,
-  Room,
-  DeviceUnsupportedError,
-  RoomConnectOptions,
- } from 'livekit-client'
+import VideoConference from '../components/VideoConference';
+// import type {
+//   Track,
+//   RoomOptions,
+//   VideoCodec,
+//   VideoPresets,
+//   Room,
+//   DeviceUnsupportedError,
+//   RoomConnectOptions,
+//  } from 'livekit-client'
 import type { ConnectionDetails } from '~/lib/types';
 import { SettingsMenu } from '~/lib/SettingsMenu';
+import type { LocalUserChoices } from '@livekit/components-react';
 
 import '@livekit/components-styles';
 import './QuickComponent.css'; // Import our custom LiveKit theme
