@@ -18,9 +18,9 @@
     "@livekit/components-react": "2.9.0",
     "@livekit/components-styles": "1.1.4",
     "@livekit/krisp-noise-filter": "0.2.16",
-    "astro": "^5.5.6",
+    "astro": "^5.6.1",
     "livekit-client": "2.9.9",
-    "livekit-server-sdk": "2.11",
+    "livekit-server-sdk": "~2.11.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "tinykeys": "^3.0.0"
@@ -33,9 +33,9 @@
     "autoprefixer": "^10.4.21",
     "eslint": "9.18.0",
     "eslint-config-next": "14.2.23",
-    "sass": "^1.86.2",
+    "sass": "^1.86.3",
     "source-map-loader": "^5.0.0",
-    "tailwindcss": "^3.3.3",
+    "tailwindcss": "^3.4.17",
     "typescript": "5.7.3"
   },
   "pnpm": {

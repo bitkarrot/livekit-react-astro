@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useRoomContext } from '@livekit/components-react';
 import { setLogLevel, LogLevel, RemoteTrackPublication, setLogExtension } from 'livekit-client';
 // @ts-ignore

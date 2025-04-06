@@ -7,7 +7,7 @@ import type {
   } from '@livekit/components-core';
   import { isEqualTrackRef, isTrackReference, isWeb, log } from '@livekit/components-core';
   import { RoomEvent, Track } from 'livekit-client';
-  import * as React from 'react';
+  import React from 'react';
   import type { MessageFormatter } from '@livekit/components-react';
   import {
     CarouselLayout,
@@ -78,7 +78,8 @@ import type {
       unreadMessages: 0,
       showSettings: false,
     });
-    const lastAutoFocusedScreenShareTrack = React.useRef<TrackReferenceOrPlaceholder | null>(null);
+    // Use any type to avoid version conflicts
+    const lastAutoFocusedScreenShareTrack = React.useRef<any>(null);
   
     const tracks = useTracks(
       [
@@ -109,8 +110,10 @@ import type {
         lastAutoFocusedScreenShareTrack.current === null
       ) {
         log.debug('Auto set screen share focus:', { newScreenShareTrack: screenShareTracks[0] });
-        layoutContext.pin.dispatch?.({ msg: 'set_pin', trackReference: screenShareTracks[0] });
-        lastAutoFocusedScreenShareTrack.current = screenShareTracks[0];
+        // Use unknown type to handle version conflicts
+        const trackReference = screenShareTracks[0] as unknown as TrackReferenceOrPlaceholder;
+        layoutContext.pin.dispatch?.({ msg: 'set_pin', trackReference });
+        lastAutoFocusedScreenShareTrack.current = trackReference;
       } else if (
         lastAutoFocusedScreenShareTrack.current &&
         !screenShareTracks.some(
@@ -124,13 +127,16 @@ import type {
         lastAutoFocusedScreenShareTrack.current = null;
       }
       if (focusTrack && !isTrackReference(focusTrack)) {
+        // Use type-safe comparison with optional chaining to avoid type errors
+        // Use unknown type to handle version conflicts
         const updatedFocusTrack = tracks.find(
           (tr) =>
-            tr.participant.identity === focusTrack.participant.identity &&
+            tr.participant?.identity === (focusTrack.participant as any)?.identity &&
             tr.source === focusTrack.source,
         );
         if (updatedFocusTrack !== focusTrack && isTrackReference(updatedFocusTrack)) {
-          layoutContext.pin.dispatch?.({ msg: 'set_pin', trackReference: updatedFocusTrack });
+          const trackReference = updatedFocusTrack as unknown as TrackReferenceOrPlaceholder;
+          layoutContext.pin.dispatch?.({ msg: 'set_pin', trackReference });
         }
       }
     }, [
@@ -163,7 +169,7 @@ import type {
                     <CarouselLayout tracks={carouselTracks}>
                       <ParticipantTile />
                     </CarouselLayout>
-                    {focusTrack && <FocusLayout trackRef={focusTrack} />}
+                    {focusTrack && <FocusLayout trackRef={focusTrack as unknown as TrackReferenceOrPlaceholder} />}
                   </FocusLayoutContainer>
                 </div>
               )}

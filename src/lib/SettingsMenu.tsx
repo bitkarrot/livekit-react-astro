@@ -1,5 +1,5 @@
 'use client';
-import * as React from 'react';
+import React from 'react';
 import { Track } from 'livekit-client';
 import {
   useMaybeLayoutContext,
@@ -88,8 +88,8 @@ export function SettingsMenu(props: SettingsMenuProps) {
     <div className="settings-menu" style={{ width: '100%' }} {...props}>
       <div className={styles.tabs}>
         {tabs.map(
-          (tab) =>
-            settings[tab] && (
+          (tab: string) =>
+            settings[tab as keyof typeof settings] && (
               <button
                 className={`${styles.tab} lk-button`}
                 key={tab}

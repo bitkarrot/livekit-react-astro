@@ -27,7 +27,9 @@ import type { LocalUserChoices } from '@livekit/components-react';
 import '@livekit/components-styles';
 import './QuickComponent.css'; // Import our custom LiveKit theme
 import './default.scss'; // Import the default LiveKit theme
-import React, { useState, useCallback } from 'react';
+// Fix React imports to work with current TypeScript configuration
+import React from 'react';
+const { useState, useCallback } = React;
 
 const SHOW_SETTINGS_MENU = 'true';
 
