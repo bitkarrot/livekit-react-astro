@@ -107,7 +107,7 @@ export interface ParticipantTileProps extends React.HTMLAttributes<HTMLDivElemen
  * ```
  * @public
  */
-export const ParticipantTile: (
+export const CustomParticipantTile: (
   props: ParticipantTileProps & React.RefAttributes<HTMLDivElement>,
 ) => React.ReactNode = /* @__PURE__ */ React.forwardRef<HTMLDivElement, ParticipantTileProps>(
   function ParticipantTile(
@@ -185,12 +185,12 @@ export const ParticipantTile: (
                             source: Track.Source.Microphone,
                           }}
                           show={'muted'}
-                        ></TrackMutedIndicator>
+                        ></TrackMutedIndicator>                        
                         <ParticipantName />
                       </>
                     ) : (
                       <>
-                        <ScreenShareIcon style={{ marginRight: '0.25rem' }} />
+                        <ScreenShareIcon style={{ marginRight: '0.25rem' }} />                        
                         <ParticipantName>&apos;s screen</ParticipantName>
                       </>
                     )}

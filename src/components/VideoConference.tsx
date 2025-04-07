@@ -10,7 +10,7 @@ import type {
   import {
     CarouselLayout,
     ConnectionStateToast,
-    FocusLayout,
+//    FocusLayout,
     FocusLayoutContainer,
     GridLayout,
     LayoutContextProvider,
@@ -22,20 +22,21 @@ import type {
   import { Chat } from '@livekit/components-react';
   import { ControlBar } from '@livekit/components-react';
 
-  import { ParticipantTile } from './ParticipantTile';
+  import { CustomParticipantTile } from './participant/CustomParticipantTile';
+  import { FocusLayout } from '~/components/layout/FocusLayout'
 
   // Custom hook to warn about missing styles - simplified version
   const useWarnAboutMissingStyles = () => {
     React.useEffect(() => {
       // Check if styles are loaded - simplified logic
-      const hasStyles = document.querySelector('.lk-video-conference') !== null || 
+      const hasStyles = document.querySelector('.lk-video-conference') !== null ||
                         document.styleSheets.length > 0;
       if (!hasStyles) {
         console.warn('LiveKit component styles might be missing. Make sure to import the CSS.');
       }
     }, []);
   };
-  
+
   /**
    * @public
    */
@@ -44,7 +45,7 @@ import type {
     /** @alpha */
     SettingsComponent?: React.ComponentType;
   }
-  
+
   /**
    * The `VideoConference` ready-made component is your drop-in solution for a classic video conferencing application.
    * It provides functionality such as focusing on one participant, grid view with pagination to handle large numbers
@@ -75,7 +76,7 @@ import type {
     });
     // Use any type to avoid version conflicts
     const lastAutoFocusedScreenShareTrack = React.useRef<any>(null);
-  
+
     const tracks = useTracks(
       [
         { source: Track.Source.Camera, withPlaceholder: true },
@@ -83,21 +84,21 @@ import type {
       ],
       { updateOnlyOn: [RoomEvent.ActiveSpeakersChanged], onlySubscribed: false },
     );
-  
+
     const widgetUpdate = (state: WidgetState) => {
       log.debug('updating widget state', state);
       setWidgetState(state);
     };
-  
+
     const layoutContext = useCreateLayoutContext();
-  
+
     const screenShareTracks = tracks
       .filter(isTrackReference)
       .filter((track) => track.publication?.source === Track.Source.ScreenShare);
-  
+
     const focusTrack = usePinnedTracks(layoutContext)?.[0];
     const carouselTracks = tracks.filter((track) => !isEqualTrackRef(track, focusTrack));
-  
+
     React.useEffect(() => {
       // If screen share tracks are published, and no pin is set explicitly, auto set the screen share.
       if (
@@ -141,7 +142,7 @@ import type {
       focusTrack?.publication?.trackSid,
       tracks,
     ]);
-  
+
     useWarnAboutMissingStyles();
 
     return (
@@ -155,15 +156,16 @@ import type {
               {!focusTrack ? (
                 <div className="lk-grid-layout-wrapper">
                   <GridLayout tracks={tracks}>
-                    <ParticipantTile/>
+                    <CustomParticipantTile/>
                   </GridLayout>
                 </div>
               ) : (
                 <div className="lk-focus-layout-wrapper">
                   <FocusLayoutContainer>
                     <CarouselLayout tracks={carouselTracks}>
-                      <ParticipantTile/>
+                      <CustomParticipantTile/>
                     </CarouselLayout>
+                    {/* TODO fix the participant tile placeholder in FocusLayout */}
                     {focusTrack && <FocusLayout trackRef={focusTrack as unknown as TrackReferenceOrPlaceholder} />}
                   </FocusLayoutContainer>
                 </div>
@@ -189,5 +191,5 @@ import type {
       </div>
     );
   }
-  
+
   export default VideoConference;

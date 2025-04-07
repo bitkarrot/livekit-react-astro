@@ -19,6 +19,7 @@
     "@livekit/components-styles": "1.1.4",
     "@livekit/krisp-noise-filter": "0.2.16",
     "astro": "^5.6.1",
+    "clsx": "^2.1.1",
     "livekit-client": "2.9.9",
     "livekit-server-sdk": "~2.11.0",
     "react": "19.1.0",
