@@ -1,0 +1,125 @@
+/* Chat component styles */
+/* .lk-chat {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 300px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.lk-chat-header {
+  padding: 12px 16px;
+  font-weight: bold;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lk-chat-close-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.lk-chat-close-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.lk-chat-close-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.lk-chat-close-button svg path {
+  fill: #333;
+}
+
+.lk-chat-messages {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lk-chat-message {
+  display: flex;
+  flex-direction: column;
+  max-width: 85%;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background-color: #f0f0f0;
+}
+
+.lk-chat-message:nth-child(even) {
+  align-self: flex-end;
+  background-color: #e1f5fe;
+}
+
+.lk-chat-message-sender {
+  font-weight: bold;
+  font-size: 0.9em;
+  margin-bottom: 4px;
+}
+
+.lk-chat-message-content {
+  word-break: break-word;
+}
+
+.lk-chat-message-time {
+  align-self: flex-end;
+  font-size: 0.8em;
+  color: #757575;
+  margin-top: 4px;
+}
+
+.lk-chat-form {
+  display: flex;
+  padding: 12px;
+  border-top: 1px solid #e0e0e0;
+  background-color: #f5f5f5;
+}
+
+.lk-chat-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  margin-right: 8px;
+  outline: none;
+}
+
+.lk-chat-input:focus {
+  border-color: #2196f3;
+}
+
+.lk-chat-send-button {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.lk-chat-send-button:hover {
+  background-color: #1976d2;
+}
+
+.lk-chat-send-button:disabled {
+  background-color: #bdbdbd;
+  cursor: not-allowed;
+} */

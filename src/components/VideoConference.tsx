@@ -1,7 +1,5 @@
 // VideoConference.tsx - React component for Astro
 import type {
-    // MessageDecoder,
-    // MessageEncoder,
     TrackReferenceOrPlaceholder,
     WidgetState,
   } from '@livekit/components-core';
@@ -24,7 +22,8 @@ import type {
   } from '@livekit/components-react';
   import { Chat } from '@livekit/components-react';
   import { ControlBar } from '@livekit/components-react';
-  
+  // import { Chat } from './Chat';
+
   // Custom hook to warn about missing styles - simplified version
   const useWarnAboutMissingStyles = () => {
     React.useEffect(() => {
@@ -36,7 +35,7 @@ import type {
       }
     }, []);
   };
-  
+
   /**
    * @public
    */
@@ -175,12 +174,10 @@ import type {
               )}
               <ControlBar controls={{ chat: true, settings: !!SettingsComponent }} />
             </div>
-            <Chat
+              <Chat
               style={{ display: widgetState.showChat ? 'grid' : 'none' }}
-              messageFormatter={chatMessageFormatter}
-            //   messageEncoder={chatMessageEncoder}
-            //   messageDecoder={chatMessageDecoder}
-            />
+                messageFormatter={chatMessageFormatter}
+              />
             {SettingsComponent && (
               <div
                 className="lk-settings-menu-modal"
