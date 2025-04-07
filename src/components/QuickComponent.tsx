@@ -8,13 +8,12 @@ import {
 import VideoConference from '../components/VideoConference';
 import type { VideoCodec } from 'livekit-server-sdk';
 import { SettingsMenu } from '~/lib/SettingsMenu';
-import type { LocalUserChoices } from '@livekit/components-react';
-import type { ConnectionDetails } from '~/lib/types';
+// import type { LocalUserChoices } from '@livekit/components-react';
+// import type { ConnectionDetails } from '~/lib/types';
 
 import '@livekit/components-styles';
 import './QuickComponent.css'; // Import our custom LiveKit theme
 import './default.scss'; // Import the default LiveKit theme
-// Fix React imports to work with current TypeScript configuration
 import React from 'react';
 const { useState, useCallback } = React;
 
@@ -28,24 +27,24 @@ export default function QuickComponent(
   }
 ) {
   const [token, setToken] = useState<string | undefined>();
-  const [attributes, setAttributes] = useState<Record<string, string> | undefined>();
   const [serverUrl, setServerUrl] = useState<string | undefined>();
   const [error, setError] = useState<Error | null>(null);
   const [isPreJoinComplete, setIsPreJoinComplete] = useState(false);
   const [videoEnabled, setVideoEnabled] = useState(true);
   const [audioEnabled, setAudioEnabled] = useState(true);
-  const [username, setUsername] = useState('');
+  // const [attributes, setAttributes] = useState<Record<string, string> | undefined>();
 
-  const [preJoinChoices, setPreJoinChoices] = React.useState<LocalUserChoices | undefined>(
-    undefined,
-  );
-  const preJoinDefaults = React.useMemo(() => {
-    return {
-      username: '',
-      videoEnabled: true,
-      audioEnabled: true,
-    };
-  }, []);
+  const [username, setUsername] = useState('');
+  // const [preJoinChoices, setPreJoinChoices] = React.useState<LocalUserChoices | undefined>(
+  //   undefined,
+  // );
+  // const preJoinDefaults = React.useMemo(() => {
+  //   return {
+  //     username: '',
+  //     videoEnabled: true,
+  //     audioEnabled: true,
+  //   };
+  // }, []);
   // const [connectionDetails, setConnectionDetails] = React.useState<ConnectionDetails | undefined>(
   //   undefined,
   // );
@@ -58,11 +57,11 @@ export default function QuickComponent(
       }
       // TODO: get username and avatar image and other metadata from relay and token server
       const data = await response.json();
-
-      console.log('Client side Token attributes:', data.attributes);
-
       setToken(data.token);
-      setAttributes(data.attributes);
+
+      // fix this so that attributes is deconstructed from the jwt token
+      // setAttributes(data.attributes);
+      // console.log('Client side Token attributes:', data.attributes);
 
       // Hardcoded for now to avoid env issues
       setServerUrl('ws://127.0.0.1:7880');
