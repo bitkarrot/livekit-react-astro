@@ -5,7 +5,7 @@ import {
   useMaybeLayoutContext,
   MediaDeviceMenu,
   TrackToggle,
-  useRoomContext,
+ // useRoomContext,
   //  useIsRecording,
 } from '@livekit/components-react';
 import { useKrispNoiseFilter } from '@livekit/components-react/krisp';
@@ -23,7 +23,7 @@ export interface SettingsMenuProps extends React.HTMLAttributes<HTMLDivElement> 
  */
 export function SettingsMenu(props: SettingsMenuProps) {
   const layoutContext = useMaybeLayoutContext();
-  const room = useRoomContext();
+  //const room = useRoomContext();
   //  const recordingEndpoint = process.env.NEXT_PUBLIC_LK_RECORD_ENDPOINT;
 
   const settings = React.useMemo(() => {

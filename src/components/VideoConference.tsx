@@ -1,7 +1,5 @@
 // VideoConference.tsx - React component for Astro
 import type {
-    // MessageDecoder,
-    // MessageEncoder,
     TrackReferenceOrPlaceholder,
     WidgetState,
   } from '@livekit/components-core';
@@ -16,7 +14,7 @@ import type {
     FocusLayoutContainer,
     GridLayout,
     LayoutContextProvider,
-    ParticipantTile,
+//    ParticipantTile,
     RoomAudioRenderer,
     useCreateLayoutContext,
     usePinnedTracks,
@@ -24,7 +22,9 @@ import type {
   } from '@livekit/components-react';
   import { Chat } from '@livekit/components-react';
   import { ControlBar } from '@livekit/components-react';
-  
+//  import { ParticipantPlaceholder } from '@livekit/components-react';
+import { ParticipantTile } from './ParticipantTile';
+
   // Custom hook to warn about missing styles - simplified version
   const useWarnAboutMissingStyles = () => {
     React.useEffect(() => {
@@ -42,8 +42,6 @@ import type {
    */
   export interface VideoConferenceProps extends React.HTMLAttributes<HTMLDivElement> {
     chatMessageFormatter?: MessageFormatter;
-    // chatMessageEncoder?: MessageEncoder;
-    // chatMessageDecoder?: MessageDecoder;
     /** @alpha */
     SettingsComponent?: React.ComponentType;
   }
@@ -68,8 +66,6 @@ import type {
    */
   export function VideoConference({
     chatMessageFormatter,
-    // chatMessageDecoder,
-    // chatMessageEncoder,
     SettingsComponent,
     ...props
   }: VideoConferenceProps) {
@@ -148,7 +144,7 @@ import type {
     ]);
   
     useWarnAboutMissingStyles();
-  
+
     return (
       <div className="lk-video-conference" {...props}>
         {isWeb() && (
@@ -160,14 +156,14 @@ import type {
               {!focusTrack ? (
                 <div className="lk-grid-layout-wrapper">
                   <GridLayout tracks={tracks}>
-                    <ParticipantTile />
+                    <ParticipantTile/>
                   </GridLayout>
                 </div>
               ) : (
                 <div className="lk-focus-layout-wrapper">
                   <FocusLayoutContainer>
                     <CarouselLayout tracks={carouselTracks}>
-                      <ParticipantTile />
+                      <ParticipantTile/>
                     </CarouselLayout>
                     {focusTrack && <FocusLayout trackRef={focusTrack as unknown as TrackReferenceOrPlaceholder} />}
                   </FocusLayoutContainer>
@@ -178,8 +174,6 @@ import type {
             <Chat
               style={{ display: widgetState.showChat ? 'grid' : 'none' }}
               messageFormatter={chatMessageFormatter}
-            //   messageEncoder={chatMessageEncoder}
-            //   messageDecoder={chatMessageDecoder}
             />
             {SettingsComponent && (
               <div

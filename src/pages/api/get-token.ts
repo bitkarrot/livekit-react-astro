@@ -24,13 +24,26 @@ export async function GET({ params, request }) {
       return new Response('LiveKit API key or secret not configured', { status: 500 });
     }
     
-    console.log('API key:', apiKey)
-    console.log('API secret:', apiSecret)
+    // console.log('API key:', apiKey)
+    // console.log('API secret:', apiSecret)
+
+    let ttl = '10m';
+
+    // TODO: set this data on nostr user auth
+    const attributes: Record<string, string> = {
+      petname: 'test_user',
+      avatar_url: 'https://i.pravatar.cc/150?img=10',
+      npub: 'npub3428u3423oio23ijro32ij',
+      lightning_address: 'me@nostr.xyz',
+      moderator: 'true',
+     }
 
     // Create a new access token
     const token = new AccessToken(apiKey, apiSecret, {
       identity: participantName,
-      ttl: '10m',
+      ttl: ttl, // token to expire after 10 minutes
+      metadata: 'foobarbaz',
+      attributes: attributes
     });
     
     // Grant permissions to the room
@@ -48,5 +61,6 @@ export async function GET({ params, request }) {
     return new Response(JSON.stringify({
        token: jwt,
        url: process.env.LIVEKIT_WS_URL || 'ws://localhost:7880',
-        }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+      //  attributes: attributes,
+      }), { status: 200, headers: { 'Content-Type': 'application/json' } });
 };

@@ -5,12 +5,11 @@ import {
   PreJoin,
   RoomAudioRenderer,
   formatChatMessageLinks,
-  // GridLayout,
-  // ParticipantTile,
-  // useTracks,
+  //  useTracks,
   // RoomContext,
 } from '@livekit/components-react';
 import VideoConference from '../components/VideoConference';
+import type { VideoCodec } from 'livekit-server-sdk';
 // import type {
 //   Track,
 //   RoomOptions,
@@ -36,11 +35,12 @@ const SHOW_SETTINGS_MENU = 'true';
 export default function QuickComponent(
   props: {
     room_name: string;
-    // hq?: boolean;
-    // codec?: VideoCodec;
+    hq?: boolean;
+    codec?: VideoCodec;
   }
 ) {
   const [token, setToken] = useState<string | undefined>();
+  const [attributes, setAttributes] = useState<Record<string, string> | undefined>();
   const [serverUrl, setServerUrl] = useState<string | undefined>();
   const [error, setError] = useState<Error | null>(null);
   const [isPreJoinComplete, setIsPreJoinComplete] = useState(false);
@@ -70,7 +70,12 @@ export default function QuickComponent(
       }
       // TODO: get username and avatar image and other metadata from relay and token server
       const data = await response.json();
+
+      console.log('Client side Token attributes:', data.attributes);
+
       setToken(data.token);
+      setAttributes(data.attributes);
+
       // Hardcoded for now to avoid env issues
       setServerUrl('ws://127.0.0.1:7880');
       return { data };
@@ -95,7 +100,7 @@ export default function QuickComponent(
 
     const room = props.room_name ?? 'test_room';
 
-    console.log('in Quick Component, Room Name:', room);
+    console.log('in Quick Component handle PreJoin, Room Name:', room);
 
     await fetchToken(room, values.username);
     setIsPreJoinComplete(true);
@@ -122,11 +127,11 @@ export default function QuickComponent(
           <PreJoin
             onSubmit={handlePreJoinSubmit}
             onError={handleError}
-            defaults={{
-              username: 'test_user',
-              videoEnabled: true,
-              audioEnabled: true,
-            }}
+            // defaults={{
+            //   username: 'test_user',
+            //   videoEnabled: true,
+            //   audioEnabled: true,
+            // }}
             data-lk-theme="hivetalk"
             style={{ height: '100vh' }}
           />
@@ -138,24 +143,23 @@ export default function QuickComponent(
   }
 
   return (
-    <LiveKitRoom
-      video={videoEnabled}
-      audio={audioEnabled}
-      token={token}
-      serverUrl={serverUrl}
-      onDisconnected={handleOnLeave}
-      onError={handleError}
-      data-lk-theme="hivetalk"
-      style={{ height: '100vh' }}
-      connect={true}
-    >
-      <VideoConference
-        chatMessageFormatter={formatChatMessageLinks}
-        SettingsComponent={SHOW_SETTINGS_MENU ? SettingsMenu : undefined}
-      />
-
-      <RoomAudioRenderer />
-      <ControlBar />
-    </LiveKitRoom>
+        <LiveKitRoom
+          token={token}
+          serverUrl={serverUrl}
+          video={videoEnabled}
+          audio={audioEnabled}
+          onDisconnected={handleOnLeave}
+          onError={handleError}
+          data-lk-theme="hivetalk"
+          style={{ height: '100vh' }}
+          connect={true}
+        >
+            <VideoConference
+              chatMessageFormatter={formatChatMessageLinks}
+              SettingsComponent={SHOW_SETTINGS_MENU ? SettingsMenu : undefined}
+            />
+          <RoomAudioRenderer />
+          <ControlBar />
+        </LiveKitRoom>
   );
 }
