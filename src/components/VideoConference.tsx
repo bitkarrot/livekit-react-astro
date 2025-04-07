@@ -21,8 +21,8 @@ import type {
   } from '@livekit/components-react';
   import { Chat } from '@livekit/components-react';
   import { ControlBar } from '@livekit/components-react';
-//  import { ParticipantPlaceholder } from '@livekit/components-react';
-import { ParticipantTile } from './ParticipantTile';
+
+  import { ParticipantTile } from './ParticipantTile';
 
   // Custom hook to warn about missing styles - simplified version
   const useWarnAboutMissingStyles = () => {
