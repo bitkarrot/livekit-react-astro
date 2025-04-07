@@ -14,7 +14,6 @@ import type {
     FocusLayoutContainer,
     GridLayout,
     LayoutContextProvider,
-//    ParticipantTile,
     RoomAudioRenderer,
     useCreateLayoutContext,
     usePinnedTracks,
