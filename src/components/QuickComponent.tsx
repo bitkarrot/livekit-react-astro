@@ -1,27 +1,15 @@
 import {
-  //  VideoConference,
   ControlBar,
   LiveKitRoom,
   PreJoin,
   RoomAudioRenderer,
   formatChatMessageLinks,
-  //  useTracks,
-  // RoomContext,
 } from '@livekit/components-react';
 import VideoConference from '../components/VideoConference';
 import type { VideoCodec } from 'livekit-server-sdk';
-// import type {
-//   Track,
-//   RoomOptions,
-//   VideoCodec,
-//   VideoPresets,
-//   Room,
-//   DeviceUnsupportedError,
-//   RoomConnectOptions,
-//  } from 'livekit-client'
-import type { ConnectionDetails } from '~/lib/types';
 import { SettingsMenu } from '~/lib/SettingsMenu';
 import type { LocalUserChoices } from '@livekit/components-react';
+import type { ConnectionDetails } from '~/lib/types';
 
 import '@livekit/components-styles';
 import './QuickComponent.css'; // Import our custom LiveKit theme
@@ -127,11 +115,6 @@ export default function QuickComponent(
           <PreJoin
             onSubmit={handlePreJoinSubmit}
             onError={handleError}
-            // defaults={{
-            //   username: 'test_user',
-            //   videoEnabled: true,
-            //   audioEnabled: true,
-            // }}
             data-lk-theme="hivetalk"
             style={{ height: '100vh' }}
           />

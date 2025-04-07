@@ -10,7 +10,6 @@ import type {
   import {
     CarouselLayout,
     ConnectionStateToast,
-//    FocusLayout,
     FocusLayoutContainer,
     GridLayout,
     LayoutContextProvider,
@@ -165,7 +164,6 @@ import type {
                     <CarouselLayout tracks={carouselTracks}>
                       <CustomParticipantTile/>
                     </CarouselLayout>
-                    {/* TODO fix the participant tile placeholder in FocusLayout */}
                     {focusTrack && <FocusLayout trackRef={focusTrack as unknown as TrackReferenceOrPlaceholder} />}
                   </FocusLayoutContainer>
                 </div>
