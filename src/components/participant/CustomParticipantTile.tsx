@@ -193,14 +193,14 @@ export const CustomParticipantTile: (
                           }}
                           show={'muted'}
                         ></TrackMutedIndicator>                        
-                        <ParticipantName>
-                          &nbsp;
                           {trackReference.participant.attributes?.moderator && '⭐️'}
                           &nbsp;
-                          {trackReference.participant.attributes?.lightning_address && '⚡️'}
+                          {trackReference.participant.attributes?.petname}
                           &nbsp;
-                          <button onClick={logMessage}><img src="/nostr.png" width="20" height="20" alt="nostr" /></button>
-                        </ParticipantName>
+                          <button onClick={logMessage}><img src="/nostr.png" width="30" height="30" alt="nostr" /></button>
+                          &nbsp;
+                          {trackReference.participant.attributes?.lightning_address && '⚡️'}
+                          {/* <ParticipantName/> */}
                       </>
                     ) : (
                       <>
