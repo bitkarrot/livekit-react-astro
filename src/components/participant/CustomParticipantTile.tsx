@@ -148,6 +148,10 @@ export const CustomParticipantTile: (
       [trackReference, layoutContext],
     );
 
+    const logMessage = () => {
+      console.log('Button clicked!');
+    };
+
     return (
       <div ref={ref} style={{ position: 'relative' }} {...elementProps}>
         <TrackRefContextIfNeeded trackRef={trackReference}>
@@ -191,7 +195,7 @@ export const CustomParticipantTile: (
                     ) : (
                       <>
                         <ScreenShareIcon style={{ marginRight: '0.25rem' }} />                        
-                        <ParticipantName>&apos;s screen</ParticipantName>
+                        <ParticipantName>&apos;s screen <button onClick={logMessage}>⭐️</button></ParticipantName>
                       </>
                     )}
                   </div>
