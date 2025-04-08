@@ -31,7 +31,7 @@ export async function GET({ params, request }) {
 
     // TODO: set this data on nostr user auth
     const attributes: Record<string, string> = {
-      petname: 'test_user',
+      petname: participantName,
       avatar_url: 'https://i.pravatar.cc/150?img=10',
       npub: 'npub3428u3423oio23ijro32ij',
       lightning_address: 'me@nostr.xyz',
