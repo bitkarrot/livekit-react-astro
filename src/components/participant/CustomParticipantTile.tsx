@@ -26,8 +26,9 @@ import {
 // import { AudioTrack } from './AudioTrack';
 // import { useParticipantTile } from '../../hooks';
 // import { useIsEncrypted } from '../../hooks/useIsEncrypted';
+// import { ParticipantPlaceholder } from '@livekit/components-react';
+
 import { FocusToggle } from '@livekit/components-react';
-//import { ParticipantPlaceholder } from '@livekit/components-react';
 import { LockLockedIcon, ScreenShareIcon } from '@livekit/components-react';
 import { VideoTrack } from '@livekit/components-react';
 import { AudioTrack } from '@livekit/components-react';
@@ -176,7 +177,9 @@ export const CustomParticipantTile: (
                   )
                 )}
                 <div className="lk-participant-placeholder">
-                  <ParticipantPlaceholder />
+                {/* <ParticipantPlaceholder /> */}
+                  {trackReference.participant.attributes?.avatar_url &&
+                  <img src={trackReference.participant.attributes?.avatar_url} width="50%" height="50%" className="rounded-full object-cover border-2 border-gray-300"  alt="avatar" />}
                 </div>
                 <div className="lk-participant-metadata">
                   <div className="lk-participant-metadata-item">
@@ -190,12 +193,19 @@ export const CustomParticipantTile: (
                           }}
                           show={'muted'}
                         ></TrackMutedIndicator>                        
-                        <ParticipantName />
+                        <ParticipantName>
+                          &nbsp;
+                          {trackReference.participant.attributes?.moderator && '⭐️'}
+                          &nbsp;
+                          {trackReference.participant.attributes?.lightning_address && '⚡️'}
+                          &nbsp;
+                          <button onClick={logMessage}><img src="/nostr.png" width="20" height="20" alt="nostr" /></button>
+                        </ParticipantName>
                       </>
                     ) : (
                       <>
                         <ScreenShareIcon style={{ marginRight: '0.25rem' }} />                        
-                        <ParticipantName>&apos;s screen <button onClick={logMessage}>⭐️</button></ParticipantName>
+                        <ParticipantName>&apos;s screen </ParticipantName>
                       </>
                     )}
                   </div>
