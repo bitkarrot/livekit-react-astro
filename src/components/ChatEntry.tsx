@@ -50,9 +50,9 @@ export const ChatEntry: (
     const time = new Date(entry.timestamp);
     const locale = typeof navigator !== 'undefined' ? navigator.language : 'en-US';
 
-    const name = entry.from?.name ?? entry.from?.identity;
-    console.log('name', name);
-    console.log('identity', entry.from?.identity);
+    const name = entry.from?.name && entry.from.name !== '' ? entry.from.name : entry.from?.identity;
+    // console.log('name', name);
+    // console.log('identity', entry.from?.identity);
 
 
     return (
