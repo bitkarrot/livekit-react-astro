@@ -51,9 +51,10 @@ export const ChatEntry: (
     const locale = typeof navigator !== 'undefined' ? navigator.language : 'en-US';
 
     const name = entry.from?.name && entry.from.name !== '' ? entry.from.name : entry.from?.identity;
-    // console.log('name', name);
+    // const avatarUrl = entry.from?.attributes?.avatar_url;
     // console.log('identity', entry.from?.identity);
-
+    // console.log('metatdata', entry.from?.metadata);
+    // console.log('attribute', entry.from?.attributes.avatar_url);
 
     return (
       <li
@@ -65,8 +66,8 @@ export const ChatEntry: (
       >
         {(!hideTimestamp || !hideName || hasBeenEdited) && (
           <span className="lk-meta-data">
+            {/* {!hideName &&  <img src={avatarUrl} width="30" height="30" className="rounded-full object-cover border-1 border-gray-300"  alt="avatar" />} */}
             {!hideName && <strong className="lk-participant-name">{name}</strong>}
-
             {(!hideTimestamp || hasBeenEdited) && (
               <span className="lk-timestamp">
                 {hasBeenEdited && 'edited '}
