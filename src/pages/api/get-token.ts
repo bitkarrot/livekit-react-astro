@@ -23,16 +23,15 @@ export async function GET({ params, request }) {
     if (!apiKey || !apiSecret) {
       return new Response('LiveKit API key or secret not configured', { status: 500 });
     }
-    
     // console.log('API key:', apiKey)
     // console.log('API secret:', apiSecret)
 
-    let ttl = '10m';
+    let ttl = '10m'; // time to expire session
 
     // TODO: set this data on nostr user auth
     const attributes: Record<string, string> = {
       petname: participantName,
-      //      avatar_url: 'https://i.pravatar.cc/150?img=10',
+      avatar_url: 'https://i.pravatar.cc/150?img=10',
       npub: 'npub3428u3423oio23ijro32ijasdfasdfasdfadfasdfasdf',
       lightning_address: 'me@nostr.xyz',
       moderator: 'true',
@@ -43,7 +42,7 @@ export async function GET({ params, request }) {
     const token = new AccessToken(apiKey, apiSecret, {
       identity: participantName,
       ttl: ttl, // token to expire after 10 minutes
-      metadata: 'foobarbaz',
+      // metadata: 'foobarbaz',
       attributes: attributes
     });
     
