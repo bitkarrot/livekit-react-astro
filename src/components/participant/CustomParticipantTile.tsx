@@ -141,6 +141,16 @@ export const CustomParticipantTile: (
       console.log('Clicked on Lightning Address!', lightningAddress);
     };
 
+    const truncatePetName = (petname) => {
+      if (petname && petname.length > 15) {
+        return petname.substring(0, 15) + '...';
+      }
+      return petname;
+    };
+
+    const isOwner = trackReference.participant.attributes?.owner;
+    const isModerator = trackReference.participant.attributes?.moderator;
+
     return (
       <div ref={ref} style={{ position: 'relative' }} {...elementProps}>
         <TrackRefContextIfNeeded trackRef={trackReference}>
@@ -180,13 +190,16 @@ export const CustomParticipantTile: (
                             source: Track.Source.Microphone,
                           }}
                           show={'muted'}
-                        ></TrackMutedIndicator>                        
-                          {trackReference.participant.attributes?.moderator && '⭐️'}
+                        ></TrackMutedIndicator>
+                        {isOwner ? (
+                              '👑' // Show crown if the user is the owner
+                            ) : isModerator ? (
+                              '⭐️' // Show star if the user is a moderator but not the owner
+                            ) : null}
                           &nbsp;
-                          <a href={`https://njump.me/${trackReference.participant.attributes?.npub}`} target="_blank" rel="noreferrer">
-                            {trackReference.participant.attributes?.petname}
+                          <a href={`https://njump.me/${trackReference.participant.attributes?.npub}`} className="hover:underline hover:text-yellow-500" target="_blank" rel="noreferrer">
+                            {truncatePetName(trackReference.participant.attributes?.petname)}
                           </a>
-                          {/* TODO: truncate if petname longer than 15 */}
                           &nbsp;
                           <button className="flex items-center justify-center w-7 h-7 bg-purple-600 rounded-full text-3xl hover:bg-yellow-500
                           focus:outline-none shadow-md hover:shadow-2xl transition duration-200"
@@ -201,7 +214,7 @@ export const CustomParticipantTile: (
                       </>
                     ) : (
                       <>
-                        <ScreenShareIcon style={{ marginRight: '0.25rem' }} />                        
+                        <ScreenShareIcon style={{ marginRight: '0.25rem' }} />
                         <ParticipantName>&apos;s screen </ParticipantName>
                       </>
                     )}
