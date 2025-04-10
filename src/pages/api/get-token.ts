@@ -61,6 +61,5 @@ export async function GET({ params, request }) {
     return new Response(JSON.stringify({
        token: jwt,
        url: process.env.LIVEKIT_WS_URL || 'ws://localhost:7880',
-      //  attributes: attributes,
       }), { status: 200, headers: { 'Content-Type': 'application/json' } });
 };
