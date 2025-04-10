@@ -74,7 +74,6 @@ export interface ParticipantTileProps extends React.HTMLAttributes<HTMLDivElemen
   /** The track reference to display. */
   trackRef?: TrackReferenceOrPlaceholder;
   disableSpeakingIndicator?: boolean;
-
   onParticipantClick?: (event: ParticipantClickEvent) => void;
 }
 
@@ -197,7 +196,9 @@ export const CustomParticipantTile: (
                               '⭐️' // Show star if the user is a moderator but not the owner
                             ) : null}
                           &nbsp;
-                          <a href={`https://njump.me/${trackReference.participant.attributes?.npub}`} className="hover:underline hover:text-yellow-500" target="_blank" rel="noreferrer">
+                          <a href={`https://njump.me/${trackReference.participant.attributes?.npub}`}
+                            className="hover:underline hover:text-yellow-500" target="_blank" rel="noopener noreferrer"
+                            >
                             {truncatePetName(trackReference.participant.attributes?.petname)}
                           </a>
                           &nbsp;
@@ -205,7 +206,7 @@ export const CustomParticipantTile: (
                           focus:outline-none shadow-md hover:shadow-2xl transition duration-200"
                           onClick={() => zapIcon(trackReference.participant.attributes?.lightning_address)}>
                             {trackReference.participant.attributes?.lightning_address && (
-                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" stroke="#111" strokeWidth="0.5" viewBox="0 0 24 24" className="h-5 w-5">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" stroke="#ccc" strokeWidth="0.5" viewBox="0 0 24 24" className="h-5 w-5">
                                 <path d="M13 2L3 14h8l-1 8 10-12h-8z" />
                               </svg>
                             )}

@@ -21,8 +21,8 @@ import type {
 import { Chat } from './Chat';
 import { ControlBar } from '@livekit/components-react';
 
-  import { CustomParticipantTile } from './participant/CustomParticipantTile';
-  import { FocusLayout } from '~/components/layout/FocusLayout'
+import { CustomParticipantTile } from './participant/CustomParticipantTile';
+import { FocusLayout } from '~/components/layout/FocusLayout'
 
   // Custom hook to warn about missing styles - simplified version
   const useWarnAboutMissingStyles = () => {
@@ -157,7 +157,7 @@ import { ControlBar } from '@livekit/components-react';
               {!focusTrack ? (
                 <div className="lk-grid-layout-wrapper">
                   <GridLayout tracks={tracks}>
-                    <CustomParticipantTile/>
+                    <CustomParticipantTile />
                   </GridLayout>
                 </div>
               ) : (
