@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 import React from 'react';
 import { Track } from 'livekit-client';
 import {
@@ -42,6 +42,9 @@ export function SettingsMenu(props: SettingsMenuProps) {
 
   const { isNoiseFilterEnabled, setNoiseFilterEnabled, isNoiseFilterPending } =
     useKrispNoiseFilter();
+
+  console.log('isNoiseFilterEnabled', isNoiseFilterEnabled);
+  console.log('isNoiseFilterPending', isNoiseFilterPending)
 
   React.useEffect(() => {
     // enable Krisp by default
@@ -109,7 +112,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
           <>
             {settings.media && settings.media.camera && (
               <>
-                <h3 style={{ marginTop: '10px' }}>Camera</h3>
+                <h3 style={{ marginTop: '20px' }}>Camera</h3>
                 <section className="lk-button-group">
                   <TrackToggle source={Track.Source.Camera}>Camera</TrackToggle>
                   <div className="lk-button-group-menu">
@@ -120,7 +123,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
             )}
             {settings.media && settings.media.microphone && (
               <>
-                <h3 style={{ marginTop: '10px' }}>Microphone</h3>
+                <h3 style={{ marginTop: '20px' }}>Microphone</h3>
                 <section className="lk-button-group">
                   <TrackToggle source={Track.Source.Microphone}>Microphone</TrackToggle>
                   <div className="lk-button-group-menu">
@@ -131,7 +134,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
             )}
             {settings.media && settings.media.speaker && (
               <>
-                <h3 style={{ marginTop: '10px' }}>Speaker & Headphones</h3>
+                <h3 style={{ marginTop: '20px' }}>Speaker & Headphones</h3>
                 <section className="lk-button-group">
                   <span className="lk-button">Audio Output</span>
                   <div className="lk-button-group-menu">
@@ -144,12 +147,13 @@ export function SettingsMenu(props: SettingsMenuProps) {
         )}
         {activeTab === 'effects' && (
           <>
-            <h3 style={{ marginTop: '10px' }}>Audio</h3>
+            <h3 style={{ marginTop: '20px' }}>Audio</h3>
             <section style={{ marginTop: '10px' }}>
               <label htmlFor="noise-filter" style={{ marginRight: '10px' }}> Enhanced Noise Cancellation</label>
               <input
                 type="checkbox"
                 id="noise-filter"
+                style={{ width: '20px', height: '20px' }}
                 onChange={(ev) => setNoiseFilterEnabled(ev.target.checked)}
                 checked={isNoiseFilterEnabled}
                 disabled={isNoiseFilterPending}
@@ -173,12 +177,14 @@ export function SettingsMenu(props: SettingsMenuProps) {
           </>
         )} */}
       </div>
-      <button
+      <div className="settings-footer" style={{ marginTop: '20px', textAlign: 'right' }}>
+        <button
         className={`lk-button ${styles.settingsCloseButton}`}
         onClick={() => layoutContext?.widget.dispatch?.({ msg: 'toggle_settings' })}
       >
         Close
       </button>
+      </div>
     </div>
   );
 }

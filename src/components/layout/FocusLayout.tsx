@@ -9,6 +9,8 @@ import type { ParticipantClickEvent } from '@livekit/components-core';
 export interface FocusLayoutContainerProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 /**
+ * This is a customized version of the FocusLayoutContainer component.
+ *
  * The `FocusLayoutContainer` is a layout component that expects two children:
  * A small side component: In a video conference, this is usually a carousel of participants
  * who are not in focus. And a larger main component to display the focused participant.

@@ -18,8 +18,9 @@ import type {
     usePinnedTracks,
     useTracks,
   } from '@livekit/components-react';
-  import { Chat } from '@livekit/components-react';
-  import { ControlBar } from '@livekit/components-react';
+//  import { Chat } from '@livekit/components-react';
+import { Chat } from './Chat';
+import { ControlBar } from '@livekit/components-react';
 
   import { CustomParticipantTile } from './participant/CustomParticipantTile';
   import { FocusLayout } from '~/components/layout/FocusLayout'
@@ -46,6 +47,8 @@ import type {
   }
 
   /**
+   * This is a customized version of the VideoConference component.
+   *
    * The `VideoConference` ready-made component is your drop-in solution for a classic video conferencing application.
    * It provides functionality such as focusing on one participant, grid view with pagination to handle large numbers
    * of participants, basic non-persistent chat, screen sharing, and more.

@@ -33,9 +33,10 @@ export async function GET({ params, request }) {
     const attributes: Record<string, string> = {
       petname: participantName,
       avatar_url: 'https://i.pravatar.cc/150?img=10',
-      npub: 'npub3428u3423oio23ijro32ij',
+      npub: 'npub3428u3423oio23ijro32ijasdfasdfasdfadfasdfasdf',
       lightning_address: 'me@nostr.xyz',
       moderator: 'true',
+      owner:'true'
      }
 
     // Create a new access token

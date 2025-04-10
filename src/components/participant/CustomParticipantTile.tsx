@@ -7,9 +7,6 @@ import { isTrackReference, isTrackReferencePinned } from '@livekit/components-co
 import { ConnectionQualityIndicator } from '@livekit/components-react';
 import { ParticipantName } from '@livekit/components-react';
 import { TrackMutedIndicator } from '@livekit/components-react';
-// import { ConnectionQualityIndicator } from './ConnectionQualityIndicator';
-// import { ParticipantName } from './ParticipantName';
-// import { TrackMutedIndicator } from './TrackMutedIndicator';
 import {
   ParticipantContext,
   TrackRefContext,
@@ -19,14 +16,6 @@ import {
   useMaybeParticipantContext,
   useMaybeTrackRefContext,
 } from '@livekit/components-react';
-// '../../context';
-// import { FocusToggle } from '../controls/FocusToggle';
-// import { LockLockedIcon, ScreenShareIcon } from '../../assets/icons';
-// import { VideoTrack } from './VideoTrack';
-// import { AudioTrack } from './AudioTrack';
-// import { useParticipantTile } from '../../hooks';
-// import { useIsEncrypted } from '../../hooks/useIsEncrypted';
-// import { ParticipantPlaceholder } from '@livekit/components-react';
 
 import { FocusToggle } from '@livekit/components-react';
 import { LockLockedIcon, ScreenShareIcon } from '@livekit/components-react';
@@ -36,9 +25,6 @@ import { useParticipantTile } from '@livekit/components-react';
 import { useIsEncrypted } from '@livekit/components-react';
 
 import ParticipantPlaceholder from '~/assets/images/ParticipantPlaceholder';
-
-
-// TODO : CONVERT THIS TO A COMPONENT THAT IS CUSTOMIZED with Nostr Avatars
 
 /**
  * The `ParticipantContextIfNeeded` component only creates a `ParticipantContext`
@@ -93,6 +79,8 @@ export interface ParticipantTileProps extends React.HTMLAttributes<HTMLDivElemen
 }
 
 /**
+ * This is a customized version of the ParticipantTile component.
+ *
  * The `ParticipantTile` component is the base utility wrapper for displaying a visual representation of a participant.
  * This component can be used as a child of the `TrackLoop` component or by passing a track reference as property.
  *
@@ -149,8 +137,12 @@ export const CustomParticipantTile: (
       [trackReference, layoutContext],
     );
 
-    const logMessage = () => {
-      console.log('Button clicked!');
+    const nostrIcon = (npub: string) => {
+      console.log('Nostr Button clicked!', npub);
+    };
+
+    const zapIcon = (lightningAddress: string) => {
+      console.log('Clicked on Lightning Address!', lightningAddress);
     };
 
     return (
@@ -195,11 +187,22 @@ export const CustomParticipantTile: (
                         ></TrackMutedIndicator>                        
                           {trackReference.participant.attributes?.moderator && '⭐️'}
                           &nbsp;
-                          {trackReference.participant.attributes?.petname}
+                          {trackReference.participant.attributes?.petname} {/* truncate if longer than 15 */}
                           &nbsp;
-                          <button onClick={logMessage}><img src="/nostr.png" width="30" height="30" alt="nostr" /></button>
+                          <button
+                          className="flex items-center justify-center w-7 h-7 rounded-full text-3xl hover:bg-white focus:outline-none"
+                          onClick={() => nostrIcon(trackReference.participant.attributes?.npub)}>
+                            <img src="/nostr.png" width="30" height="30" alt="nostr" /></button>
                           &nbsp;
-                          {trackReference.participant.attributes?.lightning_address && '⚡️'}
+                          <button className="flex items-center justify-center w-7 h-7 bg-orange-500 rounded-full text-3xl hover:bg-amber-400
+                          focus:outline-none shadow-md hover:shadow-2xl transition duration-200"
+                          onClick={() => zapIcon(trackReference.participant.attributes?.lightning_address)}>
+                            {trackReference.participant.attributes?.lightning_address && (
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24" class="h-5 w-5">
+                                <path d="M13 2L3 14h8l-1 8 10-12h-8z" />
+                              </svg>
+                            )}
+                          </button>
                           {/* <ParticipantName/> */}
                       </>
                     ) : (
