@@ -24,7 +24,7 @@ import { AudioTrack } from '@livekit/components-react';
 import { useParticipantTile } from '@livekit/components-react';
 import { useIsEncrypted } from '@livekit/components-react';
 
-import ParticipantPlaceholder from '~/assets/images/ParticipantPlaceholder';
+import NostrPlaceholder from '~/assets/images/NostrPlaceholder';
 
 /**
  * The `ParticipantContextIfNeeded` component only creates a `ParticipantContext`
@@ -137,10 +137,6 @@ export const CustomParticipantTile: (
       [trackReference, layoutContext],
     );
 
-    const nostrIcon = (npub: string) => {
-      console.log('Nostr Button clicked!', npub);
-    };
-
     const zapIcon = (lightningAddress: string) => {
       console.log('Clicked on Lightning Address!', lightningAddress);
     };
@@ -169,9 +165,9 @@ export const CustomParticipantTile: (
                   )
                 )}
                 <div className="lk-participant-placeholder">
-                {/* <ParticipantPlaceholder /> */}
-                  {trackReference.participant.attributes?.avatar_url &&
-                  <img src={trackReference.participant.attributes?.avatar_url} width="50%" height="50%" className="rounded-full object-cover border-2 border-gray-300"  alt="avatar" />}
+                  {trackReference.participant.attributes?.avatar_url ?
+                  <img src={trackReference.participant.attributes?.avatar_url} width="50%" height="50%" className="rounded-full object-cover border-2 border-gray-300"  alt="avatar" />
+                  : <NostrPlaceholder />}
                 </div>
                 <div className="lk-participant-metadata">
                   <div className="lk-participant-metadata-item">
@@ -187,14 +183,12 @@ export const CustomParticipantTile: (
                         ></TrackMutedIndicator>                        
                           {trackReference.participant.attributes?.moderator && '⭐️'}
                           &nbsp;
-                          {trackReference.participant.attributes?.petname} {/* truncate if longer than 15 */}
+                          <a href={`https://njump.me/${trackReference.participant.attributes?.npub}`} target="_blank" rel="noreferrer">
+                            {trackReference.participant.attributes?.petname}
+                          </a>
+                          {/* TODO: truncate if petname longer than 15 */}
                           &nbsp;
-                          <button
-                          className="flex items-center justify-center w-7 h-7 rounded-full text-3xl hover:bg-white focus:outline-none"
-                          onClick={() => nostrIcon(trackReference.participant.attributes?.npub)}>
-                            <img src="/nostr.png" width="30" height="30" alt="nostr" /></button>
-                          &nbsp;
-                          <button className="flex items-center justify-center w-7 h-7 bg-yellow-400 rounded-full text-3xl hover:bg-white
+                          <button className="flex items-center justify-center w-7 h-7 bg-purple-600 rounded-full text-3xl hover:bg-yellow-500
                           focus:outline-none shadow-md hover:shadow-2xl transition duration-200"
                           onClick={() => zapIcon(trackReference.participant.attributes?.lightning_address)}>
                             {trackReference.participant.attributes?.lightning_address && (
