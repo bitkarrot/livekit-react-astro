@@ -52,10 +52,6 @@ export const ChatEntry: (
 
     const name = entry.from?.name && entry.from.name !== '' ? entry.from.name : entry.from?.identity;
     // const avatarUrl = entry.from?.attributes?.avatar_url;
-    // console.log('identity', entry.from?.identity);
-    // console.log('metatdata', entry.from?.metadata);
-    // console.log('attribute', entry.from?.attributes.avatar_url);
-
     return (
       <li
         ref={ref}

@@ -18,7 +18,6 @@ import type {
     usePinnedTracks,
     useTracks,
   } from '@livekit/components-react';
-//  import { Chat } from '@livekit/components-react';
 import { Chat } from './Chat';
 import { ControlBar } from '@livekit/components-react';
 

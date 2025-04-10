@@ -43,8 +43,8 @@ export function SettingsMenu(props: SettingsMenuProps) {
   const { isNoiseFilterEnabled, setNoiseFilterEnabled, isNoiseFilterPending } =
     useKrispNoiseFilter();
 
-  console.log('isNoiseFilterEnabled', isNoiseFilterEnabled);
-  console.log('isNoiseFilterPending', isNoiseFilterPending)
+  // console.log('isNoiseFilterEnabled', isNoiseFilterEnabled);
+  // console.log('isNoiseFilterPending', isNoiseFilterPending)
 
   React.useEffect(() => {
     // enable Krisp by default
