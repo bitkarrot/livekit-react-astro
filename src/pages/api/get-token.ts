@@ -1,5 +1,6 @@
 import { AccessToken } from 'livekit-server-sdk';
 
+// convert this to a POST
 export async function GET({ params, request }) {
     const url = new URL(request.url);
     const roomName = url.searchParams.get('roomName');
@@ -42,7 +43,6 @@ export async function GET({ params, request }) {
     const token = new AccessToken(apiKey, apiSecret, {
       identity: participantName,
       ttl: ttl, // token to expire after 10 minutes
-      // metadata: 'foobarbaz',
       attributes: attributes
     });
     

@@ -50,8 +50,10 @@ export default function QuickComponent(
   //   undefined,
   // );
 
-  const fetchToken = async (roomName: string, participantName: string) => {
+  const fetchToken = async (roomName: string, participantName: string, attributes: Record<string, string>) => {
     try {
+
+      // TODO convert this to a POST instead of a GET
       const response = await fetch(`/api/get-token?roomName=${roomName}&participantName=${participantName}`);
       if (!response.ok) {
         throw new Error(`Failed to fetch token: ${response.status} ${response.statusText}`);
@@ -59,10 +61,6 @@ export default function QuickComponent(
       // TODO: get username and avatar image and other metadata from relay and token server
       const data = await response.json();
       setToken(data.token);
-
-      // fix this so that attributes is deconstructed from the jwt token
-      // setAttributes(data.attributes);
-      // console.log('Client side Token attributes:', data.attributes);
 
       // Hardcoded for now to avoid env issues
       setServerUrl('ws://127.0.0.1:7880');
@@ -90,7 +88,17 @@ export default function QuickComponent(
 
     console.log('in Quick Component handle PreJoin, Room Name:', room);
 
-    await fetchToken(room, values.username);
+    // TODO: get nostr values passed in from Prejoin
+    const attributes: Record<string, string> = {
+      petname: values.username,
+      avatar_url: 'https://i.pravatar.cc/150?img=10',
+      npub: 'npub3428u3423oio23ijro32ijasdfasdfasdfadfasdfasdf',
+      lightning_address: 'me@nostr.xyz',
+      moderator: 'true',
+      owner:'true'
+    }
+
+    await fetchToken(room, values.username, attributes);
     setIsPreJoinComplete(true);
   }, []);
 
