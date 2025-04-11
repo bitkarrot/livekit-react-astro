@@ -1,23 +1,51 @@
 import { AccessToken } from 'livekit-server-sdk';
+import type { APIRoute } from 'astro';
 
-// convert this to a POST
-export async function GET({ params, request }) {
-    const url = new URL(request.url);
-    const roomName = url.searchParams.get('roomName');
-    const participantName = url.searchParams.get('participantName');
+export const POST: APIRoute = async ({ request }) => {
+    // Parse JSON body from POST request
+    const { roomName, participantName, attributes } = await request.json();
 
-     // Debug logging
-    console.log("Full URL:", url);
-    console.log("All search params:", Object.fromEntries(url.searchParams));
-  
-    console.log("Extracted roomName:", roomName);
-    console.log("Extracted participantName:", participantName);
-    
+    // Validate required fields
+    if (!roomName || !participantName) {
+      return new Response(
+        JSON.stringify({ error: 'roomName and participantName are required' }),
+        {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
+    // Ensure attributes is an object, fallback to defaults if not provided
+    const defaultAttributes: Record<string, string> = {
+      petname: participantName,
+      moderator: 'false',
+      owner: 'false',
+    };
+
+    // TODO: set moderator/owner status based on 
+    // room ownership on signed 30312 for room name
+    // or if this it the first user in an ephemeral room, 
+    // they are owner
+
+    // Merge provided attributes with defaults, ensuring all values are strings
+    const finalAttributes: Record<string, string> = {
+      ...defaultAttributes,
+      ...(attributes && typeof attributes === 'object'
+        ? Object.fromEntries(
+            Object.entries(attributes).map(([key, value]) => [key, String(value)])
+          )
+        : {}),
+    };
+
+    console.log('Final attributes:', finalAttributes);
+
+     // Debug logging    
     if (!roomName || !participantName) {
       return new Response('Room name and participant name are required', { status: 400 });
     }
     
-    // Get API key and secret from environment variables
+    // Get Livekit API key and secret from environment variables
     const apiKey = import.meta.env.LIVEKIT_API_KEY || process.env.LIVEKIT_API_KEY;
     const apiSecret = import.meta.env.LIVEKIT_API_SECRET || process.env.LIVEKIT_API_SECRET;
     
@@ -29,24 +57,15 @@ export async function GET({ params, request }) {
 
     let ttl = '10m'; // time to expire session
 
-    // TODO: set this data on nostr user auth
-    const attributes: Record<string, string> = {
-      petname: participantName,
-      avatar_url: 'https://i.pravatar.cc/150?img=10',
-      npub: 'npub3428u3423oio23ijro32ijasdfasdfasdfadfasdfasdf',
-      lightning_address: 'me@nostr.xyz',
-      moderator: 'true',
-      owner:'true'
-     }
-
     // Create a new access token
     const token = new AccessToken(apiKey, apiSecret, {
       identity: participantName,
       ttl: ttl, // token to expire after 10 minutes
-      attributes: attributes
+      attributes: finalAttributes
     });
     
     // Grant permissions to the room
+    // modify for moderators/owners
     token.addGrant({
       roomJoin: true,
       room: roomName,

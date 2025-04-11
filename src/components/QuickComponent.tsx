@@ -16,6 +16,7 @@ import '@livekit/components-styles';
 import './QuickComponent.css'; // Import our custom LiveKit theme
 //import './default.scss'; // Import the default LiveKit theme
 import React from 'react';
+import { fetchLightningAddress } from '~/lib/nostrUtils';
 const { useState, useCallback } = React;
 
 const SHOW_SETTINGS_MENU = 'true';
@@ -52,18 +53,28 @@ export default function QuickComponent(
 
   const fetchToken = async (roomName: string, participantName: string, attributes: Record<string, string>) => {
     try {
-
-      // TODO convert this to a POST instead of a GET
-      const response = await fetch(`/api/get-token?roomName=${roomName}&participantName=${participantName}`);
+      const response = await fetch('/api/get-token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          roomName,
+          participantName,
+          attributes,
+        }),
+      });
+  
       if (!response.ok) {
         throw new Error(`Failed to fetch token: ${response.status} ${response.statusText}`);
       }
-      // TODO: get username and avatar image and other metadata from relay and token server
+  
       const data = await response.json();
       setToken(data.token);
 
       // Hardcoded for now to avoid env issues
       setServerUrl('ws://127.0.0.1:7880');
+
       return { data };
     } catch (err) {
       console.error('Error fetching token:', err);
@@ -88,15 +99,43 @@ export default function QuickComponent(
 
     console.log('in Quick Component handle PreJoin, Room Name:', room);
 
-    // TODO: get nostr values passed in from Prejoin
-    const attributes: Record<string, string> = {
+    // TODO: populate with nostr values if the values are available in localStorage
+    // and override these values with the values from the prejoin form
+    let attributes: Record<string, string> = {
       petname: values.username,
-      avatar_url: 'https://i.pravatar.cc/150?img=10',
-      npub: 'npub3428u3423oio23ijro32ijasdfasdfasdfadfasdfasdf',
-      lightning_address: 'me@nostr.xyz',
-      moderator: 'true',
-      owner:'true'
     }
+
+    // Check localStorage for nostr login data
+  const nostrAccounts = localStorage.getItem('__nostrlogin_accounts');
+  if (nostrAccounts) {
+    try {
+      const accounts = JSON.parse(nostrAccounts);
+      if (Array.isArray(accounts) && accounts.length > 0) {
+        const account = accounts[0]; // Use the first account
+        attributes = {
+          petname: account.name || values.username, // Fallback to form username if name is missing
+          avatar_url: account.picture || '',
+          npub: account.pubkey || '',
+          lightning_address: account.lightning_address || '', // Use existing if available
+        };
+
+        // Fetch lightning address from Nostr relays if not already in localStorage
+        if (!account.lightning_address && account.pubkey) {
+          const lightningAddress = await fetchLightningAddress(account.pubkey);
+          if (lightningAddress) {
+            attributes.lightning_address = lightningAddress;
+            // Update localStorage with lightning address
+            accounts[0].lightning_address = lightningAddress;
+            localStorage.setItem('__nostrlogin_accounts', JSON.stringify(accounts));
+          }
+        }
+      
+
+      }
+    } catch (e) {
+      console.error('Error parsing __nostrlogin_accounts:', e);
+    }
+  }
 
     await fetchToken(room, values.username, attributes);
     setIsPreJoinComplete(true);

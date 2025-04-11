@@ -22,6 +22,7 @@
     "clsx": "^2.1.1",
     "livekit-client": "2.9.9",
     "livekit-server-sdk": "~2.11.0",
+    "nostr-tools": "^2.12.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "tinykeys": "^3.0.0"

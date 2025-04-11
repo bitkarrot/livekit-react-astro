@@ -202,15 +202,25 @@ export const CustomParticipantTile: (
                             {truncatePetName(trackReference.participant.attributes?.petname)}
                           </a>
                           &nbsp;
-                          <button className="flex items-center justify-center w-7 h-7 bg-purple-600 rounded-full text-3xl hover:bg-yellow-500
-                          focus:outline-none shadow-md hover:shadow-2xl transition duration-200"
-                          onClick={() => zapIcon(trackReference.participant.attributes?.lightning_address)}>
-                            {trackReference.participant.attributes?.lightning_address && (
-                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" stroke="#ccc" strokeWidth="0.5" viewBox="0 0 24 24" className="h-5 w-5">
+                          {trackReference.participant.attributes?.lightning_address && (
+                            <button
+                              className="flex items-center justify-center w-7 h-7 bg-purple-600 rounded-full text-3xl hover:bg-yellow-500 focus:outline-none shadow-md hover:shadow-2xl transition duration-200"
+                              onClick={() => zapIcon(trackReference.participant.attributes.lightning_address)}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                fill="#fff"
+                                stroke="#ccc"
+                                strokeWidth="0.5"
+                                viewBox="0 0 24 24"
+                                className="h-5 w-5"
+                              >
                                 <path d="M13 2L3 14h8l-1 8 10-12h-8z" />
                               </svg>
-                            )}
-                          </button>
+                            </button>
+                          )}
                           {/* <ParticipantName/> */}
                       </>
                     ) : (
