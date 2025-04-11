@@ -9,12 +9,9 @@ import {
 import VideoConference from '../components/VideoConference';
 import type { VideoCodec } from 'livekit-server-sdk';
 import { SettingsMenu } from '~/lib/SettingsMenu';
-// import type { LocalUserChoices } from '@livekit/components-react';
-// import type { ConnectionDetails } from '~/lib/types';
 
 import '@livekit/components-styles';
 import './QuickComponent.css'; // Import our custom LiveKit theme
-//import './default.scss'; // Import the default LiveKit theme
 import React from 'react';
 import { fetchLightningAddress } from '~/lib/nostrUtils';
 const { useState, useCallback } = React;
@@ -34,22 +31,14 @@ export default function QuickComponent(
   const [isPreJoinComplete, setIsPreJoinComplete] = useState(false);
   const [videoEnabled, setVideoEnabled] = useState(true);
   const [audioEnabled, setAudioEnabled] = useState(true);
-  // const [attributes, setAttributes] = useState<Record<string, string> | undefined>();
-
   const [username, setUsername] = useState('');
-  // const [preJoinChoices, setPreJoinChoices] = React.useState<LocalUserChoices | undefined>(
-  //   undefined,
-  // );
-  // const preJoinDefaults = React.useMemo(() => {
-  //   return {
-  //     username: '',
-  //     videoEnabled: true,
-  //     audioEnabled: true,
-  //   };
-  // }, []);
-  // const [connectionDetails, setConnectionDetails] = React.useState<ConnectionDetails | undefined>(
-  //   undefined,
-  // );
+  const preJoinDefaults = React.useMemo(() => {
+    return {
+      username: 'testing',
+      videoEnabled: true,
+      audioEnabled: true,
+    };
+  }, []);
 
   const fetchToken = async (roomName: string, participantName: string, attributes: Record<string, string>) => {
     try {
@@ -99,8 +88,6 @@ export default function QuickComponent(
 
     console.log('in Quick Component handle PreJoin, Room Name:', room);
 
-    // TODO: populate with nostr values if the values are available in localStorage
-    // and override these values with the values from the prejoin form
     let attributes: Record<string, string> = {
       petname: values.username,
     }
@@ -129,8 +116,6 @@ export default function QuickComponent(
             localStorage.setItem('__nostrlogin_accounts', JSON.stringify(accounts));
           }
         }
-      
-
       }
     } catch (e) {
       console.error('Error parsing __nostrlogin_accounts:', e);
@@ -163,6 +148,7 @@ export default function QuickComponent(
             onSubmit={handlePreJoinSubmit}
             onError={handleError}
             data-lk-theme="hivetalk"
+            defaults={preJoinDefaults}
             style={{ height: '100vh' }}
           />
         ) : (
