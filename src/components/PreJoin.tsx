@@ -1,3 +1,4 @@
+// PreJoin.tsx - React component in Astro for Livekit
 import type {
     CreateLocalTracksOptions,
     LocalAudioTrack,

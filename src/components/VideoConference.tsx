@@ -1,4 +1,4 @@
-// VideoConference.tsx - React component for Astro
+// VideoConference.tsx - React component in Astro for Livekit
 import type {
     TrackReferenceOrPlaceholder,
     WidgetState,

@@ -1,3 +1,4 @@
+// QuickComponent.tsx - React component for Astro
 import {
   ControlBar,
   LiveKitRoom,
@@ -13,7 +14,7 @@ import { SettingsMenu } from '~/lib/SettingsMenu';
 
 import '@livekit/components-styles';
 import './QuickComponent.css'; // Import our custom LiveKit theme
-import './default.scss'; // Import the default LiveKit theme
+//import './default.scss'; // Import the default LiveKit theme
 import React from 'react';
 const { useState, useCallback } = React;
 

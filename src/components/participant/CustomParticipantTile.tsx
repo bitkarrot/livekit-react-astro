@@ -1,4 +1,4 @@
-//import * as React from 'react';
+// CustomParticipantTile.tsx component in Astro for Livekit
 import React from 'react';
 import type { Participant } from 'livekit-client';
 import { Track } from 'livekit-client';
