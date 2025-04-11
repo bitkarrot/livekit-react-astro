@@ -106,7 +106,7 @@
   color-scheme: dark;
 
   /* Background colors */
-  --lk-bg: bg-gray-900;
+  --lk-bg: #111;
   --lk-bg-secondary: #1c1c1c; /* 5% lighter than bg */
   --lk-bg-tertiary: #272727; /* 10% lighter than bg */
   --lk-bg4: #333333; /* 15% lighter than bg */
