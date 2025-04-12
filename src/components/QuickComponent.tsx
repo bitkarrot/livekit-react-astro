@@ -23,6 +23,10 @@ export default function QuickComponent(
     room_name: string;
     hq?: boolean;
     codec?: VideoCodec;
+    name?: string;
+    pubkey?: string;
+    avatar?: string;
+    lnaddress?: string;
   }
 ) {
   const [token, setToken] = useState<string | undefined>();
@@ -32,13 +36,15 @@ export default function QuickComponent(
   const [videoEnabled, setVideoEnabled] = useState(true);
   const [audioEnabled, setAudioEnabled] = useState(true);
   const [username, setUsername] = useState('');
+
   const preJoinDefaults = React.useMemo(() => {
     return {
-      username: 'testing',
+      username: props.name,
       videoEnabled: true,
       audioEnabled: true,
     };
   }, []);
+
 
   const fetchToken = async (roomName: string, participantName: string, attributes: Record<string, string>) => {
     try {
@@ -93,6 +99,7 @@ export default function QuickComponent(
     }
 
     // Check localStorage for nostr login data
+    // REPLACE with props passed in to Quick component
   const nostrAccounts = localStorage.getItem('__nostrlogin_accounts');
   if (nostrAccounts) {
     try {

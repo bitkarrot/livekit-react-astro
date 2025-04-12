@@ -22,6 +22,38 @@ const codec = typeof codecParam === 'string' && isVideoCodec(codecParam)
   : 'vp9';
 const hq = searchParams.get('hq') === 'true' ? true : false;
 console.log('codec:', codec, 'hq:', hq)
+
+const current_pubkey = Astro.cookies.get("pubkey")?.value ?? '';
+console.log('Current pubkey ', current_pubkey)
+
+let username = '';
+let avatar = '';
+let lnaddress = '';
+let pubkey = '';
+
+if (current_pubkey) {
+  pubkey = current_pubkey;
+  
+  // Use the API call approach that works in the old version
+  try {
+    const response = await fetch(new URL(`https://beta.hivetalk.org/api/auth/${pubkey}`, Astro.url).toString(), {
+      method: 'GET',
+      headers: Astro.request.headers,
+      cache: 'no-store',
+      credentials: 'same-origin'
+    });
+    const data = await response.json();
+    console.log('User Profile data', data);
+
+    // Set all variables from data response
+    username = data.data[0]?.username || '';
+    avatar = data.data[0]?.avatar_url || '';
+    lnaddress = data.data[0]?.lightning_address || '';
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+  }
+}
+
 ---
 
 <Layout title="Hivetalk Video Conference">
@@ -32,10 +64,12 @@ console.log('codec:', codec, 'hq:', hq)
         hq={hq}
         codec={codec}
         client:load="react"
+        name={username}
+        pubkey={pubkey}
+        avatar={avatar}
+        lnaddress={lnaddress}
       />
     </div>
   </main>
 </Layout>
 
-<script src="https://www.unpkg.com/nostr-login@latest/dist/unpkg.js"  data-perms="sign_event:1,sign_event:0" data-theme="default" data-dark-mode="true"></script>
-<script src="https://unpkg.com/nostr-tools/lib/nostr.bundle.js"></script>
