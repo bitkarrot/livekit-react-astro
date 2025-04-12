@@ -81,6 +81,6 @@ export const POST: APIRoute = async ({ request }) => {
     // Return the token and WebSocket URL
     return new Response(JSON.stringify({
        token: jwt,
-       url: process.env.LIVEKIT_WS_URL || 'ws://localhost:7880',
+       url: import.meta.env.LIVEKIT_WS_URL || 'ws://localhost:7880',
       }), { status: 200, headers: { 'Content-Type': 'application/json' } });
 };
