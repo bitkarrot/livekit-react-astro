@@ -40,6 +40,9 @@ export default function QuickComponent(
   const preJoinDefaults = React.useMemo(() => {
     return {
       username: props.name,
+      avatar: props.avatar,
+      lnaddress: props.lnaddress,
+      pubkey: props.pubkey,
       videoEnabled: true,
       audioEnabled: true,
     };

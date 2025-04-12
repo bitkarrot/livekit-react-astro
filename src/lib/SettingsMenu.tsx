@@ -1,6 +1,6 @@
 // 'use client';
 import React from 'react';
-import { Track, LocalParticipant } from 'livekit-client';
+import { Track, LocalParticipant, Participant } from 'livekit-client';
 import {
   useMaybeLayoutContext,
   MediaDeviceMenu,
@@ -206,7 +206,8 @@ export function SettingsMenu(props: SettingsMenuProps) {
             <h3 style={{ marginTop: '20px', marginBottom: '10px' }}>User List</h3>
             <>          
             <ParticipantLoop participants={participants}>
-              <ParticipantName> 
+            <div style={{ marginBottom: '10px', textAlign: 'right' , display: 'flex', justifyContent: 'flex-end'}}>
+              <ParticipantName>              
                 &nbsp;&nbsp;&nbsp;
                 <button
                   id="mute"
@@ -224,6 +225,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
                 >Kick
                 </button>
               </ParticipantName>
+              </div>
             </ParticipantLoop>          
             </>
           </>
