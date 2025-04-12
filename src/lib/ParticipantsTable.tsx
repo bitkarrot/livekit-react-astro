@@ -46,7 +46,7 @@ function ParticipantRow() {
           title={participant.isMicrophoneEnabled ? "Mute" : "Unmute"}
           className="action-button"
         >
-          {participant.isMicrophoneEnabled ? <span className="microphone-icon"><FaMicrophone /></span> : <span className="microphone-slash-icon"><FaMicrophoneSlash /></span>}
+          {participant.isMicrophoneEnabled ? <span className="microphone-icon" style={{ color: 'white' }}><FaMicrophone /></span> : <span className="microphone-slash-icon"><FaMicrophoneSlash /></span>}
         </button>
         </td>
         <td>
