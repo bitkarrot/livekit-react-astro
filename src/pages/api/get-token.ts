@@ -23,11 +23,6 @@ export const POST: APIRoute = async ({ request }) => {
       owner: 'false',
     };
 
-    // TODO: set moderator/owner status based on 
-    // room ownership on signed 30312 for room name
-    // or if this it the first user in an ephemeral room, 
-    // they are owner
-
     // Merge provided attributes with defaults, ensuring all values are strings
     const finalAttributes: Record<string, string> = {
       ...defaultAttributes,
@@ -38,7 +33,17 @@ export const POST: APIRoute = async ({ request }) => {
         : {}),
     };
 
-    console.log('Final attributes:', finalAttributes);
+    // TODO: set moderator/owner status based on 
+    // room ownership on signed 30312 for room name
+    // or if this it the first user in an ephemeral room, 
+    // they are owner
+
+    // Set owner status if npub is provided for now
+    if (finalAttributes.npub) { 
+      finalAttributes.owner = 'true';
+    }
+
+    //console.log('Final attributes:', finalAttributes);
 
      // Debug logging    
     if (!roomName || !participantName) {

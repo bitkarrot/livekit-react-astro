@@ -149,6 +149,9 @@ export const CustomParticipantTile: (
 
     const isOwner = trackReference.participant.attributes?.owner;
     const isModerator = trackReference.participant.attributes?.moderator;
+    console.log('petname', trackReference.participant.attributes?.petname)
+    console.log('isOwner', isOwner);
+    console.log('isModerator', isModerator);
 
     return (
       <div ref={ref} style={{ position: 'relative' }} {...elementProps}>
@@ -190,11 +193,11 @@ export const CustomParticipantTile: (
                           }}
                           show={'muted'}
                         ></TrackMutedIndicator>
-                        {isOwner ? (
+                            { isOwner === 'true' ? (
                               '👑' // Show crown if the user is the owner
-                            ) : isModerator ? (
+                            ) : isModerator === 'true' ? (
                               '⭐️' // Show star if the user is a moderator but not the owner
-                            ) : null}
+                            ) : ''}
                           &nbsp;
                           <a href={`https://njump.me/${trackReference.participant.attributes?.npub}`}
                             className="hover:underline hover:text-yellow-500" target="_blank" rel="noopener noreferrer"
