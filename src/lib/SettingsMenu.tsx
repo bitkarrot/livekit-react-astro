@@ -6,15 +6,11 @@ import {
   MediaDeviceMenu,
   TrackToggle,
   useRoomContext,
-  //  useIsRecording,
-  useMaybeParticipantContext,
-  ParticipantLoop,
-  ParticipantName,
   useParticipants,
+  //  useIsRecording,
 } from '@livekit/components-react';
 import { useKrispNoiseFilter } from '@livekit/components-react/krisp';
 import styles from '../styles/SettingsMenu.module.css';
-
 import ParticipantsTable from './ParticipantsTable';
 // TODO: fix krisp noise filter not found, is this only available on cloud? 
 
@@ -195,14 +191,15 @@ export function SettingsMenu(props: SettingsMenuProps) {
           <>
             <section style={{ marginTop: '10px' }}>
               <div style={{ marginBottom: '10px' }}>
+                [TODO: Only Show if mod/owner]
+                <br/>
+                <br/>
                  Your name:  &nbsp;
                   { localParticipant.attributes?.petname || 'no name'}
-              </div>
-              <div>
+                  <br/>
                   is Moderator?  &nbsp;
                   { localParticipant.attributes?.moderator || 'no moderator'}
-              </div>
-              <div>
+                  <br/>
                   is Owner?  &nbsp;
                   { localParticipant.attributes?.owner || 'no owner'}
               </div>
