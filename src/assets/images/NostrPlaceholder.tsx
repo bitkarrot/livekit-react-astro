@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 const SvgParticipantPlaceholder = (props: React.SVGProps<SVGSVGElement>) => (
   // temporary placeholder, to be customized with nostr avatars.

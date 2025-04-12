@@ -96,8 +96,8 @@ export interface ParticipantTileProps extends React.HTMLAttributes<HTMLDivElemen
  * @public
  */
 export const CustomParticipantTile: (
-  props: ParticipantTileProps & React.RefAttributes<HTMLDivElement>,
-) => React.ReactNode = /* @__PURE__ */ React.forwardRef<HTMLDivElement, ParticipantTileProps>(
+  props: ParticipantTileProps & React.RefAttributes<HTMLDivElement> & { children?: React.ReactNode },
+) => React.ReactNode = /* @__PURE__ */ React.forwardRef<HTMLDivElement, ParticipantTileProps & { children?: React.ReactNode }>(
   function ParticipantTile(
     {
       trackRef,
@@ -105,8 +105,8 @@ export const CustomParticipantTile: (
       onParticipantClick,
       disableSpeakingIndicator,
       ...htmlProps
-    }: ParticipantTileProps,
-    ref,
+    }: ParticipantTileProps & { children?: React.ReactNode },
+    ref: React.Ref<HTMLDivElement>,
   ) {
     const trackReference = useEnsureTrackRef(trackRef);
 
@@ -140,7 +140,7 @@ export const CustomParticipantTile: (
       console.log('Clicked on Lightning Address!', lightningAddress);
     };
 
-    const truncatePetName = (petname) => {
+    const truncatePetName = (petname: string) => {
       if (petname && petname.length > 15) {
         return petname.substring(0, 15) + '...';
       }

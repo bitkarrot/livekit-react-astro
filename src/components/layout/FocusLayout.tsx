@@ -1,12 +1,15 @@
 // import * as React from 'react';
-import React from 'react';
-import { mergeProps } from '~/utils';
-import type { TrackReferenceOrPlaceholder } from '@livekit/components-core';
-import { CustomParticipantTile } from '../participant/CustomParticipantTile';
-import type { ParticipantClickEvent } from '@livekit/components-core';
+import React from "react";
+import { mergeProps } from "~/utils";
+import type { TrackReferenceOrPlaceholder } from "@livekit/components-core";
+import { CustomParticipantTile } from "../participant/CustomParticipantTile";
+import type { ParticipantClickEvent } from "@livekit/components-core";
 
 /** @public */
-export interface FocusLayoutContainerProps extends React.HTMLAttributes<HTMLDivElement> {}
+export interface FocusLayoutContainerProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  children?: React.ReactNode;
+}
 
 /**
  * This is a customized version of the FocusLayoutContainer component.
@@ -18,7 +21,7 @@ export interface FocusLayoutContainerProps extends React.HTMLAttributes<HTMLDivE
  *  @public
  */
 export function FocusLayoutContainer(props: FocusLayoutContainerProps) {
-  const elementProps = mergeProps(props, { className: 'lk-focus-layout' });
+  const elementProps = mergeProps(props, { className: "lk-focus-layout" });
 
   return <div {...elementProps}>{props.children}</div>;
 }

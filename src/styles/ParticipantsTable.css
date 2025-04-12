@@ -1,0 +1,75 @@
+.participants-table-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .participants-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+  }
+  
+  .participants-table th,
+  .participants-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .participants-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  .moderator-cell {
+    text-align: center;
+  }
+  
+  .moderator-icon {
+    color: #f1c40f;
+    font-size: 18px;
+  }
+  
+  .name-cell {
+    font-size: 16px;
+  }
+  
+  .actions-cell {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .action-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #555;
+    transition: color 0.2s;
+  }
+  
+  .action-button:hover {
+    color: #000;
+  }
+  
+  .kick-button {
+    color: #e74c3c;
+  }
+  
+  .kick-button:hover {
+    color: #c0392b;
+  }
+  
+  @media (max-width: 600px) {
+    .participants-table th,
+    .participants-table td {
+      padding: 8px;
+      font-size: 14px;
+    }
+  
+    .action-button {
+      font-size: 16px;
+    }
+  }

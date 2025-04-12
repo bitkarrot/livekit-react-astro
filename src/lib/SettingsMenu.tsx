@@ -15,6 +15,7 @@ import {
 import { useKrispNoiseFilter } from '@livekit/components-react/krisp';
 import styles from '../styles/SettingsMenu.module.css';
 
+import ParticipantsTable from './ParticipantsTable';
 // TODO: fix krisp noise filter not found, is this only available on cloud? 
 
 /**
@@ -197,37 +198,18 @@ export function SettingsMenu(props: SettingsMenuProps) {
                  Your name:  &nbsp;
                   { localParticipant.attributes?.petname || 'no name'}
               </div>
-              <div style={{ marginBottom: '10px' }}>
+              <div>
                   is Moderator?  &nbsp;
                   { localParticipant.attributes?.moderator || 'no moderator'}
               </div>
-            </section>
-            ---
-            <h3 style={{ marginTop: '20px', marginBottom: '10px' }}>User List</h3>
-            <>          
-            <ParticipantLoop participants={participants}>
-            <div style={{ marginBottom: '10px', textAlign: 'right' , display: 'flex', justifyContent: 'flex-end'}}>
-              <ParticipantName>              
-                &nbsp;&nbsp;&nbsp;
-                <button
-                  id="mute"
-                  className="lk-button"
-                  style={{ backgroundColor: 'blue' }}
-                  onClick={() => {console.log('mute clicked')}}
-                >Mute
-                </button>
-                &nbsp;&nbsp;
-                <button
-                  id="kick"
-                  className="lk-button"
-                  style={{ backgroundColor: 'red' }}
-                  onClick={() => {console.log('kick clicked')}}
-                >Kick
-                </button>
-              </ParticipantName>
+              <div>
+                  is Owner?  &nbsp;
+                  { localParticipant.attributes?.owner || 'no owner'}
               </div>
-            </ParticipantLoop>          
-            </>
+            </section>
+            ---------
+            <h3 style={{ marginTop: '20px', marginBottom: '10px' }}>User List</h3>
+            <ParticipantsTable/>
           </>
         )}
       </div>
