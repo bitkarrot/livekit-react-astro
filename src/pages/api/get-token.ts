@@ -52,10 +52,8 @@ export const POST: APIRoute = async ({ request }) => {
     if (!apiKey || !apiSecret) {
       return new Response('LiveKit API key or secret not configured', { status: 500 });
     }
-    // console.log('API key:', apiKey)
-    // console.log('API secret:', apiSecret)
 
-    let ttl = '10m'; // time to expire session
+    let ttl = '10m'; // time to expire session, for now
 
     // Create a new access token
     const token = new AccessToken(apiKey, apiSecret, {
@@ -66,13 +64,17 @@ export const POST: APIRoute = async ({ request }) => {
     
     // Grant permissions to the room
     // modify for moderators/owners
-    token.addGrant({
-      roomJoin: true,
-      room: roomName,
-      canPublish: true,
-      canSubscribe: true,
-    });
-    
+      token.addGrant({
+        roomJoin: true,
+        room: roomName,
+        canPublish: true,
+        canSubscribe: true,
+        canPublishData: true
+      });
+
+      // if audience only, can't be a speaker
+      // set canPublish: false,
+
     const jwt = await token.toJwt();
     // console.log('Generated token:', jwt);
 
