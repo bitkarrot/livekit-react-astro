@@ -1,35 +1,49 @@
 // 'use client';
 import React from 'react';
-import { Track } from 'livekit-client';
+import { Track, LocalParticipant } from 'livekit-client';
 import {
   useMaybeLayoutContext,
   MediaDeviceMenu,
   TrackToggle,
- // useRoomContext,
+  useRoomContext,
   //  useIsRecording,
+  useMaybeParticipantContext,
+  ParticipantLoop,
+  ParticipantName,
+  useParticipants,
 } from '@livekit/components-react';
 import { useKrispNoiseFilter } from '@livekit/components-react/krisp';
 import styles from '../styles/SettingsMenu.module.css';
 
-// TODO: fix krisp noise filter not found
+// TODO: fix krisp noise filter not found, is this only available on cloud? 
 
 /**
  * @alpha
  */
-export interface SettingsMenuProps extends React.HTMLAttributes<HTMLDivElement> {}
+export interface SettingsMenuProps extends React.HTMLAttributes<HTMLDivElement> {
+}
+
 
 /**
  * @alpha
  */
 export function SettingsMenu(props: SettingsMenuProps) {
   const layoutContext = useMaybeLayoutContext();
-  //const room = useRoomContext();
+  const room = useRoomContext();
+  const localParticipant: LocalParticipant = room.localParticipant;
+  const participants = useParticipants();
+
+  // const remoteParticipants = room.remoteParticipants;
+  // remoteParticipants.forEach((participant) => {
+  //   console.log('Participant:', participant.identity);
+  // });
   //  const recordingEndpoint = process.env.NEXT_PUBLIC_LK_RECORD_ENDPOINT;
 
   const settings = React.useMemo(() => {
     return {
       media: { camera: true, microphone: true, label: 'Media Devices', speaker: true },
       effects: { label: 'Effects' },
+      moderation: { label: 'Moderation' },
       // recording: recordingEndpoint ? { label: 'Recording' } : undefined,
     };
   }, []);
@@ -176,6 +190,44 @@ export function SettingsMenu(props: SettingsMenuProps) {
             </section>
           </>
         )} */}
+        { activeTab === 'moderation' && (
+          <>
+            <section style={{ marginTop: '10px' }}>
+              <div style={{ marginBottom: '10px' }}>
+                 Your name:  &nbsp;
+                  { localParticipant.attributes?.petname || 'no name'}
+              </div>
+              <div style={{ marginBottom: '10px' }}>
+                  is Moderator?  &nbsp;
+                  { localParticipant.attributes?.moderator || 'no moderator'}
+              </div>
+            </section>
+            ---
+            <h3 style={{ marginTop: '20px', marginBottom: '10px' }}>User List</h3>
+            <>          
+            <ParticipantLoop participants={participants}>
+              <ParticipantName> 
+                &nbsp;&nbsp;&nbsp;
+                <button
+                  id="mute"
+                  className="lk-button"
+                  style={{ backgroundColor: 'blue' }}
+                  onClick={() => {console.log('mute clicked')}}
+                >Mute
+                </button>
+                &nbsp;&nbsp;
+                <button
+                  id="kick"
+                  className="lk-button"
+                  style={{ backgroundColor: 'red' }}
+                  onClick={() => {console.log('kick clicked')}}
+                >Kick
+                </button>
+              </ParticipantName>
+            </ParticipantLoop>          
+            </>
+          </>
+        )}
       </div>
       <div className="settings-footer" style={{ marginTop: '20px', textAlign: 'right' }}>
         <button

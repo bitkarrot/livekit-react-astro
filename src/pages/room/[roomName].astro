@@ -23,6 +23,10 @@ const codec = typeof codecParam === 'string' && isVideoCodec(codecParam)
 const hq = searchParams.get('hq') === 'true' ? true : false;
 console.log('codec:', codec, 'hq:', hq)
 
+////////////////////////////////////////////////////////////////////////
+// TEMPORARILY JUST GRAB THE PROFILE DATA FOR THE REACT COMPONENT HERE
+////////////////////////////////////////////////////////////////////////
+
 const current_pubkey = Astro.cookies.get("pubkey")?.value ?? '';
 console.log('Current pubkey ', current_pubkey)
 
