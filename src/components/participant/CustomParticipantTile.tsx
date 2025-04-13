@@ -149,9 +149,9 @@ export const CustomParticipantTile: (
 
     const isOwner = trackReference.participant.attributes?.owner;
     const isModerator = trackReference.participant.attributes?.moderator;
-    console.log('petname', trackReference.participant.attributes?.petname)
-    console.log('isOwner', isOwner);
-    console.log('isModerator', isModerator);
+    // console.log('petname', trackReference.participant.attributes?.petname)
+    // console.log('isOwner', isOwner);
+    // console.log('isModerator', isModerator);
 
     return (
       <div ref={ref} style={{ position: 'relative' }} {...elementProps}>

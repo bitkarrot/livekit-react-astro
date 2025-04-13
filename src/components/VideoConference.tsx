@@ -49,9 +49,10 @@ const useWarnAboutMissingStyles = () => {
  */
 export interface VideoConferenceProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  chatMessageFormatter?: MessageFormatter;
-  /** @alpha */
-  SettingsComponent?: React.ComponentType;
+    token?: string;
+    chatMessageFormatter?: MessageFormatter;
+    /** @alpha */
+    SettingsComponent?: React.ComponentType;
 }
 
 /**
@@ -75,6 +76,7 @@ export interface VideoConferenceProps
  * @public
  */
 export function VideoConference({
+  token,
   chatMessageFormatter,
   SettingsComponent,
   ...props
@@ -211,7 +213,7 @@ export function VideoConference({
               className="lk-settings-menu-modal"
               style={{ display: widgetState.showSettings ? "block" : "none" }}
             >
-              <SettingsComponent />
+              <SettingsComponent token={token} />
             </div>
           )}
         </LayoutContextProvider>

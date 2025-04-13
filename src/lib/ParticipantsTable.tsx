@@ -5,7 +5,7 @@ const { useContext, useCallback } = React;
 
 import "../styles/ParticipantsTable.css"; // For styling
 
-function ParticipantRow() {
+function ParticipantRow({ token }: { token?: string }) {
   const participant = useContext(ParticipantContext);
   const room = useRoomContext();
 
@@ -16,16 +16,61 @@ function ParticipantRow() {
   // Check if participant is a moderator
   const isModerator = moderatorValue === "true";
 
+  // Determine if the participant's microphone is enabled
+  const isMicrophoneEnabled = participant.getTrackPublications().some(pub => pub.kind === 'audio' && !pub.isMuted);
+
   // Handle mute/unmute
-  const handleMute = useCallback(() => {
-    room.localParticipant.setMicrophoneEnabled(!participant.isMicrophoneEnabled);
-  }, [room, participant]);
+  const handleMute = useCallback(async () => {
+    const audioPublication = participant.getTrackPublications().find(pub => pub.kind === 'audio');
+    if (audioPublication && audioPublication.trackSid) {
+      const trackSid = audioPublication.trackSid;
+      const mute = !isMicrophoneEnabled;
+      console.log('trackSid', trackSid);
+      console.log('mute', mute);
+
+    if (!token) {
+      console.error("Token is required");
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/mute-user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          roomName: room.name,
+          identity: participant.identity,
+          trackSid: trackSid,
+          mute: mute,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to mute participant');
+      }
+    } catch (error) {
+      console.error('Failed to mute participant:', error);
+    }
+  } else {
+    console.error('No audio track found for participant');
+  }
+  }, [room, participant, isMicrophoneEnabled]);
+
+    // console.log('room name', room.name)
+    // console.log('mute participant', participant.identity);
+    // console.log('tracksid', participant.trackSid)
+    // console.log('setMicrophoneEnabled', !participant.isMicrophoneEnabled)
+    //    room.localParticipant.setMicrophoneEnabled(!participant.isMicrophoneEnabled);
+
 
   // Handle kick
   const handleKick = useCallback(async () => {
     try {
         console.log('kick participant', participant.identity)
-//      await room.disconnectParticipant(participant.identity);
+        // await room.disconnectParticipant(participant.identity);
     } catch (error) {
       console.error("Failed to kick participant:", error);
     }
@@ -62,7 +107,7 @@ function ParticipantRow() {
   );
 }
 
-function ParticipantsTable() {
+function ParticipantsTable({ token }: { token?: string }) {
   const participants = useParticipants();
 
   return (
@@ -70,7 +115,7 @@ function ParticipantsTable() {
       <table className="participants-table">
         <tbody>
           <ParticipantLoop participants={participants}>
-            <ParticipantRow />
+            <ParticipantRow token={token} />
           </ParticipantLoop>
         </tbody>
       </table>

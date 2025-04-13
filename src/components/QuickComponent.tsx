@@ -4,7 +4,7 @@ import {
   LiveKitRoom,
   RoomAudioRenderer,
   formatChatMessageLinks,
-//  PreJoin,
+  //  PreJoin,
 } from '@livekit/components-react';
 import VideoConference from '../components/VideoConference';
 import type { VideoCodec } from 'livekit-server-sdk';
@@ -184,6 +184,7 @@ export default function QuickComponent(
           connect={true}
         >
             <VideoConference
+              token={token}
               chatMessageFormatter={formatChatMessageLinks}
               SettingsComponent={SHOW_SETTINGS_MENU ? SettingsMenu : undefined}
             />

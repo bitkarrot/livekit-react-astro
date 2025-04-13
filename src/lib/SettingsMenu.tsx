@@ -9,7 +9,7 @@ import {
   useParticipants,
   //  useIsRecording,
 } from '@livekit/components-react';
-import { useKrispNoiseFilter } from '@livekit/components-react/krisp';
+//import { useKrispNoiseFilter } from '@livekit/components-react/krisp';
 import styles from '../styles/SettingsMenu.module.css';
 import ParticipantsTable from './ParticipantsTable';
 // TODO: fix krisp noise filter not found, is this only available on cloud? 
@@ -18,13 +18,17 @@ import ParticipantsTable from './ParticipantsTable';
  * @alpha
  */
 export interface SettingsMenuProps extends React.HTMLAttributes<HTMLDivElement> {
+  token?: string;
 }
 
 
 /**
  * @alpha
  */
-export function SettingsMenu(props: SettingsMenuProps) {
+export function SettingsMenu({
+   token,
+   ...props
+  }: SettingsMenuProps) {
   const layoutContext = useMaybeLayoutContext();
   const room = useRoomContext();
   const localParticipant: LocalParticipant = room.localParticipant;
@@ -39,7 +43,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
   const settings = React.useMemo(() => {
     return {
       media: { camera: true, microphone: true, label: 'Media Devices', speaker: true },
-      effects: { label: 'Effects' },
+      // effects: { label: 'Effects' },
       moderation: { label: 'Moderation' },
       // recording: recordingEndpoint ? { label: 'Recording' } : undefined,
     };
@@ -51,16 +55,16 @@ export function SettingsMenu(props: SettingsMenuProps) {
   );
   const [activeTab, setActiveTab] = React.useState(tabs[0]);
 
-  const { isNoiseFilterEnabled, setNoiseFilterEnabled, isNoiseFilterPending } =
-    useKrispNoiseFilter();
+  // const { isNoiseFilterEnabled, setNoiseFilterEnabled, isNoiseFilterPending } =
+  //   useKrispNoiseFilter();
 
   // console.log('isNoiseFilterEnabled', isNoiseFilterEnabled);
   // console.log('isNoiseFilterPending', isNoiseFilterPending)
 
-  React.useEffect(() => {
-    // enable Krisp by default
-    setNoiseFilterEnabled(true);
-  }, []);
+  // React.useEffect(() => {
+  //   // enable Krisp by default
+  //   setNoiseFilterEnabled(true);
+  // }, []);
 
   // const isRecording = useIsRecording();
   // const [initialRecStatus, setInitialRecStatus] = React.useState(isRecording);
@@ -156,7 +160,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
             )}
           </>
         )}
-        {activeTab === 'effects' && (
+        {/* {activeTab === 'effects' && (
           <>
             <h3 style={{ marginTop: '20px' }}>Audio</h3>
             <section style={{ marginTop: '10px' }}>
@@ -171,7 +175,7 @@ export function SettingsMenu(props: SettingsMenuProps) {
               ></input>
             </section>
           </>
-        )}
+        )} */}
         {/* {activeTab === 'recording' && (
           <>
             <h3>Record Meeting</h3>
@@ -191,22 +195,19 @@ export function SettingsMenu(props: SettingsMenuProps) {
           <>
             <section style={{ marginTop: '10px' }}>
               <div style={{ marginBottom: '10px' }}>
-                [TODO: Only Show if mod/owner]
-                <br/>
-                <br/>
-                 Your name:  &nbsp;
+                {/* [TODO: Only Show if mod/owner] */}
+                 {/* Your name:  &nbsp;
                   { localParticipant.attributes?.petname || 'no name'}
-                  <br/>
-                  is Moderator?  &nbsp;
+                  <br/> */}
+                  {/* is Moderator?  &nbsp;
                   { localParticipant.attributes?.moderator || 'no moderator'}
                   <br/>
                   is Owner?  &nbsp;
-                  { localParticipant.attributes?.owner || 'no owner'}
+                  { localParticipant.attributes?.owner || 'no owner'} */}
               </div>
             </section>
-            ---------
             <h3 style={{ marginTop: '20px', marginBottom: '10px' }}>User List</h3>
-            <ParticipantsTable/>
+            <ParticipantsTable token={token}/>
           </>
         )}
       </div>
