@@ -1,21 +1,38 @@
 import { RoomServiceClient, TokenVerifier} from 'livekit-server-sdk';
 import type { APIRoute } from 'astro';
 
+// Get Livekit API key and secret from environment variables
+const apiKey = import.meta.env.LIVEKIT_API_KEY || process.env.LIVEKIT_API_KEY;
+const apiSecret = import.meta.env.LIVEKIT_API_SECRET || process.env.LIVEKIT_API_SECRET;
+const livekitHost = import.meta.env.LIVEKIT_HTTP_URL || 'http://localhost:7880';
+
+console.log('apiKey', apiKey)
+console.log('apiSecret', apiSecret)
+console.log('livekitHost', livekitHost)
+
 // Initialize the RoomServiceClient with environment variables
-const roomClient = new RoomServiceClient(
-  import.meta.env.LIVEKIT_HTTP_URL,    // e.g., 'https://your-livekit-server.com'
-  import.meta.env.LIVEKIT_API_KEY, // Your LiveKit API key
-  import.meta.env.LIVEKIT_SECRET   // Your LiveKit secret key
+const roomService = new RoomServiceClient(
+    livekitHost,
+    apiKey,
+    apiSecret
 );
 
 const tokenVerifier = new TokenVerifier(
-    import.meta.env.LIVEKIT_API_KEY,
-    import.meta.env.LIVEKIT_SECRET);
+    apiKey,
+    apiSecret
+);
 
 export const POST: APIRoute = async ({ request }) => {
   try {
     // Extract data from the request body
-    const { roomName, identity, trackSid, mute } = await request.json();
+    const { roomName, identity } = await request.json();
+
+    const res = await roomService.getParticipant(roomName, identity);
+    // console.log('res', res)
+    // get the trackid
+    const trackSid = res.tracks[0].sid;
+    const muted = res.tracks[0].muted;
+    console.log('trackSid', trackSid, 'muted', muted)
 
     // Extract the token from the Authorization header (Bearer <token>)
     const token = request.headers.get('authorization')?.split(' ')[1];
@@ -27,11 +44,19 @@ export const POST: APIRoute = async ({ request }) => {
         headers: { 'Content-Type': 'application/json' },
       });
     }
-
     // Verify and decode the token
     let decoded;
+    let modstatus = false;
     try {
-        decoded = await tokenVerifier.verify(token);        
+        decoded = await tokenVerifier.verify(token);
+        // console.log('decoded', decoded)
+        console.log('moderator', decoded.attributes?.moderator)
+        console.log('owner', decoded.attributes?.owner)
+        if (decoded.attributes?.owner === 'true'
+        || decoded.attributes?.moderator === 'true'
+        ) {
+          modstatus = true;
+        }
     } catch (err) {
       return new Response(JSON.stringify({ error: 'Invalid token' }), {
         status: 401,
@@ -39,17 +64,10 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    // Check for admin permissions
-    // if (!decoded.roomAdmin) {
-    //   return new Response(JSON.stringify({ error: 'Insufficient permissions' }), {
-    //     status: 403,
-    //     headers: { 'Content-Type': 'application/json' },
-    //   });
-    // }
-
-    // Mute the participant's track
-    await roomClient.mutePublishedTrack(roomName, identity, trackSid, mute);
-
+    // if modstatus is true, Mute the participant's track
+    if (modstatus) {
+        await roomService.mutePublishedTrack(roomName, identity, trackSid, !muted);
+    }
     // Return success response
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
