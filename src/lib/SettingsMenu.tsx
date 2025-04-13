@@ -207,6 +207,7 @@ export function SettingsMenu({
               </div>
             </section>
             <h3 style={{ marginTop: '20px', marginBottom: '10px' }}>User List</h3>
+             * Being remotely unmuted can catch users by surprise, so is disabled by default.
             <ParticipantsTable token={token}/>
           </>
         )}

@@ -35,9 +35,9 @@ function ParticipantRow({ token }: { token?: string }) {
 
   // Handle mute/unmute
   const handleMute = useCallback(async () => {
-    console.log("mute participant", participant.identity);
-    console.log("participant identity", participant.identity);
-    console.log("room.localParticipant.identity", room.localParticipant.identity);
+    // console.log("mute participant", participant.identity);
+    // console.log("participant identity", participant.identity);
+    // console.log("room.localParticipant.identity", room.localParticipant.identity);
 
     if (participant.identity === room.localParticipant.identity) {
       console.log("muting local participant", room.localParticipant);
@@ -52,9 +52,8 @@ function ParticipantRow({ token }: { token?: string }) {
       console.error("Token is required");
       throw Error("Token is required");
     }
-
     if (room.remoteParticipants.has(participant.identity)) {
-      console.log("CALL API - remote participant", participant.identity);
+      console.log("CALL API - mute remote participant", participant.identity);
           try {
             const response = await fetch("/api/mute-user", {
               method: "POST",
@@ -81,6 +80,32 @@ function ParticipantRow({ token }: { token?: string }) {
   const handleKick = useCallback(async () => {
     try {
       console.log("kick participant", participant.identity);
+      if (!token) {
+        console.error("Token is required");
+        throw Error("Token is required");
+      }
+      if (room.remoteParticipants.has(participant.identity)) {
+        console.log("CALL API - Kick remote participant", participant.identity);
+            try {
+              const response = await fetch("/api/kick-user", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                  roomName: room.name,
+                  identity: participant.identity,
+                }),
+              });
+              console.log("response", response);
+              if (!response.ok) {
+                throw new Error("Failed to mute participant");
+              }
+            } catch (error) {
+              console.error("Failed to mute participant:", error);
+            }
+      }
     } catch (error) {
       console.error("Failed to kick participant:", error);
     }

@@ -1,3 +1,4 @@
+
 import { RoomServiceClient, TokenVerifier} from 'livekit-server-sdk';
 import type { APIRoute } from 'astro';
 
@@ -12,7 +13,6 @@ const roomService = new RoomServiceClient(
     apiKey,
     apiSecret
 );
-
 const tokenVerifier = new TokenVerifier(
     apiKey,
     apiSecret
@@ -22,16 +22,8 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     // Extract data from the request body
     const { roomName, identity } = await request.json();
-
-    const res = await roomService.getParticipant(roomName, identity);
-    // console.log('res', res)
-    const trackSid = res.tracks[0].sid;
-    const muted = res.tracks[0].muted;
-    // console.log('trackSid', trackSid, 'muted', muted)
-
     // Extract the token from the Authorization header (Bearer <token>)
     const token = request.headers.get('authorization')?.split(' ')[1];
-
     // Check if token is provided
     if (!token) {
       return new Response(JSON.stringify({ error: 'No token provided' }), {
@@ -59,9 +51,10 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    // if modstatus is true, Mute the participant's track
+    // if modstatus is true, kick participant
     if (modstatus) {
-        await roomService.mutePublishedTrack(roomName, identity, trackSid, !muted);
+        // Kick participant
+        await roomService.removeParticipant(roomName, identity);
     }
     // Return success response
     return new Response(JSON.stringify({ success: true }), {
@@ -71,7 +64,7 @@ export const POST: APIRoute = async ({ request }) => {
   } catch (error) {
     // Log the error and return a generic failure response
     console.error('Error:', error);
-    return new Response(JSON.stringify({ error: 'Failed to mute participant' }), {
+    return new Response(JSON.stringify({ error: 'Failed to kick participant' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
