@@ -6,28 +6,23 @@ import type {
     LocalVideoTrack,
     TrackProcessor,
   } from 'livekit-client';
-  import {
-    createLocalAudioTrack,
-    createLocalTracks,
-    createLocalVideoTrack,
-    facingModeFromLocalTrack,
-    Track,
-    VideoPresets,
-    Mutex,
-  } from 'livekit-client';
-//  import * as React from 'react';
-  import React from 'react';
-  import type { LocalUserChoices } from '@livekit/components-core';
-  import { log } from '@livekit/components-core';
-  import { roomOptionsStringifyReplacer } from '../utils';
+import {
+  createLocalAudioTrack,
+  createLocalTracks,
+  createLocalVideoTrack,
+  facingModeFromLocalTrack,
+  Track,
+  VideoPresets,
+  Mutex,
+} from 'livekit-client';
+import React from 'react';
+import type { LocalUserChoices } from '@livekit/components-core';
+import { log } from '@livekit/components-core';
+import { roomOptionsStringifyReplacer } from '../utils';
 
-  import {MediaDeviceMenu, TrackToggle, ParticipantPlaceholder} from '@livekit/components-react'
-  import { useMediaDevices, usePersistentUserChoices } from '@livekit/components-react';
-//   import { MediaDeviceMenu } from './MediaDeviceMenu';
-//   import { TrackToggle } from '../components/controls/TrackToggle';
-//   import { ParticipantPlaceholder } from '../assets/images';
-//   import { useMediaDevices, usePersistentUserChoices } from '../hooks';
-//   import { useWarnAboutMissingStyles } from '../hooks/useWarnAboutMissingStyles';
+import {MediaDeviceMenu, TrackToggle, ParticipantPlaceholder} from '@livekit/components-react'
+import { useMediaDevices, usePersistentUserChoices } from '@livekit/components-react';
+// import { useWarnAboutMissingStyles } from '../hooks/useWarnAboutMissingStyles';
   
   /**
    * Props for the PreJoin component.
@@ -214,7 +209,7 @@ import type {
    * @remarks
    * This component is independent of the `LiveKitRoom` component and should not be nested within it.
    * Because it only accesses the local media tracks this component is self-contained and works without connection to the LiveKit server.
-   *
+   * lk-user-choices in localstorage
    * @example
    * ```tsx
    * <PreJoin />
@@ -231,7 +226,7 @@ import type {
     micLabel = 'Microphone',
     camLabel = 'Camera',
     userLabel = 'Username',
-    persistUserChoices = true,
+    persistUserChoices = false,
     videoProcessor,
     ...htmlProps
   }: PreJoinProps) {

@@ -2,9 +2,9 @@
 import {
   ControlBar,
   LiveKitRoom,
-  PreJoin,
   RoomAudioRenderer,
   formatChatMessageLinks,
+//  PreJoin,
 } from '@livekit/components-react';
 import VideoConference from '../components/VideoConference';
 import type { VideoCodec } from 'livekit-server-sdk';
@@ -13,6 +13,7 @@ import { SettingsMenu } from '~/lib/SettingsMenu';
 import '@livekit/components-styles';
 import './QuickComponent.css'; // Import our custom LiveKit theme
 import React from 'react';
+import { PreJoin } from './PreJoin';
 import { fetchLightningAddress } from '~/lib/nostrUtils';
 const { useState, useCallback } = React;
 
@@ -41,10 +42,10 @@ export default function QuickComponent(
     return {
       username: props.name,
       avatar: props.avatar,
-      lnaddress: props.lnaddress,
-      pubkey: props.pubkey,
-      videoEnabled: true,
-      audioEnabled: true,
+      // lnaddress: props.lnaddress,
+      // pubkey: props.pubkey,
+      videoEnabled: false,
+      audioEnabled: false,
     };
   }, []);
 
@@ -155,11 +156,13 @@ export default function QuickComponent(
       <>
         {!isPreJoinComplete ? (
           <PreJoin
+            debug={true}
             onSubmit={handlePreJoinSubmit}
             onError={handleError}
             data-lk-theme="hivetalk"
             defaults={preJoinDefaults}
             style={{ height: '100vh' }}
+            persistUserChoices={false}
           />
         ) : (
           <div>Loading...</div>
