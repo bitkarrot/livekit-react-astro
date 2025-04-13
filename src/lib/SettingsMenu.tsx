@@ -199,12 +199,7 @@ export function SettingsMenu({
                   { localParticipant.attributes?.petname || 'no name'}
                   <br/>
                  Room name:  &nbsp;
-                  { room.name}
-                  {/* is Moderator?  &nbsp;
-                  { localParticipant.attributes?.moderator || 'no moderator'}
-                  <br/>
-                  is Owner?  &nbsp;
-                  { localParticipant.attributes?.owner || 'no owner'} */}
+                  { room.name }
               </div>
             </section>
 
