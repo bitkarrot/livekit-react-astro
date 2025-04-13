@@ -33,7 +33,6 @@ export function SettingsMenu({
   const room = useRoomContext();
   const localParticipant: LocalParticipant = room.localParticipant;
   const participants = useParticipants();
-
   // const remoteParticipants = room.remoteParticipants;
   // remoteParticipants.forEach((participant) => {
   //   console.log('Participant:', participant.identity);
@@ -44,7 +43,7 @@ export function SettingsMenu({
     return {
       media: { camera: true, microphone: true, label: 'Media Devices', speaker: true },
       // effects: { label: 'Effects' },
-      moderation: { label: 'Moderation' },
+      moderation: { label: 'Room Info' },
       // recording: recordingEndpoint ? { label: 'Recording' } : undefined,
     };
   }, []);
@@ -191,14 +190,16 @@ export function SettingsMenu({
             </section>
           </>
         )} */}
-        { activeTab === 'moderation' && (
+        { activeTab === 'moderation' &&
+        (
           <>
             <section style={{ marginTop: '10px' }}>
               <div style={{ marginBottom: '10px' }}>
-                {/* [TODO: Only Show if mod/owner] */}
-                 {/* Your name:  &nbsp;
+                 Your name:  &nbsp;
                   { localParticipant.attributes?.petname || 'no name'}
-                  <br/> */}
+                  <br/>
+                 Room name:  &nbsp;
+                  { room.name}
                   {/* is Moderator?  &nbsp;
                   { localParticipant.attributes?.moderator || 'no moderator'}
                   <br/>
@@ -206,9 +207,17 @@ export function SettingsMenu({
                   { localParticipant.attributes?.owner || 'no owner'} */}
               </div>
             </section>
-            <h3 style={{ marginTop: '20px', marginBottom: '10px' }}>User List</h3>
-             * Being remotely unmuted can catch users by surprise, so is disabled by default.
-            <ParticipantsTable token={token}/>
+
+            {(localParticipant.attributes?.owner === 'true' ||
+              localParticipant.attributes?.moderator === 'true') && (
+              <>
+              <h3 style={{ marginTop: '20px', marginBottom: '10px' }}>User List</h3>
+                <p style={{ fontSize: '12px' }}>
+               * Being remotely unmuted can catch users by surprise, and is disabled by default.
+                </p>
+              <ParticipantsTable token={token}/>
+              </>
+            )}
           </>
         )}
       </div>
