@@ -1,5 +1,6 @@
 // CustomParticipantTile.tsx component in Astro for Livekit
 import React from 'react';
+import ReactDOM from 'react-dom';
 import type { Participant } from 'livekit-client';
 import { Track } from 'livekit-client';
 import type { ParticipantClickEvent, TrackReferenceOrPlaceholder } from '@livekit/components-core';
@@ -25,7 +26,6 @@ import { useParticipantTile } from '@livekit/components-react';
 import { useIsEncrypted } from '@livekit/components-react';
 
 import NostrPlaceholder from '~/assets/images/NostrPlaceholder';
-
 
 /**
  * The `ParticipantContextIfNeeded` component only creates a `ParticipantContext`
@@ -119,7 +119,6 @@ export const CustomParticipantTile: (
     });
     const isEncrypted = useIsEncrypted(trackReference.participant);
     const layoutContext = useMaybeLayoutContext();
-
     const autoManageSubscription = useFeatureContext()?.autoSubscription;
 
     const handleSubscribe = React.useCallback(
@@ -137,9 +136,120 @@ export const CustomParticipantTile: (
       [trackReference, layoutContext],
     );
 
+    const ZapPaymentModal = ({ lightningAddress, onClose }: { lightningAddress: string; onClose: () => void }) => {
+      const [amount, setAmount] = React.useState('100');
+      const [comment, setComment] = React.useState('');
+
+      const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        console.log(`Sending zap of ${amount} sats to ${lightningAddress} with comment: ${comment}`);
+        // Here you would implement the actual zap payment logic
+        onClose();
+      };
+
+      return (
+        <div className="lk-settings-menu-modal" style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          backgroundColor: 'var(--lk-bg-secondary)',
+          padding: '2rem',
+          borderRadius: '0.5rem',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.3)',
+          zIndex: 1000,
+          minWidth: '300px',
+          color: 'white'
+        }}>
+          <h3 style={{ marginTop: 0, marginBottom: '1rem' }}>Send Zap to {lightningAddress}</h3>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div>
+              <label htmlFor="amount" style={{ display: 'block', marginBottom: '0.5rem' }}>Amount (sats):</label>
+              <input
+                id="amount"
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '0.5rem',
+                  borderRadius: '0.25rem',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  color: 'white'
+                }}
+                required
+                min="1"
+              />
+            </div>
+            <div>
+              <label htmlFor="comment" style={{ display: 'block', marginBottom: '0.5rem' }}>Comment (optional):</label>
+              <textarea
+                id="comment"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '0.5rem',
+                  borderRadius: '0.25rem',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  color: 'white',
+                  minHeight: '80px'
+                }}
+              />
+            </div>
+            <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+              <button
+                type="button"
+                onClick={onClose}
+                style={{
+                  padding: '0.5rem 1rem',
+                  borderRadius: '0.25rem',
+                  border: 'none',
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  color: 'white',
+                  cursor: 'pointer'
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                style={{
+                  padding: '0.5rem 1rem',
+                  borderRadius: '0.25rem',
+                  border: 'none',
+                  backgroundColor: '#ff6352',
+                  color: 'white',
+                  cursor: 'pointer'
+                }}
+              >
+                Send Zap
+              </button>
+            </div>
+          </form>
+        </div>
+      );
+    };
+
+    const [showZapModal, setShowZapModal] = React.useState(false);
+    const [zapAddress, setZapAddress] = React.useState('');
+
     const zapIcon = (lightningAddress: string) => {
       console.log('Clicked on Lightning Address!', lightningAddress);
+      setZapAddress(lightningAddress);
+      setShowZapModal(true);
+    };
 
+    const handleCloseZapModal = () => {
+      setShowZapModal(false);
+      setZapAddress('');
+    };
+
+    const renderZapModal = () => {
+      if (!showZapModal) return null;
+      return <ZapPaymentModal lightningAddress={zapAddress} onClose={handleCloseZapModal} />;
     };
 
     const truncatePetName = (petname: string) => {
@@ -151,9 +261,6 @@ export const CustomParticipantTile: (
 
     const isOwner = trackReference.participant.attributes?.owner;
     const isModerator = trackReference.participant.attributes?.moderator;
-    // console.log('petname', trackReference.participant.attributes?.petname)
-    // console.log('isOwner', isOwner);
-    // console.log('isModerator', isModerator);
 
     return (
       <div ref={ref} style={{ position: 'relative' }} {...elementProps}>
@@ -247,6 +354,7 @@ export const CustomParticipantTile: (
               </>
             )}
             <FocusToggle trackRef={trackReference} />
+            {renderZapModal()}
           </ParticipantContextIfNeeded>
         </TrackRefContextIfNeeded>
       </div>
