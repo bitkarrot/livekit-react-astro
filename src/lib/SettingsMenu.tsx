@@ -9,9 +9,9 @@ import {
   useParticipants,
   //  useIsRecording,
 } from '@livekit/components-react';
-//import { useKrispNoiseFilter } from '@livekit/components-react/krisp';
 import styles from '../styles/SettingsMenu.module.css';
 import ParticipantsTable from './ParticipantsTable';
+//import { useKrispNoiseFilter } from '@livekit/components-react/krisp';
 // TODO: fix krisp noise filter not found, is this only available on cloud? 
 
 /**

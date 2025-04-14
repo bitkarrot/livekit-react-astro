@@ -3,6 +3,8 @@ import type { APIRoute } from 'astro';
 
 const livekitHost = import.meta.env.LIVEKIT_HTTP_URL || 'http://localhost:7880';
 
+// Usage: curl http://localhost:7880/api/list-rooms
+
 export const GET: APIRoute = async ({ request }) => {
   try {
     // Get Livekit API key and secret from environment variables

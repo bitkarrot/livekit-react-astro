@@ -40,9 +40,16 @@ export default function QuickComponent(
   const [username, setUsername] = useState('');
 
   const preJoinDefaults = React.useMemo(() => {
+    const pubkey = props?.pubkey;
+    let npub = '';
+    if (!pubkey) {
+      npub = nip19.npubEncode(pubkey as string);
+    }
     return {
-      username: props.name,
-      avatar: props.avatar,
+      username: props.name || '',
+      avatar: props.avatar || '',
+      lnaddress: props.lnaddress || '',
+      npub: npub || '',
       videoEnabled: false,
       audioEnabled: false,
     };
@@ -102,7 +109,7 @@ export default function QuickComponent(
     }
 
     // Check localStorage for nostr login data
-    // REPLACE with props passed in to Quick component
+    // TODO: REPLACE with props passed in to Quick component
   const nostrAccounts = localStorage.getItem('__nostrlogin_accounts');
   if (nostrAccounts) {
     try {

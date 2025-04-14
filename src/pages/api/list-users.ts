@@ -3,6 +3,8 @@ import type { APIRoute } from 'astro';
 
 const livekitHost = import.meta.env.LIVEKIT_HTTP_URL || 'http://localhost:7880';
 
+// Usage: curl http://localhost:7880/api/list-users?roomName=room_name
+
 export const GET: APIRoute = async ({ request }) => {
   const url = new URL(request.url);
   const roomName = url.searchParams.get('roomName');
