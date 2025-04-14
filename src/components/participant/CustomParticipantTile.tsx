@@ -76,6 +76,7 @@ export interface ParticipantTileProps extends React.HTMLAttributes<HTMLDivElemen
   trackRef?: TrackReferenceOrPlaceholder;
   disableSpeakingIndicator?: boolean;
   onParticipantClick?: (event: ParticipantClickEvent) => void;
+  onZapIconClick?: (address: string) => void;
 }
 
 /**
@@ -100,15 +101,18 @@ export const CustomParticipantTile: (
   props: ParticipantTileProps & React.RefAttributes<HTMLDivElement> & { children?: React.ReactNode },
 ) => React.ReactNode = /* @__PURE__ */ React.forwardRef<HTMLDivElement, ParticipantTileProps & { children?: React.ReactNode }>(
   function ParticipantTile(
-    {
-      trackRef,
-      children,
-      onParticipantClick,
-      disableSpeakingIndicator,
-      ...htmlProps
-    }: ParticipantTileProps & { children?: React.ReactNode },
+    props: ParticipantTileProps & { children?: React.ReactNode },
     ref: React.Ref<HTMLDivElement>,
   ) {
+    const {
+      trackRef,
+      disableSpeakingIndicator,
+      onParticipantClick,
+      onZapIconClick,
+      children,
+      ...htmlProps
+    } = props;
+
     const trackReference = useEnsureTrackRef(trackRef);
 
     const { elementProps } = useParticipantTile<HTMLDivElement>({
@@ -233,23 +237,13 @@ export const CustomParticipantTile: (
       );
     };
 
-    const [showZapModal, setShowZapModal] = React.useState(false);
-    const [zapAddress, setZapAddress] = React.useState('');
-
     const zapIcon = (lightningAddress: string) => {
       console.log('Clicked on Lightning Address!', lightningAddress);
-      setZapAddress(lightningAddress);
-      setShowZapModal(true);
-    };
-
-    const handleCloseZapModal = () => {
-      setShowZapModal(false);
-      setZapAddress('');
-    };
-
-    const renderZapModal = () => {
-      if (!showZapModal) return null;
-      return <ZapPaymentModal lightningAddress={zapAddress} onClose={handleCloseZapModal} />;
+      if (onZapIconClick) {
+        onZapIconClick(lightningAddress);
+      } else {
+        console.log('Zap icon clicked, but no callback provided', lightningAddress);
+      }
     };
 
     const truncatePetName = (petname: string) => {
@@ -354,10 +348,106 @@ export const CustomParticipantTile: (
               </>
             )}
             <FocusToggle trackRef={trackReference} />
-            {renderZapModal()}
           </ParticipantContextIfNeeded>
         </TrackRefContextIfNeeded>
       </div>
     );
   },
 );
+
+export const ZapPaymentModal = ({ lightningAddress, onClose }: { lightningAddress: string; onClose: () => void }) => {
+  const [amount, setAmount] = React.useState('100');
+  const [comment, setComment] = React.useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(`Sending zap of ${amount} sats to ${lightningAddress} with comment: ${comment}`);
+    // Here you would implement the actual zap payment logic
+    onClose();
+  };
+
+  return (
+    <div className="lk-settings-menu-modal" style={{
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      backgroundColor: 'var(--lk-bg-secondary)',
+      padding: '2rem',
+      borderRadius: '0.5rem',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.3)',
+      zIndex: 1000,
+      minWidth: '300px',
+      color: 'white'
+    }}>
+      <h3 style={{ marginTop: 0, marginBottom: '1rem' }}>Send Zap to {lightningAddress}</h3>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <div>
+          <label htmlFor="amount" style={{ display: 'block', marginBottom: '0.5rem' }}>Amount (sats):</label>
+          <input
+            id="amount"
+            type="number"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '0.5rem',
+              borderRadius: '0.25rem',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              color: 'white'
+            }}
+            required
+            min="1"
+          />
+        </div>
+        <div>
+          <label htmlFor="comment" style={{ display: 'block', marginBottom: '0.5rem' }}>Comment (optional):</label>
+          <textarea
+            id="comment"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '0.5rem',
+              borderRadius: '0.25rem',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              color: 'white',
+              minHeight: '10px'
+            }}
+          />
+        </div>
+        <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+          <button
+            type="button"
+            onClick={onClose}
+            style={{
+              padding: '0.5rem 1rem',
+              borderRadius: '0.25rem',
+              border: 'none',
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              color: 'white',
+              cursor: 'pointer'
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            style={{
+              padding: '0.5rem 1rem',
+              borderRadius: '0.25rem',
+              border: 'none',
+              backgroundColor: '#ff6352',
+              color: 'white',
+              cursor: 'pointer'
+            }}
+          >
+            Send Zap
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};

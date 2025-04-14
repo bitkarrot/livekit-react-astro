@@ -28,6 +28,7 @@ import { ControlBar } from "@livekit/components-react";
 
 import { CustomParticipantTile } from "./participant/CustomParticipantTile";
 import { FocusLayout } from "~/components/layout/FocusLayout";
+import { ZapPaymentModal } from './participant/CustomParticipantTile';
 
 // Custom hook to warn about missing styles - simplified version
 const useWarnAboutMissingStyles = () => {
@@ -53,6 +54,7 @@ export interface VideoConferenceProps
     chatMessageFormatter?: MessageFormatter;
     /** @alpha */
     SettingsComponent?: React.ComponentType;
+    onZapIconClick?: (address: string) => void;
 }
 
 /**
@@ -79,6 +81,7 @@ export function VideoConference({
   token,
   chatMessageFormatter,
   SettingsComponent,
+  onZapIconClick,
   ...props
 }: VideoConferenceProps) {
   const [widgetState, setWidgetState] = React.useState<WidgetState>({
@@ -112,6 +115,27 @@ export function VideoConference({
   const carouselTracks = tracks.filter(
     (track) => !isEqualTrackRef(track, focusTrack),
   );
+
+  const [showZapModal, setShowZapModal] = React.useState(false);
+  const [zapAddress, setZapAddress] = React.useState('');
+
+  const handleZapIconClick = (address: string) => {
+    setZapAddress(address);
+    setShowZapModal(true);
+    if (onZapIconClick) {
+      onZapIconClick(address);
+    }
+  };
+
+  const handleCloseZapModal = () => {
+    setShowZapModal(false);
+    setZapAddress('');
+  };
+
+  const renderZapModal = () => {
+    if (!showZapModal) return null;
+    return <ZapPaymentModal lightningAddress={zapAddress} onClose={handleCloseZapModal} />;
+  };
 
   React.useEffect(() => {
     // If screen share tracks are published, and no pin is set explicitly, auto set the screen share.
@@ -181,14 +205,14 @@ export function VideoConference({
             {!focusTrack ? (
               <div className="lk-grid-layout-wrapper">
                 <GridLayout tracks={tracks}>
-                  <CustomParticipantTile />
+                  <CustomParticipantTile onZapIconClick={handleZapIconClick} />
                 </GridLayout>
               </div>
             ) : (
               <div className="lk-focus-layout-wrapper">
                 <FocusLayoutContainer>
                   <CarouselLayout tracks={carouselTracks}>
-                    <CustomParticipantTile />
+                    <CustomParticipantTile onZapIconClick={handleZapIconClick} />
                   </CarouselLayout>
                   {focusTrack && (
                     <FocusLayout
@@ -216,6 +240,7 @@ export function VideoConference({
               <SettingsComponent token={token} />
             </div>
           )}
+          {renderZapModal()}
         </LayoutContextProvider>
       )}
       <RoomAudioRenderer />
