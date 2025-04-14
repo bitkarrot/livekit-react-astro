@@ -195,7 +195,7 @@ export const CustomParticipantTile: (
                   border: '1px solid rgba(255, 255, 255, 0.2)',
                   backgroundColor: 'rgba(255, 255, 255, 0.1)',
                   color: 'white',
-                  minHeight: '80px'
+                  minHeight: '10px'
                 }}
               />
             </div>
