@@ -115,6 +115,7 @@ export function PreJoin({
   useEffect(() => {
     try {
       const accountsRaw = localStorage.getItem('__nostrlogin_accounts');
+      console.log('accountsRaw', accountsRaw);
       if (accountsRaw) {
         const accounts = JSON.parse(accountsRaw);
         if (Array.isArray(accounts) && accounts.length > 0) {
@@ -359,7 +360,7 @@ export function PreJoin({
               type="button"
               onClick={handleNostrLogin}
             >
-              Login to Nostr
+              Nostr Login
             </button>
             <center>OR</center>
           </>
