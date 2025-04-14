@@ -26,6 +26,7 @@ import { useIsEncrypted } from '@livekit/components-react';
 
 import NostrPlaceholder from '~/assets/images/NostrPlaceholder';
 
+
 /**
  * The `ParticipantContextIfNeeded` component only creates a `ParticipantContext`
  * if there is no `ParticipantContext` already.
@@ -138,6 +139,7 @@ export const CustomParticipantTile: (
 
     const zapIcon = (lightningAddress: string) => {
       console.log('Clicked on Lightning Address!', lightningAddress);
+
     };
 
     const truncatePetName = (petname: string) => {

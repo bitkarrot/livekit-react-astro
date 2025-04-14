@@ -4,7 +4,6 @@ import {
   LiveKitRoom,
   RoomAudioRenderer,
   formatChatMessageLinks,
-  //  PreJoin,
 } from '@livekit/components-react';
 import VideoConference from '../components/VideoConference';
 import type { VideoCodec } from 'livekit-server-sdk';
@@ -14,9 +13,11 @@ import '@livekit/components-styles';
 import './QuickComponent.css'; // Import our custom LiveKit theme
 import React from 'react';
 import { PreJoin } from './PreJoin';
-import { fetchLightningAddress } from '~/lib/nostrUtils';
 const { useState, useCallback } = React;
 import { nip19 } from 'nostr-tools';
+
+// todo remove this
+import { fetchLightningAddress } from '~/lib/nostrUtils';
 
 const SHOW_SETTINGS_MENU = 'true';
 
