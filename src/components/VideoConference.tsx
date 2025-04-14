@@ -219,6 +219,7 @@ export function VideoConference({
                       trackRef={
                         focusTrack as unknown as TrackReferenceOrPlaceholder
                       }
+                      onZapIconClick={handleZapIconClick}
                     />
                   )}
                 </FocusLayoutContainer>

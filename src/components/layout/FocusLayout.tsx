@@ -32,12 +32,13 @@ export interface FocusLayoutProps extends React.HTMLAttributes<HTMLElement> {
   trackRef?: TrackReferenceOrPlaceholder;
 
   onParticipantClick?: (evt: ParticipantClickEvent) => void;
+  onZapIconClick?: (address: string) => void;
 }
 
 /**
  * The `FocusLayout` component is just a light wrapper around the `ParticipantTile` to display a single participant.
  * @public
  */
-export function FocusLayout({ trackRef, ...htmlProps }: FocusLayoutProps) {
-  return <CustomParticipantTile trackRef={trackRef} {...htmlProps} />;
+export function FocusLayout({ trackRef, onZapIconClick, ...htmlProps }: FocusLayoutProps) {
+  return <CustomParticipantTile trackRef={trackRef} onZapIconClick={onZapIconClick} {...htmlProps} />;
 }
