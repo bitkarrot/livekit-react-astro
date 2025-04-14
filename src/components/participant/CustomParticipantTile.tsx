@@ -294,6 +294,13 @@ export const ZapPaymentModal = ({ lightningAddress, onClose }: { lightningAddres
       // Dynamically import the bitcoin-connect library only on client side
       if (typeof window !== 'undefined') {
         const { launchPaymentModal } = await import('@getalby/bitcoin-connect-react');
+        // Check if bc-modal already exists in the DOM
+        const existingModal = document.querySelector('#bc-modal');
+        if (existingModal) {
+          console.log('bc-modal already in DOM, skipping modal creation');
+          alert('Payment modal is already open. Please close it before starting a new payment.');
+          return;
+        }
         const { setPaid } = launchPaymentModal({
           invoice: invoice.paymentRequest,
           onPaid: ({ preimage }) => {
