@@ -14,6 +14,8 @@
     "@astrojs/node": "^8.3.4",
     "@astrojs/react": "^4.2.3",
     "@datadog/browser-logs": "^6.6.2",
+    "@getalby/bitcoin-connect-react": "^3.7.1",
+    "@getalby/lightning-tools": "^5.1.2",
     "@livekit/components-core": "^0.12.2",
     "@livekit/components-react": "2.9.0",
     "@livekit/components-styles": "1.1.4",
