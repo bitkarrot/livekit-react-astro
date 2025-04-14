@@ -16,6 +16,7 @@ import React from 'react';
 import { PreJoin } from './PreJoin';
 import { fetchLightningAddress } from '~/lib/nostrUtils';
 const { useState, useCallback } = React;
+import { nip19 } from 'nostr-tools';
 
 const SHOW_SETTINGS_MENU = 'true';
 
@@ -108,10 +109,13 @@ export default function QuickComponent(
       const accounts = JSON.parse(nostrAccounts);
       if (Array.isArray(accounts) && accounts.length > 0) {
         const account = accounts[0]; // Use the first account
+        const pubkey = account?.pubkey;
+        const npub = nip19.npubEncode(pubkey); // convert to npub
+
         attributes = {
           petname: account.name || values.username, // Fallback to form username if name is missing
           avatar_url: account.picture || '',
-          npub: account.pubkey || '',
+          npub: npub || '',
           lightning_address: account.lightning_address || '', // Use existing if available
         };
 

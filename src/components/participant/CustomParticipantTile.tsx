@@ -199,11 +199,18 @@ export const CustomParticipantTile: (
                               '⭐️' // Show star if the user is a moderator but not the owner
                             ) : ''}
                           &nbsp;
-                          <a href={`https://njump.me/${trackReference.participant.attributes?.npub}`}
-                            className="hover:underline hover:text-yellow-500" target="_blank" rel="noopener noreferrer"
+                          {trackReference.participant.attributes?.npub ? (
+                            <a
+                              href={`https://njump.me/${trackReference.participant.attributes.npub}`}
+                              className="hover:underline hover:text-yellow-500"
+                              target="_blank"
+                              rel="noopener noreferrer"
                             >
-                            {truncatePetName(trackReference.participant.attributes?.petname)}
-                          </a>
+                              {truncatePetName(trackReference.participant.attributes?.petname)}
+                            </a>
+                          ) : (
+                            truncatePetName(trackReference.participant.attributes?.petname) || ''
+                          )}
                           &nbsp;
                           {trackReference.participant.attributes?.lightning_address && (
                             <button
