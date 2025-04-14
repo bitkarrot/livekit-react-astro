@@ -23,8 +23,8 @@ import { roomOptionsStringifyReplacer } from '../utils';
 import {MediaDeviceMenu, TrackToggle, ParticipantPlaceholder} from '@livekit/components-react'
 import { useMediaDevices, usePersistentUserChoices } from '@livekit/components-react';
 // import { useWarnAboutMissingStyles } from '../hooks/useWarnAboutMissingStyles';
-  
-  /**
+
+/**
    * Props for the PreJoin component.
    * @public
    */
@@ -225,7 +225,7 @@ import { useMediaDevices, usePersistentUserChoices } from '@livekit/components-r
     joinLabel = 'Join Room',
     micLabel = 'Microphone',
     camLabel = 'Camera',
-    userLabel = 'Username',
+    userLabel = 'Type your name',
     persistUserChoices = false,
     videoProcessor,
     ...htmlProps
@@ -299,6 +299,46 @@ import { useMediaDevices, usePersistentUserChoices } from '@livekit/components-r
       () => tracks?.filter((track) => track.kind === Track.Kind.Audio)[0] as LocalAudioTrack,
       [tracks],
     );
+
+
+    // Initialize nostr-login
+    React.useEffect(() => {
+      import('nostr-login')
+        .then(({ init, launch }) => {
+          init({
+            theme: 'default',
+            perms: 'sign_event:1',
+            startScreen: 'login',
+            onAuth: (npub: string) => {
+              setUsername(npub); // Set username to npub on login
+            },
+          });
+
+          // Listen for nlAuth events as a fallback
+          const handleNlAuth = (e: Event) => {
+            const detail = (e as CustomEvent).detail;
+            if (detail.type === 'login' || detail.type === 'signup') {
+             // setUsername(detail.npub);
+              setUsername(detail.name);
+            } else if (detail.type === 'logout') {
+              setUsername('');
+            }
+          };
+          document.addEventListener('nlAuth', handleNlAuth);
+
+          return () => {
+            document.removeEventListener('nlAuth', handleNlAuth);
+          };
+        })
+        .catch((error) => console.error('Failed to load nostr-login', error));
+    }, []);
+
+    // Handle login button click
+    const handleNostrLogin = () => {
+      import('nostr-login').then(({ launch }) => {
+        launch({startScreen: 'login'});
+      });
+    };
   
     React.useEffect(() => {
       if (videoEl.current && videoTrack) {
@@ -401,6 +441,17 @@ import { useMediaDevices, usePersistentUserChoices } from '@livekit/components-r
         </div>
   
         <form className="lk-username-container">
+          {(!username || username === "" ) && (
+            <>
+             <button className="bg-purple-600 hover:bg-purple-800 text-white font-bold py-2 px-4 rounded-lg transition duration-200"
+                      type="button"
+                      onClick={handleNostrLogin}
+                      id="signupButton">
+                      Login to Nostr
+              </button>
+              <center>OR</center>
+            </>
+          )}
           <input
             className="lk-form-control"
             id="username"
