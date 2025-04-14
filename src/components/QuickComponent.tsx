@@ -42,8 +42,6 @@ export default function QuickComponent(
     return {
       username: props.name,
       avatar: props.avatar,
-      // lnaddress: props.lnaddress,
-      // pubkey: props.pubkey,
       videoEnabled: false,
       audioEnabled: false,
     };

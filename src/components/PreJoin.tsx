@@ -22,6 +22,8 @@ import { roomOptionsStringifyReplacer } from '../utils';
 
 import {MediaDeviceMenu, TrackToggle, ParticipantPlaceholder} from '@livekit/components-react'
 import { useMediaDevices, usePersistentUserChoices } from '@livekit/components-react';
+
+import '~/styles/PreJoin.css';
 // import { useWarnAboutMissingStyles } from '../hooks/useWarnAboutMissingStyles';
   
   /**
@@ -225,7 +227,7 @@ import { useMediaDevices, usePersistentUserChoices } from '@livekit/components-r
     joinLabel = 'Join Room',
     micLabel = 'Microphone',
     camLabel = 'Camera',
-    userLabel = 'Username',
+    userLabel = 'Type your name',
     persistUserChoices = false,
     videoProcessor,
     ...htmlProps
@@ -251,7 +253,12 @@ import { useMediaDevices, usePersistentUserChoices } from '@livekit/components-r
     const [audioDeviceId, setAudioDeviceId] = React.useState<string>(userChoices.audioDeviceId);
     const [videoDeviceId, setVideoDeviceId] = React.useState<string>(userChoices.videoDeviceId);
     const [username, setUsername] = React.useState(userChoices.username);
+    const [avatar, setAvatar] = React.useState(defaults.avatar);
+    // console.log('avatar', defaults.avatar);
   
+    // Track if username was initially set
+    const isUsernamePreset = React.useRef(!!initialUserChoices.username);
+
     // Save user choices to persistent storage.
     React.useEffect(() => {
       saveAudioInputEnabled(audioEnabled);
@@ -399,8 +406,39 @@ import { useMediaDevices, usePersistentUserChoices } from '@livekit/components-r
             </div>
           </div>
         </div>
-  
+
+
         <form className="lk-username-container">
+        <div className="lk-username-avatar-container">
+          {avatar && (
+            <img
+              src={avatar}
+              alt="User avatar"
+              className="lk-avatar"
+            />
+          )}
+          <input
+            className="lk-form-control"
+            id="username"
+            name="username"
+            type="text"
+            value={username}
+            placeholder={userLabel}
+            onChange={(inputEl) => setUsername(inputEl.target.value)}
+            autoComplete="off"
+            readOnly={isUsernamePreset.current} // Only readOnly if username was initially set
+          />
+                    </div>
+        <button
+          className="lk-button lk-join-button"
+          type="submit"
+          onClick={handleSubmit}
+          disabled={!isValid}
+        >
+          {joinLabel}
+        </button>
+      </form>
+        {/* <form className="lk-username-container">
           <input
             className="lk-form-control"
             id="username"
@@ -419,11 +457,11 @@ import { useMediaDevices, usePersistentUserChoices } from '@livekit/components-r
           >
             {joinLabel}
           </button>
-        </form>
+        </form> */}
   
         {debug && (
           <>
-            <strong>User Choices:</strong>
+            <strong>Debug - User Choices:</strong>
             <ul className="lk-list" style={{ overflow: 'hidden', maxWidth: '15rem' }}>
               <li>Username: {`${userChoices.username}`}</li>
               <li>Video Enabled: {`${userChoices.videoEnabled}`}</li>

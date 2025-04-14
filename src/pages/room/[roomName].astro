@@ -53,6 +53,7 @@ if (current_pubkey) {
     username = data.data[0]?.username || '';
     avatar = data.data[0]?.avatar_url || '';
     lnaddress = data.data[0]?.lightning_address || '';
+    console.log('Username:', username, 'Avatar:', avatar, 'Lightning Address:', lnaddress);
   } catch (error) {
     console.error('Error fetching user profile:', error);
   }
