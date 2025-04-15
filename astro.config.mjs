@@ -12,6 +12,10 @@ export default defineConfig({
   server: {
     host: true,
     port: 4321,
+    headers: {
+      // Required for ngrok
+      'Access-Control-Allow-Origin': '*',
+    }
   },
   prefetch: false,
   integrations: [react(), tailwind()],
@@ -19,6 +23,18 @@ export default defineConfig({
     service: { entrypoint: 'astro/assets/services/noop' }, // Disable Sharp
   },
   vite: {
+    server: {
+      host: true,
+      strictPort: true,
+      cors: true,
+      hmr: {
+        clientPort: 443,
+      },
+    // allowedHosts: [
+    //   "*"
+    //   //"e46c-99-113-33-226.ngrok-free.app"
+    // ]
+    },
     resolve: {
       extensions: ['.js', '.ts', '.jsx', '.tsx', '.json', '.scss', '.css']
     }

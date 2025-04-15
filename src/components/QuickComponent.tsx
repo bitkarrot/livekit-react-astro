@@ -74,9 +74,11 @@ export default function QuickComponent(
   
       const data = await response.json();
       setToken(data.token);
+      //console.log('Token:', data.token)
 
-      // Hardcoded for now to avoid env issues
-      setServerUrl('ws://127.0.0.1:7880');
+      let url = import.meta.env.PUBLIC_LIVEKIT_WS_URL || "wss://thehive-g3v6mhu7.livekit.cloud"
+      console.log('LiveKit WebSocket URL:', url);
+      setServerUrl(url);
 
       return { data };
     } catch (err) {
