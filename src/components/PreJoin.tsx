@@ -20,9 +20,10 @@ import type { LocalUserChoices } from '@livekit/components-core';
 import { log } from '@livekit/components-core';
 import { roomOptionsStringifyReplacer } from '../utils';
 
-import {MediaDeviceMenu, TrackToggle, ParticipantPlaceholder} from '@livekit/components-react'
+import {MediaDeviceMenu, TrackToggle} from '@livekit/components-react'
 import { useMediaDevices, usePersistentUserChoices } from '@livekit/components-react';
 
+import NostrPlaceholder from '~/assets/images/NostrPlaceholder';
 import '~/styles/PreJoin.css';
 // import { useWarnAboutMissingStyles } from '../hooks/useWarnAboutMissingStyles';
   
@@ -364,7 +365,7 @@ import '~/styles/PreJoin.css';
           )}
           {(!videoTrack || !videoEnabled) && (
             <div className="lk-camera-off-note">
-              <ParticipantPlaceholder />
+              <NostrPlaceholder />
             </div>
           )}
         </div>
@@ -437,28 +438,7 @@ import '~/styles/PreJoin.css';
         >
           {joinLabel}
         </button>
-      </form>
-        {/* <form className="lk-username-container">
-          <input
-            className="lk-form-control"
-            id="username"
-            name="username"
-            type="text"
-            defaultValue={username}
-            placeholder={userLabel}
-            onChange={(inputEl) => setUsername(inputEl.target.value)}
-            autoComplete="off"
-          />
-          <button
-            className="lk-button lk-join-button"
-            type="submit"
-            onClick={handleSubmit}
-            disabled={!isValid}
-          >
-            {joinLabel}
-          </button>
-        </form> */}
-  
+      </form>  
         {debug && (
           <>
             <strong>Debug - User Choices:</strong>

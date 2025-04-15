@@ -411,7 +411,7 @@ export const ZapPaymentModal = ({ lightningAddress, onClose }: { lightningAddres
               padding: '0.5rem 1rem',
               borderRadius: '0.25rem',
               border: 'none',
-              backgroundColor: '#ff6352',
+              backgroundColor: '#9333EA', // bg-purple-600
               color: 'white',
               cursor: 'pointer'
             }}
