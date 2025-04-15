@@ -16,9 +16,6 @@ import { PreJoin } from './PreJoin';
 const { useState, useCallback } = React;
 import { nip19 } from 'nostr-tools';
 
-// todo remove this
-import { fetchLightningAddress } from '~/lib/nostrUtils';
-
 const SHOW_SETTINGS_MENU = 'true';
 
 export default function QuickComponent(
@@ -109,39 +106,18 @@ export default function QuickComponent(
       petname: values.username,
     }
 
-    // Check localStorage for nostr login data
-    // TODO: REPLACE with props passed in to Quick component
-  const nostrAccounts = localStorage.getItem('__nostrlogin_accounts');
-  if (nostrAccounts) {
-    try {
-      const accounts = JSON.parse(nostrAccounts);
-      if (Array.isArray(accounts) && accounts.length > 0) {
-        const account = accounts[0]; // Use the first account
-        const pubkey = account?.pubkey;
-        const npub = nip19.npubEncode(pubkey); // convert to npub
-
-        attributes = {
-          petname: account.name || values.username, // Fallback to form username if name is missing
-          avatar_url: account.picture || '',
-          npub: npub || '',
-          lightning_address: account.lightning_address || '', // Use existing if available
-        };
-
-        // Fetch lightning address from Nostr relays if not already in localStorage
-        if (!account.lightning_address && account.pubkey) {
-          const lightningAddress = await fetchLightningAddress(account.pubkey);
-          if (lightningAddress) {
-            attributes.lightning_address = lightningAddress;
-            // Update localStorage with lightning address
-            accounts[0].lightning_address = lightningAddress;
-            localStorage.setItem('__nostrlogin_accounts', JSON.stringify(accounts));
-          }
-        }
-      }
-    } catch (e) {
-      console.error('Error parsing __nostrlogin_accounts:', e);
+    const pubkey = props?.pubkey;
+    let npub = '';
+    if(pubkey) {
+      npub = nip19.npubEncode(pubkey); // convert to npub
     }
-  }
+
+    attributes = {
+      petname: props?.name || values.username, // Fallback to form username if name is missing
+      avatar_url: props?.avatar || '',
+      npub: npub || '',
+      lightning_address: props?.lnaddress || '', // Use existing if available
+    };
 
     await fetchToken(room, values.username, attributes);
     setIsPreJoinComplete(true);
