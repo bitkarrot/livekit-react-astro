@@ -15,7 +15,9 @@ export default defineConfig({
     headers: {
       // Required for ngrok
       'Access-Control-Allow-Origin': '*',
-    }
+    },
+    // Allow requests to go.hivetalk.org
+    allowedHosts: ['go.hivetalk.org', 'honey.hivetalk.org', 'localhost', '127.0.0.1']
   },
   prefetch: false,
   integrations: [react(), tailwind()],
