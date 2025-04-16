@@ -1,5 +1,5 @@
 // CustomParticipantTile.tsx component in Astro for Livekit
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import type { Participant } from 'livekit-client';
 import { Track } from 'livekit-client';
@@ -161,6 +161,14 @@ export const CustomParticipantTile: (
     const isOwner = trackReference.participant.attributes?.owner;
     const isModerator = trackReference.participant.attributes?.moderator;
 
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [selectedNpub, setSelectedNpub] = useState<string | null>(null);
+
+    const handleNpubClick = (npub: string) => {
+      setSelectedNpub(npub);
+      setIsDrawerOpen(true);
+    };
+
     return (
       <div ref={ref} style={{ position: 'relative' }} {...elementProps}>
         <TrackRefContextIfNeeded trackRef={trackReference}>
@@ -208,14 +216,12 @@ export const CustomParticipantTile: (
                             ) : ''}
                           &nbsp;
                           {trackReference.participant.attributes?.npub ? (
-                            <a
-                              href={`https://njump.me/${trackReference.participant.attributes.npub}`}
-                              className="hover:underline hover:text-yellow-500"
-                              target="_blank"
-                              rel="noopener noreferrer"
+                            <button
+                              onClick={() => handleNpubClick(trackReference.participant.attributes.npub)}
+                              className="hover:underline hover:text-yellow-500 text-left"
                             >
                               {truncatePetName(trackReference.participant.attributes?.petname)}
-                            </a>
+                            </button>
                           ) : (
                             truncatePetName(trackReference.participant.attributes?.petname) || ''
                           )}
@@ -255,6 +261,30 @@ export const CustomParticipantTile: (
             <FocusToggle trackRef={trackReference} />
           </ParticipantContextIfNeeded>
         </TrackRefContextIfNeeded>
+
+        {/* Side Drawer for njump.me embed */}
+        {isDrawerOpen && selectedNpub && (
+          <div className="fixed inset-0 z-50 overflow-hidden">
+            <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => setIsDrawerOpen(false)} />
+            <div className="absolute right-0 top-0 h-full w-96 bg-black bg-opacity-80 shadow-xl transform transition-transform duration-300 ease-in-out translate-x-0">
+              <div className="p-4">
+                <button
+                  onClick={() => setIsDrawerOpen(false)}
+                  className="text-white hover:text-gray-300 mb-4"
+                >
+                  Close
+                </button>
+                <div className="overflow-y-auto h-[calc(100vh-60px)]">
+                  <iframe
+                    src={`https://njump.me/${selectedNpub}`}
+                    title="Njump Embed"
+                    className="w-full h-[calc(100vh-60px)] border-none"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   },
