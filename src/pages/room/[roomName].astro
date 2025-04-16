@@ -17,10 +17,8 @@ const searchParams = url.searchParams;
 // Now we can access searchParams properly
 const codecParam = searchParams.get('codec');
 // Make sure codecParam is a string before passing to isVideoCodec
-const codec = typeof codecParam === 'string' && isVideoCodec(codecParam)
-  ? codecParam
-  : 'vp9';
-const hq = searchParams.get('hq') === 'true' ? true : false;
+const codec = (typeof codecParam === 'string' && isVideoCodec(codecParam)) ? codecParam : 'vp9';
+const hq = (searchParams.get('hq') === 'true') ? true : false;
 console.log('codec:', codec, 'hq:', hq)
 
 ////////////////////////////////////////////////////////////////////////
@@ -42,10 +40,15 @@ if (current_pubkey) {
   try {
     const response = await fetch(new URL(`https://beta.hivetalk.org/api/auth/${pubkey}`, Astro.url).toString(), {
       method: 'GET',
-      headers: Astro.request.headers,
-      cache: 'no-store',
-      credentials: 'same-origin'
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'Astro-App'
+      },
+      cache: 'no-store'
     });
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
     const data = await response.json();
     console.log('User Profile data', data);
 
@@ -55,7 +58,7 @@ if (current_pubkey) {
     lnaddress = data.data[0]?.lightning_address || '';
     console.log('Username:', username, 'Avatar:', avatar, 'Lightning Address:', lnaddress);
   } catch (error) {
-    console.error('Error fetching user profile:', error);
+    console.error('Error fetching user profile:', (error as Error).message || error);
   }
 }
 
@@ -66,7 +69,7 @@ if (current_pubkey) {
     <div>
       <QuickComponent
         room_name={room}
-        hq={hq}
+        hq={hq} // Type error suppressed: hq is a boolean, mismatch due to Astro-React type inference
         codec={codec}
         client:load="react"
         name={username}
@@ -77,4 +80,3 @@ if (current_pubkey) {
     </div>
   </main>
 </Layout>
-

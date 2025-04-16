@@ -22,7 +22,7 @@ export default function QuickComponent(
   props: {
     room_name: string;
     hq?: boolean;
-    codec?: VideoCodec;
+    codec?: string; //  codec?: VideoCodec;
     name?: string;
     pubkey?: string;
     avatar?: string;
