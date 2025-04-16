@@ -1,6 +1,6 @@
 // CustomParticipantTile.tsx component in Astro for Livekit
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
+//import ReactDOM from 'react-dom';
 import type { Participant } from 'livekit-client';
 import { Track } from 'livekit-client';
 import type { ParticipantClickEvent, TrackReferenceOrPlaceholder } from '@livekit/components-core';
