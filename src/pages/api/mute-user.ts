@@ -60,11 +60,18 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     // if modstatus is true, Mute the participant's track
+    let message = 'Muting participant:' + identity;
     if (modstatus) {
-        await roomService.mutePublishedTrack(roomName, identity, trackSid, !muted);
+        console.log('Muting participant', identity, 'muted status: ', !muted);
+        if (!muted === false) {
+          message = 'Remote unmuteing participant is not allowed';
+          console.log("Remote unmuteing participant is not allowed")
+        } else {
+          await roomService.mutePublishedTrack(roomName, identity, trackSid, !muted);
+        }
     }
     // Return success response
-    return new Response(JSON.stringify({ success: true }), {
+    return new Response(JSON.stringify({ success: true, message: message }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });

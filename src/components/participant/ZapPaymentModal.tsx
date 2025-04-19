@@ -1,12 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { LightningAddress } from '@getalby/lightning-tools';
-
-// interface ZapPaymentModalProps {
-//   lightningAddress: string;
-//   onClose: () => void;
-// }
-// export const ZapPaymentModal: React.FC<ZapPaymentModalProps> = ({ lightningAddress, onClose }) => {
-
 
 export const ZapPaymentModal = ({ lightningAddress, onClose }: { lightningAddress: string; onClose: () => void }) => {
   const [amount, setAmount] = React.useState('100');

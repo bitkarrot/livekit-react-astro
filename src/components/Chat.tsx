@@ -102,7 +102,7 @@ export function Chat({
   return (
     <div {...props} className="lk-chat">
       <div className="lk-chat-header">
-        Messages
+        Messages are Ephemeral
         {layoutContext && (
           <ChatToggle className="lk-close-button">
             <ChatCloseIcon />

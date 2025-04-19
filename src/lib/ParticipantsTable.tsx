@@ -53,7 +53,7 @@ function ParticipantRow({ token }: { token?: string }) {
       throw Error("Token is required");
     }
     if (room.remoteParticipants.has(participant.identity)) {
-      console.log("CALL API - mute remote participant", participant.identity);
+      console.log("CALL /api/mute-user - mute remote participant", participant.identity);
           try {
             const response = await fetch("/api/mute-user", {
               method: "POST",
@@ -66,7 +66,7 @@ function ParticipantRow({ token }: { token?: string }) {
                 identity: participant.identity,
               }),
             });
-            console.log("response", response);
+            console.log("response", response?.message);
             if (!response.ok) {
               throw new Error("Failed to mute participant");
             }
