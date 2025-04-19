@@ -27,11 +27,10 @@ export default defineConfig({
   vite: {
     server: {
       host: true,
-      //strictPort: true,
+      // strictPort: true,
       // cors: true,
       // hmr: {
-      //   clientPort: 443
-      //  //  Removed clientPort: 443 to prevent interference with LiveKit WebSocket connection
+      //   clientPort: 443,
       // },
     },
     resolve: {
