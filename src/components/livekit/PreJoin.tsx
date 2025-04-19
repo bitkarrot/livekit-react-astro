@@ -22,7 +22,7 @@ import { roomOptionsStringifyReplacer } from '~/utils/utils';
 import {MediaDeviceMenu, TrackToggle} from '@livekit/components-react'
 import { useMediaDevices, usePersistentUserChoices } from '@livekit/components-react';
 import NostrPlaceholder from '~/assets/images/NostrPlaceholder';
-import '~/styles/PreJoin.css';
+import '~/assets/styles/PreJoin.css';
 // import { useWarnAboutMissingStyles } from '~/hooks/useWarnAboutMissingStyles';
   
   /**
