@@ -37,6 +37,7 @@ export const POST: APIRoute = async ({ request }) => {
     // Validate and parse the webhook event
     const event: WebhookEvent = await receiver.receive(text, authorization);
 
+    console.log('Webhook event:', event);
     // Handle different webhook events
     switch (event.event) {
       case 'room_started':
