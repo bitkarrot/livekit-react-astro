@@ -66,7 +66,6 @@ function ParticipantRow({ token }: { token?: string }) {
                 identity: participant.identity,
               }),
             });
-            console.log("response", response?.message);
             if (!response.ok) {
               throw new Error("Failed to mute participant");
             }

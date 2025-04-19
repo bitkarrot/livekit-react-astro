@@ -25,8 +25,8 @@ export const POST: APIRoute = async ({ request }) => {
 
     const res = await roomService.getParticipant(roomName, identity);
     // console.log('res', res)
-    const trackSid = res.tracks[0].sid;
-    const muted = res.tracks[0].muted;
+    const trackSid = res.tracks[0]?.sid;
+    const muted = res.tracks[0]?.muted;
     // console.log('trackSid', trackSid, 'muted', muted)
 
     // Extract the token from the Authorization header (Bearer <token>)
