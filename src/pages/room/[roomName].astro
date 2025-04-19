@@ -1,10 +1,10 @@
 ---
-import QuickComponent from '~/components/QuickComponent';
+import QuickComponent from '~/components/livekit/QuickComponent';
 import '~/styles/globals.css';
 import '@livekit/components-styles';
 import '@livekit/components-styles/prefabs';
-import Layout from '~/layouts/Layout.astro';
-import { isVideoCodec } from '~/lib/types';
+import Layout from '~/layouts/LKLayout.astro';
+import { isVideoCodec } from '~/lib/livekit/types';
 
 const params = Astro.params;
 console.log('roomName:',  params)

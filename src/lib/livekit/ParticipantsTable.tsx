@@ -15,7 +15,7 @@ import {
 import React from "react";
 const { useContext, useCallback } = React;
 
-import "../styles/ParticipantsTable.css"; // For styling
+import "~/styles/ParticipantsTable.css"; // For styling
 
 function ParticipantRow({ token }: { token?: string }) {
   const participant = useContext(ParticipantContext);
@@ -53,9 +53,9 @@ function ParticipantRow({ token }: { token?: string }) {
       throw Error("Token is required");
     }
     if (room.remoteParticipants.has(participant.identity)) {
-      console.log("CALL /api/mute-user - mute remote participant", participant.identity);
+      console.log("CALL /api/livekit/mute-user - mute remote participant", participant.identity);
           try {
-            const response = await fetch("/api/mute-user", {
+            const response = await fetch("/api/livekit/mute-user", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -86,7 +86,7 @@ function ParticipantRow({ token }: { token?: string }) {
       if (room.remoteParticipants.has(participant.identity)) {
         console.log("CALL API - Kick remote participant", participant.identity);
             try {
-              const response = await fetch("/api/kick-user", {
+              const response = await fetch("/api/livekit/kick-user", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",

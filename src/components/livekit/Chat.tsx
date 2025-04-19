@@ -1,8 +1,8 @@
 import { type ChatMessage, type ChatOptions } from '@livekit/components-core';
 import React from 'react';
 import { cloneSingleChild } from '~/utils/utils';
-import type { MessageFormatter } from './ChatEntry';
-import { ChatEntry } from './ChatEntry';
+import type { MessageFormatter } from '~/components/livekit/ChatEntry';
+import { ChatEntry } from '~/components/livekit/ChatEntry';
 import { useMaybeLayoutContext } from '@livekit/components-react';
 import { useChat } from '@livekit/components-react';
 import { ChatToggle } from '@livekit/components-react';
