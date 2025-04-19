@@ -6,7 +6,7 @@ import {
   formatChatMessageLinks,
 } from '@livekit/components-react';
 import VideoConference from '../components/VideoConference';
-import type { VideoCodec } from 'livekit-server-sdk';
+// import type { VideoCodec } from 'livekit-server-sdk';
 import { SettingsMenu } from '~/lib/SettingsMenu';
 
 import '@livekit/components-styles';
