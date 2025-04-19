@@ -5,12 +5,12 @@ import {
   RoomAudioRenderer,
   formatChatMessageLinks,
 } from '@livekit/components-react';
-import VideoConference from '../components/VideoConference';
+import VideoConference from './VideoConference';
 // import type { VideoCodec } from 'livekit-server-sdk';
-import { SettingsMenu } from '~/lib/SettingsMenu';
+import { SettingsMenu } from '~/lib/livekit/SettingsMenu';
 
 import '@livekit/components-styles';
-import './QuickComponent.css'; // Import our custom LiveKit theme
+import '~/assets/styles/livekit/QuickComponent.css'; // Import our custom LiveKit theme
 import React from 'react';
 import { PreJoin } from './PreJoin';
 const { useState, useCallback } = React;
@@ -56,7 +56,7 @@ export default function QuickComponent(
 
   const fetchToken = async (roomName: string, participantName: string, attributes: Record<string, string>) => {
     try {
-      const response = await fetch('/api/get-token', {
+      const response = await fetch('/api/livekit/get-token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

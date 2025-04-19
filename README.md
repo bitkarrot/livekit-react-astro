@@ -6,7 +6,7 @@ NOTE: SSL is required for LiveKit Cloud to work. You can use a self-signed certi
 
 If you run it on localhost, without ssl, use the livekit-server --dev
 
-You can join a room by visiting top level  https://localhost:4321 or you can give the room a name by visiting https://localhost:4321/room/your-room-name
+You can join a room by visiting top level  https://localhost:4321 or you can give the room a name by visiting https://localhost:4321/meet/your-room-name
 
 ## Tech Stack
 

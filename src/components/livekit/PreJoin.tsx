@@ -18,14 +18,12 @@ import {
 import React from 'react';
 import type { LocalUserChoices } from '@livekit/components-core';
 import { log } from '@livekit/components-core';
-import { roomOptionsStringifyReplacer } from '../utils';
-
+import { roomOptionsStringifyReplacer } from '~/utils/livekit/utils';
 import {MediaDeviceMenu, TrackToggle} from '@livekit/components-react'
 import { useMediaDevices, usePersistentUserChoices } from '@livekit/components-react';
-
-import NostrPlaceholder from '~/assets/images/NostrPlaceholder';
-import '~/styles/PreJoin.css';
-// import { useWarnAboutMissingStyles } from '../hooks/useWarnAboutMissingStyles';
+import NostrPlaceholder from '~/assets/images/livekit/NostrPlaceholder';
+import '~/assets/styles/livekit/PreJoin.css';
+// import { useWarnAboutMissingStyles } from '~/hooks/useWarnAboutMissingStyles';
   
   /**
    * Props for the PreJoin component.

@@ -1,8 +1,8 @@
 // import * as React from 'react';
 import React from "react";
-import { mergeProps } from "~/utils";
+import { mergeProps } from "~/utils/livekit/utils";
 import type { TrackReferenceOrPlaceholder } from "@livekit/components-core";
-import { CustomParticipantTile } from "../participant/CustomParticipantTile";
+import { CustomParticipantTile } from "~/components/livekit/participant/CustomParticipantTile";
 import type { ParticipantClickEvent } from "@livekit/components-core";
 
 /** @public */

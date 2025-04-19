@@ -26,7 +26,7 @@ import { useIsEncrypted } from '@livekit/components-react';
 
 //import { LightningAddress } from '@getalby/lightning-tools';
 
-import NostrPlaceholder from '~/assets/images/NostrPlaceholder';
+import NostrPlaceholder from '~/assets/images/livekit/NostrPlaceholder';
 
 /**
  * The `ParticipantContextIfNeeded` component only creates a `ParticipantContext`

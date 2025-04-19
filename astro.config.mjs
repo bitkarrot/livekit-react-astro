@@ -27,15 +27,11 @@ export default defineConfig({
   vite: {
     server: {
       host: true,
-      strictPort: true,
-      cors: true,
-      hmr: {
-        clientPort: 443,
-      },
-    // allowedHosts: [
-    //   "*"
-    //   //"e46c-99-113-33-226.ngrok-free.app"
-    // ]
+      // strictPort: true,
+      // cors: true,
+      // hmr: {
+      //   clientPort: 443,
+      // },
     },
     resolve: {
       extensions: ['.js', '.ts', '.jsx', '.tsx', '.json', '.scss', '.css']

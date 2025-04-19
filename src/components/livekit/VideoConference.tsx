@@ -26,10 +26,10 @@ import {
 import { Chat } from "./Chat";
 import { ControlBar } from "@livekit/components-react";
 
-import { CustomParticipantTile } from "./participant/CustomParticipantTile";
-import { FocusLayout } from "~/components/layout/FocusLayout";
+import { CustomParticipantTile } from "~/components/livekit/participant/CustomParticipantTile";
+import { FocusLayout } from "~/components/livekit/layout/FocusLayout";
 //import { ZapPaymentModal } from './participant/CustomParticipantTile';
-import { ZapPaymentModal } from './participant/ZapPaymentModal';
+import { ZapPaymentModal } from '~/components/livekit/participant/ZapPaymentModal';
 
 // Custom hook to warn about missing styles - simplified version
 const useWarnAboutMissingStyles = () => {
