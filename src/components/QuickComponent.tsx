@@ -10,7 +10,7 @@ import VideoConference from '../components/VideoConference';
 import { SettingsMenu } from '~/lib/SettingsMenu';
 
 import '@livekit/components-styles';
-import './QuickComponent.css'; // Import our custom LiveKit theme
+import '~/styles/QuickComponent.css'; // Import our custom LiveKit theme
 import React from 'react';
 import { PreJoin } from './PreJoin';
 const { useState, useCallback } = React;

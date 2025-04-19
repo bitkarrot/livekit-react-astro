@@ -18,7 +18,7 @@ import {
 import React from 'react';
 import type { LocalUserChoices } from '@livekit/components-core';
 import { log } from '@livekit/components-core';
-import { roomOptionsStringifyReplacer } from '../utils';
+import { roomOptionsStringifyReplacer } from '~/utils/utils';
 
 import {MediaDeviceMenu, TrackToggle} from '@livekit/components-react'
 import { useMediaDevices, usePersistentUserChoices } from '@livekit/components-react';
