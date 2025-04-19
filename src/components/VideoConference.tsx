@@ -28,7 +28,8 @@ import { ControlBar } from "@livekit/components-react";
 
 import { CustomParticipantTile } from "./participant/CustomParticipantTile";
 import { FocusLayout } from "~/components/layout/FocusLayout";
-import { ZapPaymentModal } from './participant/CustomParticipantTile';
+//import { ZapPaymentModal } from './participant/CustomParticipantTile';
+import { ZapPaymentModal } from './participant/ZapPaymentModal';
 
 // Custom hook to warn about missing styles - simplified version
 const useWarnAboutMissingStyles = () => {
