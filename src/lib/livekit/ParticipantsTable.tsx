@@ -15,7 +15,7 @@ import {
 import React from "react";
 const { useContext, useCallback } = React;
 
-import "~/assets/styles/ParticipantsTable.css"; // For styling
+import "~/assets/styles/livekit/ParticipantsTable.css"; // For styling
 
 function ParticipantRow({ token }: { token?: string }) {
   const participant = useContext(ParticipantContext);

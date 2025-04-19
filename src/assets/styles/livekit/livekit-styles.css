@@ -1,6 +1,6 @@
 /* Import in your CSS file */
 @import '@livekit/components-styles';
-/* Or install the package and use: @import '@livekit/components-styles/dist/index.css'; */
+/* Or install the package and use: @import '@livekit/components-styles/livekit/dist/index.css'; */
 
 /* You can add custom styles here */
 .lk-video-conference {
