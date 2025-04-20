@@ -111,26 +111,6 @@ export function PreJoin({
   const [videoDeviceId, setVideoDeviceId] = React.useState<string>(userChoices.videoDeviceId);
   const [username, setUsername] = React.useState<string>('');
 
-  // Initialize username from __nostrlogin_accounts on mount (client-side only)
-  useEffect(() => {
-    try {
-      const accountsRaw = localStorage.getItem('__nostrlogin_accounts');
-      console.log('accountsRaw', accountsRaw);
-      if (accountsRaw) {
-        const accounts = JSON.parse(accountsRaw);
-        if (Array.isArray(accounts) && accounts.length > 0) {
-          const account = accounts[0];
-          const displayName = account.name?.trim();
-          const initialUsername = displayName && displayName !== '' ? displayName : account.pubkey || '';
-          setUsername(initialUsername);
-          setUserChoices((prev) => ({ ...prev, username: initialUsername }));
-        }
-      }
-    } catch (error) {
-      console.error('Failed to parse __nostrlogin_accounts on mount:', error);
-    }
-  }, []);
-
   // Initialize nostr-login and set username from localStorage
   useEffect(() => {
     import('nostr-login')
@@ -141,60 +121,14 @@ export function PreJoin({
           startScreen: 'login',
           onAuth: (npub: string) => {
             try {
-              const accountsRaw = localStorage.getItem('__nostrlogin_accounts');
-              if (accountsRaw) {
-                const accounts = JSON.parse(accountsRaw);
-                if (Array.isArray(accounts) && accounts.length > 0) {
-                  const account = accounts[0];
-                  const displayName = account.name?.trim();
-                  const finalUsername = displayName && displayName !== '' ? displayName : account.pubkey || npub;
-                  setUsername(finalUsername);
-                } else {
-                  setUsername(npub);
-                }
-              } else {
-                setUsername(npub);
-              }
+              console.log('on Auth npub', npub);
+              setUsername(npub)
             } catch (error) {
-              console.error('Failed to parse __nostrlogin_accounts:', error);
-              setUsername(npub);
+              console.error('Failed to parse nostrlogin_accounts:', error);
             }
           },
         });
 
-        // Listen for nlAuth events
-        const handleNlAuth = (e: CustomEvent) => {
-          const detail = e.detail;
-          if (detail.type === 'login' || detail.type === 'signup') {
-            try {
-              const accountsRaw = localStorage.getItem('__nostrlogin_accounts');
-              if (accountsRaw) {
-                const accounts = JSON.parse(accountsRaw);
-                if (Array.isArray(accounts) && accounts.length > 0) {
-                  const account = accounts[0];
-                  const displayName = account.name?.trim();
-                  const finalUsername = displayName && displayName !== '' ? displayName : account.pubkey || detail.npub;
-                  setUsername(finalUsername);
-                } else {
-                  setUsername(detail.npub);
-                }
-              } else {
-                setUsername(detail.npub);
-              }
-            } catch (error) {
-              console.error('Failed to parse __nostrlogin_accounts:', error);
-              setUsername(detail.npub);
-            }
-          } else if (detail.type === 'logout') {
-            setUsername('');
-            // Note: nostr-login may handle clearing __nostrlogin_accounts
-          }
-        };
-        document.addEventListener('nlAuth', handleNlAuth as EventListener);
-
-        return () => {
-          document.removeEventListener('nlAuth', handleNlAuth as EventListener);
-        };
       })
       .catch((error) => console.error('Failed to load nostr-login', error));
   }, []);
