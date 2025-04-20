@@ -21,10 +21,10 @@ export default defineConfig({
   },
   prefetch: false,
   integrations: [react(), tailwind()],
-  // image: {
-  //   // do we really need this??
-  //   service: { entrypoint: 'astro/assets/services/noop' }, // Disable Sharp
-  // },
+  image: {
+    // Explicitly disable Sharp to avoid the feature support warning
+    service: { entrypoint: 'astro/assets/services/noop' },
+  },
   vite: {
     server: {
       host: true,
