@@ -1,9 +1,9 @@
 ---
+import Layout from '~/layouts/LivekitLayout.astro';
 import QuickComponent from '~/components/livekit/QuickComponent';
 import '~/assets/styles/livekit/LKglobals.css';
 import '@livekit/components-styles';
 import '@livekit/components-styles/prefabs';
-import Layout from '~/layouts/LivekitLayout.astro';
 import { isVideoCodec } from '~/lib/livekit/types';
 
 const params = Astro.params;
@@ -13,6 +13,12 @@ const room = params.roomName || 'test_room';
 // Create a URL object from the request URL string
 const url = new URL(Astro.request.url);
 const searchParams = url.searchParams;
+
+const anonName = searchParams.get('name') || '';
+console.log('url params - name:', anonName)
+
+// Get pubkey from cookie, not URL parameter
+const current_pubkey = Astro.cookies.get("pubkey")?.value ?? '';
 
 // Now we can access searchParams properly
 const codecParam = searchParams.get('codec');
@@ -25,8 +31,25 @@ console.log('codec:', codec, 'hq:', hq)
 // TEMPORARILY JUST GRAB THE PROFILE DATA FOR THE REACT COMPONENT HERE
 ////////////////////////////////////////////////////////////////////////
 
-const current_pubkey = Astro.cookies.get("pubkey")?.value ?? '';
-console.log('Current pubkey ', current_pubkey)
+// If pubkey (from cookie) or anonName are empty, redirect user to login page
+// with a reference to this room name so that after they set their name or
+// login with nostr, they are redirected back to this room
+const hasValidPubkey = current_pubkey && current_pubkey.trim() !== '';
+const hasValidName = anonName && anonName.trim() !== '';
+
+if (!hasValidPubkey && !hasValidName) {
+  const redirectUrl = new URL('/login', Astro.url);
+  redirectUrl.searchParams.set('room', room);
+  console.log("Redirecting to:", redirectUrl.toString());
+  console.log('Redirecting to login page with room:', room);
+  return new Response(null, {
+    status: 302,
+    headers: {
+      'Location': redirectUrl.toString()
+    }
+  });
+
+}
 
 let username = '';
 let avatar = '';
@@ -34,6 +57,7 @@ let lnaddress = '';
 let pubkey = '';
 
 if (current_pubkey) {
+  console.log('Current pubkey from cookie:', current_pubkey)
   pubkey = current_pubkey;
   
   // Use the API call approach that works in the old version
@@ -60,7 +84,14 @@ if (current_pubkey) {
   } catch (error) {
     console.error('Error fetching user profile:', (error as Error).message || error);
   }
+
+} else if (anonName) {
+  username = anonName;
+  pubkey = '';
+  avatar = '';
+  lnaddress = '';
 }
+// Type error suppressed: hq is a boolean, mismatch due to Astro-React type inference
 
 ---
 
@@ -69,7 +100,7 @@ if (current_pubkey) {
     <div>
       <QuickComponent
         room_name={room}
-        hq={hq} // Type error suppressed: hq is a boolean, mismatch due to Astro-React type inference
+        hq={hq}
         codec={codec}
         client:load="react"
         name={username}
