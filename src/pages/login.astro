@@ -13,31 +13,13 @@ if (!roomName || roomName === '') {
   return Astro.redirect('/');
 }
 
-// Generate a random room name
-function generateRoomName() {
-  const adjectives = [
-    'quick', 'happy', 'clever', 'brave', 'calm', 'eager', 'kind', 'proud',
-    'smart', 'witty', 'jolly', 'lively', 'mighty', 'noble', 'sunny'
-  ];
-  const animals = [
-    'fox', 'bear', 'wolf', 'eagle', 'tiger', 'lion', 'deer', 'hawk',
-    'dolphin', 'koala', 'panda', 'otter', 'rabbit', 'turtle', 'zebra'
-  ];
-  // Generate random 4-digit number
-  const randomNum = Math.floor(1000 + Math.random() * 9000);
-  // Pick random adjective and animal
-  const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
-  const animal = animals[Math.floor(Math.random() * animals.length)];
-  // Combine to create room name
-  return `${adjective}-${animal}-${randomNum}`;
-}
 ---
 <Layout title="Hivetalk Video Conference">
   <div class="min-h-screen flex flex-col items-center justify-center bg-gray-900 p-4">
     <div class="max-w-md w-full bg-gray-800 rounded-lg shadow-lg p-8">
       <div class="text-center mb-8">
         <h1 class="text-3xl font-bold text-white mb-2">Join {roomName}</h1>
-        <p class="text-gray-300"> Connect here
+        <p class="text-gray-300"> on Hivetalk.org
         </p>
       </div>
       <div class="space-y-6">
@@ -67,18 +49,10 @@ function generateRoomName() {
   </div>
 </Layout>
 
-<script>
+<script src="https://www.unpkg.com/nostr-login@latest/dist/unpkg.js"  data-perms="sign_event:1,sign_event:0" data-theme="default" data-dark-mode="true"></script>
+<script src="https://unpkg.com/nostr-tools/lib/nostr.bundle.js"></script>
 
-  // Only using cookies for Nostr pubkey, not username
-  function setCookie(name, value, days) {
-      let expires = "";
-      if (days) {
-          const date = new Date();
-          date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-          expires = "; expires=" + date.toUTCString();
-      }
-      document.cookie = name + "=" + (value || "") + expires + "; path=/";
-  }
+<script is:inline>
 
   document.addEventListener('DOMContentLoaded', () => {
     // Get the room name from the hidden input
@@ -93,6 +67,8 @@ function generateRoomName() {
           // The nostr auth flow will handle the cookie setting and 
           // when loadUser() is called after auth, it will redirect to the meet page
           console.log('Starting Nostr login for room:', roomValue);
+          document.dispatchEvent(new CustomEvent('nlLaunch', { detail: 'welcome' }));
+          loadUser(roomValue);
         } else {
           // If somehow no room, redirect to home
           window.location.href = '/';
@@ -126,15 +102,9 @@ function generateRoomName() {
       });
     }
   });
-</script>
 
-
-<script src="https://www.unpkg.com/nostr-login@latest/dist/unpkg.js"  data-perms="sign_event:1,sign_event:0" data-theme="default" data-dark-mode="true"></script>
-<script src="https://unpkg.com/nostr-tools/lib/nostr.bundle.js"></script>
-<script is:inline>
   var loggedIn = false;
 
-  /// methods 
   document.addEventListener('nlAuth', (e) => {
       console.log("nlauth", e);
       if (e.detail.type === 'login' || e.detail.type === 'signup') {
@@ -142,7 +112,7 @@ function generateRoomName() {
               console.log("Logging In");
               loggedIn = true;
               setTimeout(function() {
-                  loadUser();
+                  loadUser(roomValue);
               }, 200);
           }
       } else {
@@ -158,24 +128,26 @@ function generateRoomName() {
       }
   });
 
+  function setCookie(name, value, days) {
+      let expires = "";
+      if (days) {
+          const date = new Date();
+          date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+          expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + (value || "") + expires + "; path=/";
+  }
 
-  function loadUser() {
+  function loadUser(roomValue) {
       if (window.nostr) {
           window.nostr.getPublicKey().then(function (pubkey) {
               if (pubkey) {
                   loggedIn = true;
                   console.log("fetched pubkey", pubkey);
-                  
-                  // Get the room name and redirect to the meeting page
-                  const roomNameInput = document.getElementById('roomName');
-                  const roomValue = roomNameInput instanceof HTMLInputElement ? roomNameInput.value : '';
-                  if (roomValue) {
-                      // Store pubkey in cookie and redirect to meeting
-                      setCookie("pubkey", pubkey, 7); // Store for 7 days
-                      window.location.href = `/meet/${roomValue}`;
-                  } else {
-                      window.location.href = '/';
-                  }
+                  // Set the pubkey as a cookie
+                  setCookie("pubkey", pubkey, 7); // Store for 7 days
+                  // Redirect to the meeting page
+                  window.location.href = `/meet/${roomValue}`;
               }
           }).catch((err) => {
               console.log("LoadUser Err", err);
@@ -183,8 +155,7 @@ function generateRoomName() {
               loggedIn = false;
               document.dispatchEvent(new Event("nlLogout")); // logout from nostr-login
               // Clear the cookie on error
-              // Clear the pubkey cookie on error
-              document.cookie = "pubkey=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+              document.cookie = "pubkey=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
           });
       }
   }
