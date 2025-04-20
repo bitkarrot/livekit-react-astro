@@ -54,10 +54,13 @@ if (!roomName || roomName === '') {
 
 <script is:inline>
 
+  let roomValue = '';
+  let loggedIn = false;
+
   document.addEventListener('DOMContentLoaded', () => {
     // Get the room name from the hidden input
     const roomNameInput = document.getElementById('roomName');
-    const roomValue = roomNameInput instanceof HTMLInputElement ? roomNameInput.value : '';
+    roomValue = roomNameInput instanceof HTMLInputElement ? roomNameInput.value : '';
     
     // Nostr login button
     const nostrLoginBtn = document.getElementById('nostrlogin');
@@ -102,8 +105,6 @@ if (!roomName || roomName === '') {
       });
     }
   });
-
-  var loggedIn = false;
 
   document.addEventListener('nlAuth', (e) => {
       console.log("nlauth", e);
